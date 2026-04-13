@@ -1,0 +1,511 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usetheme{metropolis}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+
+% Fallback if metropolis is not installed: uncomment the next line and comment the \usetheme above.
+% \usetheme{Madrid}
+
+\newcommand{\Csem}{C_{\mathrm{sem}}}
+\newcommand{\Cprompt}{C_{\mathrm{prompt}}}
+\newcommand{\Cres}{C_{\mathrm{res}}}
+\newcommand{\Wt}{W_t(\omega)}
+\newcommand{\DF}{\Delta F(\omega)}
+\newcommand{\DV}{\Delta V(\omega)}
+\newcommand{\DZ}{\Delta Z}
+\newcommand{\Spred}{S_{\mathrm{pred}}}
+\newcommand{\Gt}{G(t)}
+
+\title[Spectral Cost of Reasoning]{The Spectral Cost of Reasoning}
+\subtitle{A Dual-Force Theory of Vision--Language Model Robustness}
+\author{Anonymous Submission}
+\date{}
+
+\begin{document}
+
+% -------------------- TITLE --------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% -------------------- MOTIVATION --------------------
+\begin{frame}{Why VLM Robustness Matters \emph{Now}}
+\textbf{Vision--language models are already deployed where silent failures have human cost.}
+\begin{itemize}
+  \item Clinical triage and radiology pre-screening.
+  \item Assistive scene description for blind users.
+  \item Document / invoice / driver-licence reading.
+  \item Autonomous perception and embodied agents.
+\end{itemize}
+\vspace{0.6em}
+\textbf{In every one of these pipelines, the input is not the pristine training photograph.}
+\begin{itemize}
+  \item Phone snapshot taken at an angle.
+  \item JPEG / motion blur / occlusion by a sticker.
+  \item A frame from a cheap camera in bad light.
+\end{itemize}
+\vspace{0.6em}
+\alert{A deployment team has no principled way to ask:\\``Will this model be safe on \emph{this task} under \emph{this corruption profile}?''}
+\end{frame}
+
+\begin{frame}{The Gap in the Literature}
+Three camps, none of them answers the deployment question.
+\vspace{0.8em}
+
+\begin{tabular}{p{0.22\linewidth} p{0.45\linewidth} p{0.22\linewidth}}
+\toprule
+\textbf{Camp} & \textbf{What they do} & \textbf{Gap} \\
+\midrule
+Benchmarks & VQA-CP, Winoground, ARO, SugarCrepe, CREPE --- catalogue failures. & Black-box; no prediction. \\
+\addlinespace
+Fourier vision & Yin, Wang, Tsuzuku --- CNNs use high-freq texture. & Task-free; ignore the text. \\
+\addlinespace
+Probing & Cross-modal attention maps, mechanistic probes. & Describe, don't predict. \\
+\bottomrule
+\end{tabular}
+\vspace{0.8em}
+
+\alert{No framework predicts \emph{how much} a VLM will break \emph{before the perturbation is applied}.}
+\end{frame}
+
+% -------------------- CORE IDEA --------------------
+\begin{frame}{Our Thesis in One Slide}
+\textbf{The conditioning text is a \emph{physical operator} on the image's Fourier spectrum.}
+
+\vspace{0.6em}
+A task $t$ induces a task-specific radial filter $\Wt$ over vision-token frequencies.\\
+A perturbation $p$ deposits energy $\DF$ in the same basis.\\
+
+\vspace{0.3em}
+\[
+\boxed{\;\; \Spred(t,p) \;=\; \sum_\omega |\Wt|^2\, |\DF_p(\omega)|^2 \;\;}
+\]
+
+\vspace{0.3em}
+Behavioural damage $\propto \Spred$, \emph{not} $\|\DF\|$.
+
+\vspace{0.8em}
+\textbf{Two forces shape $\Wt$:}
+\begin{itemize}
+  \item $\Csem$: semantic program complexity (reasoning logic).
+  \item $\Cprompt$: prompt load (lexical surface).
+\end{itemize}
+
+\alert{Natural questions confound these two. Our mirror design separates them.}
+\end{frame}
+
+\begin{frame}{Contributions}
+\begin{enumerate}
+  \item \textbf{A falsifiable spectral--behavioural law} $\Spred$ with \emph{zero target-side fitting}.
+  \item \textbf{A causal disentanglement protocol:} the mirror 8-level GQA design (L1--L8) isolates $\Csem$ from $\Cprompt$.
+  \item \textbf{A program-aware complexity metric} grounded in GQA/CLEVR, NMN, referring expressions, and psychometrics.
+  \item \textbf{Layer-resolved representational tuning}: early layers anchor on $\Cprompt$, late layers converge on $\Csem$.
+  \item \textbf{Upward spectral migration} as the mechanism of the tug-of-war.
+  \item \textbf{A reproducible, deployable pipeline} --- released as a modular repo.
+\end{enumerate}
+\end{frame}
+
+% -------------------- THEORY --------------------
+\begin{frame}{Theoretical Framework (1/3): The Task-Specific Filter}
+Vision tokens $\{v_{ij}\}$ on an $H\times W$ grid. Cross-modal attention at layer group $\ell$ gives a spatial map $a_t^{(\ell)}(I)$.
+
+\vspace{0.4em}
+Compute 2D FFT, square, radially bin into $B$ linear bands:
+\[
+\Wt^{(\ell)} = \frac{\mathbb{E}_I[\,|\mathcal{F}_2\, a_t^{(\ell)}(I)|^2(\omega)\,]}{\sum_{\omega'}\mathbb{E}_I[\ldots]}.
+\]
+
+\vspace{0.4em}
+A \emph{probability density} on $\{\omega_1,\dots,\omega_B\}$ --- no free parameter, purely estimated from attention.
+
+\vspace{0.6em}
+\textbf{Effective bandwidth via IPR (L1-normalised):}
+\[
+\Gt \;=\; \left(\sum_\omega \Wt^2\right)^{-1}, \qquad 1 \le \Gt \le B.
+\]
+Large $\Gt$: filter spread; small $\Gt$: filter concentrated.
+\end{frame}
+
+\begin{frame}{Theoretical Framework (2/3): The Overlap Law}
+\textbf{Perturbation spectral signature:}
+\[
+\DF_p(\omega) = \mathbb{E}_I\!\left[\,\bigl|\,|\mathcal{F}_2 I_p|^2 - |\mathcal{F}_2 I|^2\,\bigr|\,\right]_\omega .
+\]
+Purely a property of the perturbation operator --- model-independent.
+
+\vspace{0.8em}
+\textbf{The central empirical claim:}
+\[
+\mathbb{E}[\,\Delta\mathrm{acc}(t,p)\,] \;\propto\; \Spred(t,p) \;=\; \sum_\omega |\Wt|^2 |\DF_p|^2 .
+\]
+\vspace{0.3em}
+Parameter-free, cross-cutting, falsifiable.
+\end{frame}
+
+\begin{frame}{Theoretical Framework (3/3): Two Covariates on $\Wt$}
+\textbf{Semantic program complexity:}
+\[
+\Csem = E + A + R + O + D + \ln(1 + G_{\mathrm{amb}}),
+\]
+grounded in GQA/CLEVR functional programs, NMN primitives, referring-expression ambiguity, and psychometric item analysis.
+
+\vspace{0.6em}
+\textbf{Prompt load:} content-token count after stopword removal.
+\[
+\Cprompt = |\mathrm{tokens}(q)\setminus\mathcal{S}| + |\mathrm{tokens}(\mathrm{opts})\setminus\mathcal{S}|.
+\]
+
+\vspace{0.6em}
+\textbf{Horse race} (gated on clean-correct samples, $H_{\mathrm{opt}}$ as multivariate control):
+\[
+y_{\mathrm{gated}} = \alpha_i + \beta_{\Csem}\tilde\Csem + \beta_{\Cprompt}\tilde\Cprompt + \beta_H\tilde H_{\mathrm{opt}} + \varepsilon .
+\]
+\end{frame}
+
+% -------------------- METHODS --------------------
+\begin{frame}{The Mirror 8-Level GQA Design}
+\begin{center}
+\small
+\begin{tabular}{cll}
+\toprule
+\textbf{Level} & \textbf{Semantics} & \textbf{Example stem} \\
+\midrule
+L1 & Object presence & ``Is there a cat in the image?'' \\
+L2 & Attribute query & ``What color is the cat?'' (MCQ) \\
+L3 & Spatial relation & ``Is the cat on the couch?'' \\
+L4 & Compositional   & Multi-hop MCQ, depth $\ge 3$ \\
+\midrule
+L5 & Wordy L1 & ``Taking a careful look, can you tell me\ldots'' \\
+L6 & Wordy L2 & Same program, padded options \\
+L7 & Wordy L3 & Same as L3, verbose scaffolding \\
+L8 & Wordy L4 & Same as L4, verbose scaffolding \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{0.6em}
+\alert{L5--L8 preserve the semantic atoms byte-for-byte. Only $\Cprompt$ changes.}\\
+Yes/no levels balanced 50/50 by complementary pattern pairing.
+\end{frame}
+
+\begin{frame}{Perturbation Bank and Evaluation Scale}
+\textbf{14-class perturbation bank:}
+\begin{itemize}
+  \item \textbf{Geometric / photometric (natural):} cyclic translation, pad-or-crop, scale, scale-and-pad (black/white), rotation --- 6 ops.
+  \item \textbf{Occlusion (natural):} text overlay, box overlay, random-text overlay --- 3 ops.
+  \item \textbf{Spectral:} lowpass-keep, highpass-keep, lowband-noise, highband-noise, allband-noise --- 5 ops.
+\end{itemize}
+Severities $\{1,2,3\}$.
+
+\vspace{0.8em}
+\textbf{Model and scale:}
+\begin{itemize}
+  \item \textbf{Qwen3-VL-2B-Instruct}, attention extraction at all decoder layers.
+  \item Layers partitioned into early / mid / late thirds.
+  \item \textbf{500 GQA images}, 2500 (image, level) points, 1878 gated on clean-correct.
+  \item $B = 20$ radial bands, no Hann taper, no DC suppression.
+\end{itemize}
+\end{frame}
+
+% -------------------- RESULTS --------------------
+\begin{frame}{Result 1: The Tug-of-War}
+\textbf{Gated accuracy drop (clean-correct $\to$ perturbed-wrong), standardised $\tilde\beta$:}
+\vspace{0.4em}
+
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Predictor} & \textbf{Pooled OLS} & \textbf{Within-image FE} \\
+\midrule
+$\Cres$ (residualised $\Csem$) & $+0.152\;\;(p{=}3.7{\times}10^{-7})$ & $\mathbf{+0.193\;\;(p{=}3.1{\times}10^{-10})}$ \\
+$\Cprompt$                     & $-0.105\;\;(p{=}3.1{\times}10^{-5})$ & $\mathbf{-0.121\;\;(p{=}1.9{\times}10^{-6})}$ \\
+$H_{\mathrm{opt}}$ (control)   & $-0.027$ (n.s.)                     & $-0.035$ (n.s.) \\
+\midrule
+$n$ / $R^2$                    & $1878$ / $0.027$                     & $1868$ / $0.039$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.8em}
+\textbf{Gated drop by level:} L1 $=$ 0.016, L2 $=$ 0.028, L3 $=$ 0.044, L4 $=$ 0.045.\\
+Kendall $\tau = 1.0$; Cohen's $d_{\text{L4 vs L1}} = 1.42$.
+
+\vspace{0.4em}
+\alert{Logic destabilises ($+$). Length anchors ($-$). Opposite signs, jointly significant.}
+\end{frame}
+
+\begin{frame}{Result 2: Layer-Resolved Bandwidth}
+\textbf{Effective bandwidth $\Gt^{(\ell)}$ across L1--L4, per layer group:}
+
+\vspace{0.5em}
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Layer group} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} \\
+\midrule
+Early  & 4.21 & 3.81 & 3.88 & 3.37 \\
+Mid    & 1.99 & 1.93 & 1.68 & 1.80 \\
+Late   & 1.97 & 2.00 & 1.78 & 1.74 \\
+\midrule
+Overall & 3.97 & 3.55 & 3.42 & 2.96 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+\begin{itemize}
+  \item Spearman $\rho_{\text{overall}} = -1.0$; each layer group $\rho = -0.80$.
+  \item ANOVA across levels: $F = 255$, $p < 10^{-139}$.
+  \item Early layers \emph{wider} ($\approx 3.8$); late layers \emph{concentrated} ($\approx 1.9$).
+  \item Early-layer bandwidth tracks $\Cprompt$; late-layer bandwidth tracks $\Csem$ alone.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Upward Spectral Migration}
+\textbf{Why does $\Gt$ \emph{fall} even as the filter ``reaches higher''?}
+
+\vspace{0.6em}
+Low-frequency bands carry the bulk of absolute attention power by default.\\
+When reasoning shifts weight into the high-frequency tail:
+\begin{itemize}
+  \item A few high-freq bands stand out against the residual low-freq mass.
+  \item The distribution looks \emph{peakier} $\Rightarrow$ $\Gt$ drops.
+  \item But the \emph{effective support} of $\Wt$ has \emph{widened upward}.
+\end{itemize}
+
+\vspace{0.6em}
+\alert{``Narrowing'' of $\Gt$ is not contraction. It is upward spectral migration against a persistent low-frequency floor.}
+
+\vspace{0.6em}
+\textbf{Mechanistic consequence:} verbose prompts hold early-layer mass in the low-freq floor, damping the upward migration that reasoning demands. This \emph{is} the tug-of-war.
+\end{frame}
+
+\begin{frame}{Result 3: Overlap Predicts Internal Drift}
+\textbf{Post-fusion hidden-state drift $\DZ^{(\ell)}$ vs spectral overlap between $\Wt^{(\ell)}$ and pre-fusion $\DV$:}
+
+\vspace{0.5em}
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Layer group} & \textbf{Raw} $r$ & \textbf{Profile-controlled} $r$ \\
+\midrule
+Early   & $0.459$ & $0.159$ \\
+Mid     & $0.481$ & $0.548$ \\
+Late    & $0.559$ & $\mathbf{0.651}$ \\
+Overall & $0.496$ & $0.248$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+All cells significant ($p < 10^{-8}$).
+\vspace{0.4em}
+\begin{itemize}
+  \item Profile-controlled $r$ climbs \textbf{0.16 $\to$ 0.65} from early to late.
+  \item Only the late group passes the pre-registered target $r > 0.6$.
+  \item Representational partner of the bandwidth story: the late filter is genuinely task-specific.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Result 4 \& 5: Cutoff Law and Overlap Validation}
+\textbf{Task 4 --- Frequency cutoff $\omega_c(\Csem)$:}
+\begin{itemize}
+  \item Largest $\omega_c$ at which gated accuracy drops by less than $\delta = 0.02$.
+  \item $\omega_c$ falls monotonically from L1 to L4.
+  \item Wordy mirrors L5--L8 inherit the cutoff of their primary counterpart.
+\end{itemize}
+\alert{Fine reasoning genuinely depends on the high-frequency vision band.}
+
+\vspace{0.8em}
+\textbf{Task 5 --- Overlap law validation:}
+\begin{itemize}
+  \item At the (level $\times$ perturbation) \emph{grouped} resolution: $r \approx 0.675$.
+  \item \emph{Zero} target-side fitting.
+  \item Robust to $\DF$ normalisation and to layer choice; late group strongest.
+  \item Per-sample resolution: $r \approx 0.02$.
+\end{itemize}
+\alert{$\Spred$ is a \emph{population-level} spectral regularity, not a per-item predictor --- just as bulk transport laws in physics emerge only after ensemble averaging.}
+\end{frame}
+
+% -------------------- DISCUSSION --------------------
+\begin{frame}{Why Reasoning Is Spectrally Costly}
+As $\Csem$ rises:
+\begin{itemize}
+  \item Attention mass migrates \emph{upward} into the high-frequency tail.
+  \item The low-frequency floor persists.
+  \item Newly-acquired weight lands exactly where structured perturbations (noise, blur, JPEG, elastic) deposit their energy.
+  \item $\Spred$ grows $\Rightarrow$ damage follows.
+\end{itemize}
+
+\vspace{0.6em}
+Fine reasoning is spectrally costly not because it \emph{shrinks} the filter, but because it \emph{reaches higher} into the frequencies that perturbations most easily poison.
+\end{frame}
+
+\begin{frame}{Why Length Anchors --- The Mechanism}
+The mechanism is \emph{layer-wise}:
+\begin{enumerate}
+  \item \textbf{Early decoder layers:} verbose prompts compress cross-modal attention into a narrow low-frequency region --- lexical resolution must finish first.
+  \item \textbf{Residual stream:} this early bias propagates forward.
+  \item \textbf{Late layers:} upward migration is damped; late-$\Wt$ has less high-frequency exposure than a terse-prompt counterpart would have.
+\end{enumerate}
+
+\vspace{0.6em}
+The effect \emph{vanishes} at the semantic level --- wordy mirrors converge to their primary bandwidth by the late third --- but the \emph{trajectory} through the residual stream is different.
+
+\vspace{0.6em}
+\alert{Length anchors because the model has less ``spectral budget'' left for the upward migration that reasoning requires.}
+\end{frame}
+
+\begin{frame}{Reconciling Prior Results}
+Prior literature disagrees about the sign of the ``complexity slope'':
+\begin{itemize}
+  \item Benchmark studies report \emph{positive} complexity $\to$ fragility (Winoground, ARO).
+  \item Prompt-sensitivity studies report \emph{negative} slopes (Sclar, Mizrahi).
+\end{itemize}
+
+\vspace{0.8em}
+\alert{Both are right. They are measuring the \emph{sum} of two opposite-signed forces in corpora with different mixes.}
+
+\vspace{0.8em}
+\textbf{Residualising $\Csem$ against $\Cprompt$ separates them cleanly.}
+\end{frame}
+
+% -------------------- IMPACT --------------------
+\begin{frame}{Societal Impact: Silent Failure $\to$ Auditable Quantity}
+$\Spred$ gives deployment teams a pre-deployment audit tool where none existed.
+
+\vspace{0.6em}
+\textbf{Radiology pre-screening} --- estimate $\Wt$ on representative images, intersect with corruption spectra (motion blur, JPEG, anonymisation). Read off a calibrated fragility score without a full behavioural sweep for every model update.
+
+\vspace{0.4em}
+\textbf{Assistive scene description} --- detect in advance that fine attribute queries on low-light photographs will be more brittle than coarse presence queries. Adjust prompt or output confidence accordingly.
+
+\vspace{0.4em}
+\textbf{Autonomous perception audits} --- parameter-free number estimated from the model's own attention, not a held-out benchmark that may not resemble deployment.
+
+\vspace{0.8em}
+\textbf{Fairness dividend:} users who phrase questions in longer, less direct language --- non-native speakers, assistive dictation users, certain clinical / legal domains --- sit on the \emph{more robust} side of the tug-of-war. A finding invisible to any single-axis ``prompt complexity'' treatment.
+\end{frame}
+
+\begin{frame}{Practical, Training-Free Interventions}
+The theory suggests interventions that cost nothing at train time:
+
+\vspace{0.6em}
+\textbf{1. Prompt padding as a stabiliser.}\\
+Deliberately verbose prompts hold early-layer mass in the low-frequency floor --- a cheap inference-time defence against high-frequency corruptions.
+
+\vspace{0.6em}
+\textbf{2. Spectrally-targeted augmentation.}\\
+Augment training data with perturbations whose $\DF$ overlaps the fine-task $\Wt$ --- not ImageNet-C in bulk, but the specific bands the deployment task reaches into.
+
+\vspace{0.6em}
+\textbf{3. Task-specific spectral budgets.}\\
+Before deployment, compute $\omega_c(t)$ for the task of interest. Sets a principled ceiling on how much low-pass compression / pre-processing is tolerable.
+\end{frame}
+
+\begin{frame}{A Falsifiable Prediction for Future Work}
+If the $\Cprompt$ anchor is genuinely early-layer in origin, then:
+\vspace{0.4em}
+\begin{center}
+\emph{Ablating or perturbing early-layer cross-modal attention should preferentially dissolve the $\Cprompt$ effect while leaving the $\Csem$ effect intact.}
+\end{center}
+\vspace{0.4em}
+
+\vspace{0.6em}
+\textbf{This is a falsifiable mechanistic prediction} that purely behavioural accounts of prompt sensitivity cannot make.
+
+\vspace{0.8em}
+Activation-patching \citep{meng2022locating} and causal mediation analysis are the natural follow-up tools.
+\end{frame}
+
+% -------------------- LIMITATIONS & CONCLUSION --------------------
+\begin{frame}{Limitations}
+\begin{itemize}
+  \item All experiments use Qwen3-VL-2B-Instruct; cross-model replication on LLaVA-NeXT and InternVL in progress.
+  \item $\Csem$ is equal-weighted; sign of every effect is invariant under strictly-positive reweighting, but absolute slopes are not.
+  \item $\Wt$ is estimated from attention --- a correlational lower bound on the true causal filter. Activation-patching remains future work.
+  \item Overlap law is a population-level regularity ($r \approx 0.68$ grouped), not a per-sample predictor ($r \approx 0.02$).
+  \item Mirror controls are synthetic; human-judged paraphrase mirrors are a natural extension.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+The motivating question: \emph{can we predict how badly a VLM will break before the perturbation is applied?}
+
+\vspace{0.8em}
+We give one answer.
+\begin{itemize}
+  \item The text is a \textbf{physical spectral operator} $\Wt$.
+  \item Reasoning is an \textbf{upward migration} of attention mass in the Fourier basis.
+  \item $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ predicts damage at $r \approx 0.68$ with no target-side fitting.
+  \item A \textbf{tug-of-war}: logic destabilises, length anchors.
+  \item Mechanism: \textbf{early-layer lexical anchoring} gives way to \textbf{late-layer upward migration}.
+\end{itemize}
+
+\vspace{0.6em}
+\textbf{The immediate payoff:} a deployment audit tool that turns silent VLM failure into an engineerable, pre-computable quantity --- plus a family of training-free interventions.
+
+\vspace{0.6em}
+\textbf{The broader payoff:} the Fourier, compositional, and mechanistic accounts of VLM fragility become three facets of a single falsifiable law.
+\end{frame}
+
+\begin{frame}[plain]{}
+\begin{center}
+\Huge Thank You.\\
+\vspace{0.8em}
+\Large Questions?
+\end{center}
+\end{frame}
+
+% -------------------- BACKUP --------------------
+\appendix
+
+\begin{frame}{Backup: Semantic Complexity Score}
+\[
+\Csem \;=\; E + A + R + O + D + \ln(1 + G_{\mathrm{amb}})
+\]
+\begin{itemize}
+  \item $E$ --- entity refs (GQA \texttt{select}/\texttt{query} node count).
+  \item $A$ --- attribute refs (GQA \texttt{query\_attr}, CLEVR attribute modules).
+  \item $R$ --- relation refs (GQA / CLEVR \texttt{relate}).
+  \item $O$ --- reasoning operators (NMN primitives).
+  \item $D$ --- program depth (CLEVR's key difficulty axis).
+  \item $G_{\mathrm{amb}}$ --- grounding ambiguity (referring-expression candidates); log form.
+\end{itemize}
+Equal weighting preserves L1 $<$ L2 $\lesssim$ L3 $<$ L4 ordering under \emph{any} positive linear combination; the sign of every effect is invariant.
+\end{frame}
+
+\begin{frame}{Backup: $\DZ$ --- Mean L2 Drift}
+\[
+\DZ(t,p)^{(\ell)} = \frac{1}{N^{(\ell)}} \sum_{n=1}^{N^{(\ell)}} \bigl\| z_n^{\mathrm{pert},(\ell)} - z_n^{\mathrm{clean},(\ell)} \bigr\|_2 .
+\]
+\begin{itemize}
+  \item Mean $\ell_2$ over full multimodal sequence.
+  \item Language tokens aligned positionally.
+  \item Vision-token spans aligned with patch-grid-aware resampling.
+  \item Ensures perturbations that alter vision-token count do not corrupt the language comparison.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Backup: Confidence-Space Regression}
+The horse race on log-likelihood erosion (within-image FE, $n = 2500$):
+\begin{itemize}
+  \item $R^2 = 0.29$ (vs $0.04$ for accuracy drop).
+  \item $\tilde\beta(\Cres) = +0.47$ (vs $+0.19$ for accuracy drop).
+  \item $\tilde\beta(\Cprompt) = -0.20$.
+  \item $H_{\mathrm{opt}}$: n.s.
+\end{itemize}
+\vspace{0.5em}
+The semantic-program effect is even clearer in confidence-space than in discrete accuracy --- accuracy is a thresholded, lossy projection.
+\end{frame}
+
+\end{document}
