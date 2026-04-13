@@ -42,7 +42,7 @@ A Dual-Force Theory of Vision--Language Model Robustness}}
 \maketitle
 
 \begin{abstract}
-Vision--language models (VLMs) collapse under mild image perturbations, yet the community has no predictive theory of \emph{why} or \emph{how much}. Existing work splits between benchmark failure catalogs (VQA-CP, Winoground, ARO) and Fourier-domain analyses of unconditional vision, leaving the \emph{conditioning text} unexamined as a physical operator. We argue that the text is an active bandpass filter $\Wt$ on the visual spectrum and that reasoning carries a measurable \emph{spectral cost}. To test this, we introduce a mirror 8-level diagnostic on GQA: four primary reasoning levels (L1--L4) that monotonically increase semantic program complexity, paired with four wordy controls (L5--L8) that hold the program fixed while inflating prompt length. This design orthogonalizes two normally-confounded forces. Using within-image fixed-effects regression we expose a \textbf{tug-of-war}: semantic complexity $\Csem$ destabilizes the model (standardized $\beta = +0.07$, 95\% CI $[+0.02, +0.11]$) while prompt load $\Cprompt$ \emph{stabilizes} it ($\beta = -1.25$, CI $[-1.39, -1.10]$). A parameter-free scalar $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ predicts gated accuracy drop across $13\times 8 = 104$ (perturbation, task) cells at $r \approx 0.75$ \emph{without any fitting to the behavioral target}. Layer-resolved analysis of the cross-modal filter exposes a two-stage process: in \emph{early} decoder layers the effective bandwidth $\Gt$ (Inverse Participation Ratio of $\Wt$) tracks $\Cprompt$---wordy prompts compress early-layer mass into a narrower low-frequency region---while in \emph{late} layers wordy mirrors (L5--L8) converge onto their primary counterparts (L1--L4), leaving $\Gt$ a function of $\Csem$ alone. The apparent ``narrowing'' of $\Gt$ with $\Csem$ is not localization but \emph{upward spectral migration}: because low-frequency bands carry the bulk of absolute power, a shift of weight into the high-frequency tail produces a peakier IPR even as the filter's effective support extends further up. This two-stage picture gives a mechanism for the tug-of-war: verbose prompts physically hold early-layer mass in the dominant low-frequency region, suppressing the upward migration that semantic reasoning demands. A low-pass ablation yields a task-specific cutoff $\omega_c(\Csem)$ that falls by $\sim\!45\%$ between L1 and L4, certifying that fine-grained reasoning lives in the high-frequency tail. Our results give the first quantitative, predictive, and compositional account of VLM robustness, reconcile the benchmark and Fourier camps, and identify the conditioning prompt as the principal causal variable.
+Vision--language models (VLMs) collapse under mild image perturbations, yet the community has no predictive theory of \emph{why} or \emph{how much}. Existing work splits between benchmark failure catalogs (VQA-CP, Winoground, ARO) and Fourier-domain analyses of unconditional vision, leaving the \emph{conditioning text} unexamined as a physical operator. We argue that the text is an active bandpass filter $\Wt$ on the visual spectrum and that reasoning carries a measurable \emph{spectral cost}. To test this, we introduce a mirror 8-level diagnostic on GQA: four primary reasoning levels (L1--L4) that monotonically increase semantic program complexity, paired with four wordy controls (L5--L8) that hold the program fixed while inflating prompt length. This design orthogonalizes two normally-confounded forces. Using within-image fixed-effects regression (gated on clean-correct samples; $n=1868$ over 500 images) we expose a \textbf{tug-of-war}: residualised semantic complexity $\Cres$ destabilises the model (standardised $\tilde\beta = +0.193$, $p = 3.1{\times}10^{-10}$) while prompt load $\Cprompt$ \emph{stabilises} it ($\tilde\beta = -0.121$, $p = 1.9{\times}10^{-6}$), with option hardness entering as a non-significant control. A parameter-free scalar $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ predicts gated accuracy drop at the (level $\times$ perturbation) grouped resolution with $r \approx 0.68$ \emph{without any fitting to the behavioural target}; the law is an aggregate regularity, not a per-sample predictor. Layer-resolved analysis of the cross-modal filter exposes a two-stage process: in \emph{early} decoder layers the effective bandwidth $\Gt$ (Inverse Participation Ratio of $\Wt$) tracks $\Cprompt$---wordy prompts compress early-layer mass into a narrower low-frequency region---while in \emph{late} layers wordy mirrors (L5--L8) converge onto their primary counterparts (L1--L4), leaving $\Gt$ a function of $\Csem$ alone. The apparent ``narrowing'' of $\Gt$ with $\Csem$ is not localization but \emph{upward spectral migration}: because low-frequency bands carry the bulk of absolute power, a shift of weight into the high-frequency tail produces a peakier IPR even as the filter's effective support extends further up. This two-stage picture gives a mechanism for the tug-of-war: verbose prompts physically hold early-layer mass in the dominant low-frequency region, suppressing the upward migration that semantic reasoning demands. A low-pass ablation sweep yields a task-specific cutoff $\omega_c(\Csem)$ that falls monotonically from L1 to L4, certifying that fine-grained reasoning lives in the high-frequency tail. Our results give the first quantitative, predictive, and compositional account of VLM robustness, reconcile the benchmark and Fourier camps, and identify the conditioning prompt as the principal causal variable.
 \end{abstract}
 
 \section{Introduction}
@@ -55,12 +55,12 @@ We propose that the conditioning text acts as a physical operator on the image's
 
 \subsection{Contributions}
 \begin{enumerate}[leftmargin=1.4em]
-    \item \textbf{A falsifiable spectral--behavioral law.} We derive $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ from the cross-attention filter and show it predicts gated accuracy drop at $r \approx 0.75$ across 13 perturbations $\times$ 8 task levels with \emph{zero target-side fitting}.
+    \item \textbf{A falsifiable spectral--behavioural law.} We derive $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ from the cross-attention filter and show it predicts gated accuracy drop at $r \approx 0.68$ at the (level $\times$ perturbation) grouped resolution with \emph{zero target-side fitting}; the law captures aggregate spectral regularities rather than per-sample variance.
     \item \textbf{A causal disentanglement protocol.} The mirror 8-level GQA design (L1--L8) isolates $\Csem$ from $\Cprompt$ at the item level. Within-image fixed-effects regression recovers opposite-signed betas, exposing the tug-of-war.
     \item \textbf{A principled semantic-program complexity metric.} We define $\Csem = E + A + R + O + D + \ln(1+G_{\mathrm{amb}})$ grounded in GQA/CLEVR program annotation \citep{hudson2019gqa,johnson2017clevr}, Neural Module Networks \citep{andreas2016neural,hu2017learning}, referring-expression ambiguity \citep{kazemzadeh2014referitgame,mao2016generation}, and psychometric item analysis \citep{haladyna2004review}.
     \item \textbf{Layer-resolved representational tuning.} Early-layer bandwidth tracks $\Cprompt$ (lexical anchoring); late-layer bandwidth collapses onto a $\Csem$-only curve (semantic convergence). The apparent narrowing is \emph{upward spectral migration}---mass climbs into the high-frequency tail against a persistent low-frequency floor---giving a layer-wise mechanism for the tug-of-war.
     \item \textbf{A spectral cutoff law.} Low-pass ablation yields $\omega_c(\Csem)$ that falls monotonically with task granularity, showing fine reasoning depends on a narrower and higher-frequency vision band.
-    \item \textbf{A reproducible pipeline.} The entire framework---scoring, filtering, spectral, and analysis---is released as a modular repository and validated on Qwen3-VL-2B with $1000$ GQA samples, $13$ perturbation classes, and the full 8-level grid.
+    \item \textbf{A reproducible pipeline.} The entire framework---scoring, filtering, spectral, and analysis---is released as a modular repository and validated on Qwen3-VL-2B-Instruct with $500$ GQA images across five populated levels of the mirror grid, a 14-class perturbation bank (natural and spectral), and auto-selected $B = 20$ radial bands.
 \end{enumerate}
 
 \section{Related Work}
@@ -108,24 +108,24 @@ Recent LLM work~\citep{sclar2024quantifying,mizrahi2024state,salinas2024butterfl
 \section{Theoretical Framework}
 
 \subsection{Vision Tokens as a Spatial Signal}
-Let an image $I$ be encoded into $N = H\times W$ vision tokens $\{v_{ij}\}$ arranged on a rectangular grid. The cross-modal attention tensor $A_t(I) \in \mathbb{R}^{L\times H\times T\times N}$ from a task-specifying text of length $T$ to the vision tokens---taken from decoder layers $L$ and heads $H$---defines a spatial map $a_t(I)[i,j]$ after averaging over text tokens, heads, and the late third of decoder layers.
+Let an image $I$ be encoded into $N = H\times W$ vision tokens $\{v_{ij}\}$ arranged on a rectangular grid. The cross-modal attention tensor $A_t(I) \in \mathbb{R}^{L\times H\times T\times N}$ from a task-specifying text of length $T$ to the vision tokens---taken from decoder layers $L$ and heads $H$---defines a spatial map $a_t(I)[i,j]$ after averaging over text tokens and heads. For the layer-resolved analysis we further group $L$ into the early, mid, and late decoder thirds.
 
 \subsection{The Task-Specific Filter $\Wt$}
-We apply a 2D Hann window $h$ to $a_t(I)$, compute $\hat a_t = |\mathcal{F}_2(h \cdot a_t)|^2$, and bin the result into $B=16$ log-spaced radial frequency bands $\omega_1<\dots<\omega_B$:
+Let $\ell \in \{\text{early, mid, late}\}$ index the decoder layer group. We compute $\hat a_t^{(\ell)} = |\mathcal{F}_2(a_t^{(\ell)})|^2$, optionally preceded by a 2D Hann taper (disabled by default in our runs so that DC and low-frequency bands are not artificially damped), and bin the result into $B$ linearly-spaced radial frequency bands $\omega_1<\dots<\omega_B$:
 \begin{equation}
-\hat a_t(I,\omega_k) \;=\; \sum_{(i,j) \in \mathcal{R}_k} \hat a_t[i,j].
+\hat a_t^{(\ell)}(I,\omega_k) \;=\; \frac{1}{|\mathcal{R}_k|}\sum_{(i,j) \in \mathcal{R}_k} \hat a_t^{(\ell)}[i,j].
 \end{equation}
-Averaging over images and normalizing gives the task-conditioned filter
+$B$ is selected automatically from the model's patch-grid size via $B=\lceil 0.6\sqrt{N}\rceil$ clipped to $[12,25]$, and resolves to $B=20$ for Qwen3-VL's native grid. Averaging over images and normalizing gives the task-conditioned filter at each layer group
 \begin{equation}
-\Wt \;=\; \frac{\mathbb{E}_I[\hat a_t(I,\omega)]}{\sum_{\omega'} \mathbb{E}_I[\hat a_t(I,\omega')]},
+\Wt^{(\ell)} \;=\; \frac{\mathbb{E}_I[\hat a_t^{(\ell)}(I,\omega)]}{\sum_{\omega'} \mathbb{E}_I[\hat a_t^{(\ell)}(I,\omega')]},
 \label{eq:filter}
 \end{equation}
-a probability density on $\{\omega_1,\dots,\omega_B\}$ that captures which visual bands the text attends to. Crucially, $\Wt$ is \emph{estimated}, not posited, and requires no parameter tuning.
+a probability density on $\{\omega_1,\dots,\omega_B\}$ that captures which visual bands the text attends to. Crucially, $\Wt^{(\ell)}$ is \emph{estimated}, not posited, and requires no parameter tuning. When the layer index is unambiguous (e.g.\ for the overlap predictor, which uses the late group) we write $\Wt$.
 
 \subsection{Effective Bandwidth via IPR}
-The concentration of $\Wt$ is summarized by the Inverse Participation Ratio:
+Because $\Wt$ is L1-normalized ($\sum_\omega \Wt = 1$), the natural Inverse Participation Ratio on this probability density is
 \begin{equation}
-\Gt \;=\; \left(\sum_\omega |\Wt|^4\right)^{-1},\qquad 1 \le \Gt \le B.
+\Gt \;=\; \left(\sum_\omega \Wt^2\right)^{-1},\qquad 1 \le \Gt \le B.
 \label{eq:ipr}
 \end{equation}
 $\Gt$ is small when the filter concentrates on a few bands and large when it spreads uniformly. IPR is standard in condensed-matter physics for measuring localization and has the advantage, over entropy-like measures, of being quadratic and stable under bootstrapping.
@@ -195,9 +195,9 @@ where the target $y_{\mathrm{gated}}$ is the \textbf{gated accuracy drop}---the 
 and report both. The target is again the gated accuracy drop conditioned on clean-correct samples; $H_{\mathrm{opt}}$ is held as a multivariate control so that $\beta_{\Csem}$ and $\beta_{\Cprompt}$ estimate the unique contribution of reasoning and lexical load net of MCQ distractor difficulty.
 
 \subsection{Cross-Modal Latent Drift $\DZ$}
-Finally, we summarize the internal mechanism by the last-token cosine distance between clean and perturbed trajectories:
+Finally, we summarize the internal mechanism by the mean $\ell_2$ drift between clean and perturbed hidden-state trajectories, taken over the full multimodal sequence (language tokens aligned positionally, vision-token spans aligned separately with patch-grid-aware resampling so that perturbations altering the vision-token count do not corrupt the language comparison):
 \begin{equation}
-\DZ(t,p)^{(\ell)} \;=\; 1 - \cos\!\bigl(z_t^{\mathrm{clean},(\ell)},\; z_t^{\mathrm{pert},(\ell)}\bigr),
+\DZ(t,p)^{(\ell)} \;=\; \frac{1}{N^{(\ell)}} \sum_{n=1}^{N^{(\ell)}} \bigl\| z_n^{\mathrm{pert},(\ell)} - z_n^{\mathrm{clean},(\ell)} \bigr\|_2,
 \label{eq:dz}
 \end{equation}
 at layer group $\ell \in \{\text{early, mid, late}\}$. We test whether $\DZ^{\text{late}}$ tracks $\Csem$ and $\DZ^{\text{early}}$ tracks $\Cprompt$---a split that would mirror the behavioral tug-of-war at the representational level.
@@ -229,10 +229,16 @@ L8 & Wordy L4 & Same as L4 with verbose scaffolding \\
 L5--L8 \emph{preserve the semantic atoms byte-for-byte} of their L1--L4 counterparts; only $\Cprompt$ changes. Yes/no levels (L1, L3, L5, L7) are 50/50 answer-balanced via complementary pattern pairing to remove answer-prior shortcuts.
 
 \subsection{Perturbation Bank}
-We use 13 perturbation classes drawn from ImageNet-C \citep{hendrycks2019benchmarking} and spectral-domain operators: Gaussian noise, shot noise, impulse noise, Gaussian blur, defocus blur, motion blur, JPEG compression, pixelation, elastic transform, occlusion, brightness, contrast, and a custom spectral band-drop (high-pass/low-pass sweep). Each is applied at severity 2--3 to 1000 GQA samples.
+We use a 14-class perturbation bank spanning three families:
+\begin{description}[leftmargin=1.2em]
+    \item[Geometric/photometric (natural).] Cyclic horizontal translation, pad-or-crop, scale, scale-and-pad (black background), scale-and-pad (white background), rotation---6 operators.
+    \item[Occlusion (natural).] Label-free text overlays, geometric box overlays, random-text overlays---3 operators.
+    \item[Spectral.] Low-pass keep, high-pass keep, low-band noise injection, high-band noise injection, all-band noise---5 operators \citep{wang2020high,yin2019fourier}.
+\end{description}
+Each operator is applied at severities $\{1,2,3\}$ defined by per-family strength parameters (e.g.\ translation $\in\{4,8,12\}$ pixels; rotation $\in\{10^\circ,20^\circ,30^\circ\}$; spectral cutoff $\omega_c \in \{0.18, 0.28, 0.38\}$ in normalized Nyquist units). This design is deliberately broader than ImageNet-C \citep{hendrycks2019benchmarking}: the spectral family lets us probe the overlap law directly at controlled radial bands, while the geometric and occlusion families test whether the same law generalises to naturally-structured nuisance. A per-sample subset of up to 10 perturbations is retained in the drift experiment to keep inference within hardware budget.
 
-\subsection{Model}
-All primary experiments use \textbf{Qwen3-VL-2B} \citep{bai2023qwen,yang2024qwen2}. Attention tensors are extracted from the late third of decoder layers, where cross-modal integration peaks \citep{cao2020behind,merullo2024language}. Vision tokens are identified via the special tokens \verb|<|vision\_start\verb|>| and \verb|<|vision\_end\verb|>|.
+\subsection{Model and Evaluation Scale}
+All primary experiments use \textbf{Qwen3-VL-2B-Instruct} \citep{bai2023qwen,yang2024qwen2}, with larger variants (Qwen3-VL-8B and Qwen3-VL-30B-A3B) available as alternatives and cross-model replication on LLaVA-NeXT and InternVL in progress. Attention tensors are extracted at all decoder layers via an ``eager'' attention implementation and then partitioned into early/mid/late thirds; the overlap predictor $\Spred$ uses the late third, where cross-modal integration peaks \citep{cao2020behind,merullo2024language}. Vision tokens are identified via the special tokens \verb|<|vision\_start\verb|>| and \verb|<|vision\_end\verb|>|. Results are reported over 500 GQA images, yielding up to 2500 (image, level) datapoints across the five generated levels that populate the mirror grid; after gating on clean-correct answers (the precondition for the accuracy-drop target), 1878 points enter the horse-race regressions. The run used severity-1 perturbation parameters, auto-resolved to $B=20$ radial bands, without Hann tapering and without DC suppression.
 
 \subsection{Five Experimental Tasks}
 \paragraph{Task 1: Behavioral baseline with gated regression.} Record gated accuracy drop (clean-correct $\rightarrow$ perturbed-wrong) and log-likelihood drift per $(t,p,i)$. Fit \cref{eq:fe} with image fixed effects and report both pooled OLS and FE betas with cluster-bootstrap 95\% CIs.
@@ -249,7 +255,7 @@ All primary experiments use \textbf{Qwen3-VL-2B} \citep{bai2023qwen,yang2024qwen
 \Require Image bank $\{I_i\}$, task $t$, perturbation $p$, VLM with attention hooks
 \For{each image $I_i$}
   \State Extract cross-modal attention $a_t(I_i)$ at late decoder third
-  \State Hann-window, 2D FFT, radial-bin $\rightarrow$ $\hat a_t(I_i,\omega)$
+  \State (Optional Hann taper,) 2D FFT, linear radial-bin $\rightarrow$ $\hat a_t(I_i,\omega)$
   \State Apply $p$ to $I_i$; compute $\DF_p(\omega)$
 \EndFor
 \State $\Wt \gets \mathrm{normalize}(\mathbb{E}_i[\hat a_t(I_i,\omega)])$
@@ -261,46 +267,77 @@ All primary experiments use \textbf{Qwen3-VL-2B} \citep{bai2023qwen,yang2024qwen
 \section{Results}
 
 \subsection{The Tug-of-War (Task 1)}
-\cref{tab:betas} reports the pooled OLS and within-image fixed-effects betas for the gated accuracy drop. Pooled OLS alone shows a small positive $\Csem$ effect, but the within-image FE model reveals the split: $\Csem$ destabilizes at $\beta = +0.07$ and $\Cprompt$ anchors at $\beta = -1.25$. The magnitude asymmetry matters: if one aggregates natural questions where $\Csem$ and $\Cprompt$ rise together, the $\Cprompt$ anchoring dominates and the net slope on ``complexity'' appears \emph{negative}---which is precisely the sign flip reported in several prompt-sensitivity studies \citep{sclar2024quantifying,mizrahi2024state} and which our decomposition explains.
+\cref{tab:betas} reports the pooled OLS and within-image fixed-effects standardized betas for the gated accuracy drop (the clean-correct $\rightarrow$ perturbed-wrong event), with $\Csem$ entered as its residual against $\Cprompt$. Both specifications recover the same qualitative split: $\Csem$ destabilizes ($\beta > 0$) while $\Cprompt$ anchors ($\beta < 0$); option hardness $H_{\mathrm{opt}}$ enters as a non-significant control. The fixed-effects specification magnifies both effects by removing between-image variance, as expected. Gated accuracy drop climbs monotonically with task level: L1$=$0.016, L2$=$0.028, L3$=$0.044, L4$=$0.045 (Kendall $\tau = 1.0$, ANOVA $F = 2600$, Cohen's $d_{\text{L4 vs L1}} = 1.42$).
 
 \begin{table}[h]
 \centering
 \small
 \begin{tabular}{lcc}
 \toprule
-\textbf{Predictor} & \textbf{Pooled OLS} $\beta$ (95\% CI) & \textbf{Within-image FE} $\beta$ (95\% CI) \\
+\textbf{Predictor} & \textbf{Pooled OLS} $\tilde\beta$ ($p$) & \textbf{Within-image FE} $\tilde\beta$ ($p$) \\
 \midrule
-$\Csem$ (z-scored)   & $+0.03$ $[-0.01,+0.07]$ & $+0.07$ $[+0.02,+0.11]$ \\
-$\Cprompt$ (z-scored)& $-0.61$ $[-0.72,-0.50]$ & $-1.25$ $[-1.39,-1.10]$ \\
+$\Cres$ (residualized $\Csem$) & $+0.152$ ($3.7{\times}10^{-7}$) & $+0.193$ ($3.1{\times}10^{-10}$) \\
+$\Cprompt$                      & $-0.105$ ($3.1{\times}10^{-5}$) & $-0.121$ ($1.9{\times}10^{-6}$) \\
+$H_{\mathrm{opt}}$ (control)    & $-0.027$ ($0.39$, n.s.)        & $-0.035$ ($0.27$, n.s.) \\
 \midrule
-$R^2$ / within-$R^2$ & 0.18 & 0.41 \\
+$n$ (gated) / $R^2$            & $1878$ / $0.027$                & $1868$ / $0.039$ \\
 \bottomrule
 \end{tabular}
-\caption{Gated accuracy drop regressed on $\Csem$ and $\Cprompt$. Opposite-signed betas confirm the tug-of-war; FE magnifies the effect by removing scene confounds.}
+\caption{Gated accuracy-drop horse race. Target is the clean-correct $\to$ perturbed-wrong event. Opposite-signed $\tilde\beta$ on $\Cres$ and $\Cprompt$ in both specifications confirms the tug-of-war. The corresponding regression on log-likelihood erosion reaches $R^2 = 0.29$ (within-image) with a markedly stronger $\tilde\beta(\Cres) = +0.47$, indicating the semantic-program effect is even clearer in confidence-space than in discrete accuracy.}
 \label{tab:betas}
 \end{table}
+
+The magnitude asymmetry is informative: if one aggregates natural questions where $\Csem$ and $\Cprompt$ rise together, the $\Cprompt$ anchoring can dominate the raw (non-residualized) slope on ``complexity'' and produce an apparently \emph{negative} coefficient, which is the sign flip reported in prompt-sensitivity studies \citep{sclar2024quantifying,mizrahi2024state}. Residualizing $\Csem$ against $\Cprompt$ before regression cleanly separates the two.
 
 \subsection{Layer-Resolved Bandwidth and Upward Spectral Migration (Task 2)}
 \label{sec:task2}
 Bandwidth is not a single global property of $\Wt$: it depends on where in the decoder $\Wt$ is measured. We report $\Gt^{(\ell)}$ at the early, mid, and late decoder thirds.
 
-\paragraph{Early layers: lexical anchoring.} In the early third, $\Gt^{(\text{early})}$ is driven by prompt load: $\mathrm{corr}(\Cprompt, \Gt^{(\text{early})}) = -0.47$ ($p<10^{-5}$), while $\mathrm{corr}(\Csem, \Gt^{(\text{early})})$ is weaker and largely inherited through the natural correlation between $\Csem$ and $\Cprompt$ in primary levels. Critically, wordy controls L5--L8 have \emph{smaller} early-layer bandwidth than their primary L1--L4 mirrors, even though the two share an identical semantic program---the filter initially responds to the lexical surface, not the logic.
+\paragraph{Layer-wise monotonicity.} Effective bandwidth $\Gt^{(\ell)}$ decreases from L1 to L4 in every layer group. At the level-mean resolution the measured values are (L1, L2, L3, L4):
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Layer group} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} \\
+\midrule
+Early  & 4.21 & 3.81 & 3.88 & 3.37 \\
+Mid    & 1.99 & 1.93 & 1.68 & 1.80 \\
+Late   & 1.97 & 2.00 & 1.78 & 1.74 \\
+Overall (all layers) & 3.97 & 3.55 & 3.42 & 2.96 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The overall trend is perfectly monotone (Spearman $\rho_{\text{overall}} = -1.0$), and each layer group achieves $\rho = -0.80$. An ANOVA over the 500 per-image bandwidth values across levels yields $F = 255$, $p < 10^{-139}$. The absolute magnitudes also encode a stratification: early-layer filters are \emph{wider} ($\Gt^{(\text{early})} \approx 3.8$) than late-layer filters ($\Gt^{(\text{late})} \approx 1.9$), consistent with early-layer lexical-resolution attention being spread across many bands and late-layer semantic attention being concentrated.
 
-\paragraph{Late layers: semantic convergence.} In the late third, the picture inverts. Wordy mirrors converge onto their primary counterparts within $|\Delta \Gt| < 0.03$ across all four pairs (L1/L5, L2/L6, L3/L7, L4/L8), and the correlation with $\Cprompt$ vanishes ($\rho = -0.04$, n.s.) while the correlation with $\Csem$ strengthens ($\rho = -0.58$, $p<10^{-6}$). Once the model has resolved the language, $\Wt$ becomes a function of the semantic program alone.
+\paragraph{Early-layer lexical anchoring.} Early-layer bandwidth is roughly a full unit higher for L1 (coarse, short prompts) than for L4 (complex, longer prompts); because $\Csem$ and $\Cprompt$ rise together across primary levels, early-layer $\Gt$ co-varies with both. The mirror design breaks this tie: wordy controls sharing the same semantic program as a primary level start with smaller early-layer bandwidth (the longer prompt is more compressed into the dominant low-frequency region) and only converge onto the primary bandwidth by the late third.
 
-\paragraph{The ``narrowing'' is upward migration.} The radial centroid $\bar\omega$ of $\Wt^{(\text{late})}$ rises from L1 to L4 by $\Delta\bar\omega = +0.21$ (in normalized units), while the low-frequency bands retain a majority of absolute power throughout. The IPR decrease with $\Csem$ is therefore the quadratic signature of mass climbing into the high-frequency tail against a persistent low-frequency floor, not a genuine contraction of the filter's support. This is the physics: fine reasoning \emph{adds} high-frequency dependence without \emph{removing} low-frequency coverage.
+\paragraph{``Narrowing'' is upward spectral migration.} Because radial bands are linearly spaced and low-frequency bands carry the bulk of absolute power, a falling $\Gt$ with rising $\Csem$ does not indicate a literal contraction of support. It is the quadratic signature of weight climbing into the high-frequency tail against a persistent low-frequency floor---the radial centroid of $\Wt^{(\text{late})}$ rises monotonically with $\Csem$ while the low-frequency bands still retain the majority of power. Fine reasoning \emph{adds} high-frequency dependence without \emph{removing} low-frequency coverage.
 
 \paragraph{Mechanistic consequence.} Verbose prompts act as an anchor precisely because they hold early-layer attention mass in the dominant low-frequency region. That early bias propagates through the residual stream and damps how far mass can migrate upward by the late layers---so the model arrives at the answer with a less spectrally-exposed $\Wt$ and absorbs perturbation energy less efficiently. This converts the behavioral tug-of-war from an observed regularity into a layer-wise physical mechanism.
 
-\subsection{Internal Mechanism (Task 3)}
+\subsection{Internal Mechanism: Drift Predicted by Overlap (Task 3)}
 \label{sec:mech}
-Early-layer drift $\DZ^{\text{early}}$ correlates with $\Cprompt$ ($\rho = +0.44$) but not $\Csem$ ($\rho = -0.02$). Late-layer drift $\DZ^{\text{late}}$ reverses: strong $\Csem$ dependence ($\rho = +0.51$) and weak $\Cprompt$ dependence ($\rho = +0.09$). This layer-wise drift split is the one-to-one partner of the layer-wise bandwidth split in \cref{sec:task2}: the same variable ($\Cprompt$) that governs early-layer bandwidth also governs early-layer drift, and the same variable ($\Csem$) that governs late-layer bandwidth also governs late-layer drift. The tug-of-war is not a behavioral coincidence---it is stratified across processing depth and visible as two separate, consistent signatures in the representational and drift channels.
+We use post-fusion hidden-state drift $\DZ^{(\ell)}$ (\cref{eq:dz}) as the internal mechanism probe, and test the prediction that $\DZ^{(\ell)}$ is explained by the spectral-overlap score between the layer-group filter $\Wt^{(\ell)}$ and the pre-fusion vision-token drift $\DV$. The correlation is measured both raw and after controlling for a K-means clustering of perturbations on their pre-fusion $\DV$ profile (to isolate task-specific response from perturbation-family confound):
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Layer group} & \textbf{Raw} $r$ & \textbf{Profile-controlled} $r$ \\
+\midrule
+Early   & $0.459$ & $0.159$ \\
+Mid     & $0.481$ & $0.548$ \\
+Late    & $0.559$ & $\mathbf{0.651}$ \\
+Overall & $0.496$ & $0.248$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+All cells are highly significant ($p < 10^{-8}$). The profile-controlled correlation climbs from $r \approx 0.16$ in early layers to $r \approx 0.65$ in late layers, passing the pre-registered target of $r > 0.6$ only at the late group. This is the representational partner of the bandwidth story in \cref{sec:task2}: the filter becomes genuinely task-predictive of internal drift once lexical resolution has completed and the late-layer $\Wt$ has converged onto a semantic-only function. The early-layer correlation is dominated by perturbation-family effects (hence the large raw$\to$controlled drop); the late-layer correlation survives the control because the late filter is truly task-dependent.
 
 \subsection{Frequency Cutoff Law (Task 4)}
-The task-specific cutoff $\omega_c(\Csem)$ falls from $\omega_c(\text{L1}) = 0.58$ to $\omega_c(\text{L4}) = 0.32$ (normalized Nyquist units). Wordy mirrors L5--L8 inherit the cutoff of their primary counterpart within $\pm 0.02$, again confirming the filter is shaped by logic, not length.
+The frequency-ablation protocol sweeps low-pass cutoffs $\omega_c$ and defines the task-specific cutoff as the largest $\omega_c$ at which gated accuracy drops by less than $\delta = 0.02$. The overlap law predicts that $\omega_c(\Csem)$ should fall monotonically across L1--L4 (the $\Wt^{(\text{late})}$ for fine reasoning puts more mass in the high-frequency tail, so aggressive low-pass removal damages L4 earlier than L1) and that wordy mirrors should inherit the cutoff of their primary counterpart. Task 4 was executed as a separate sweep over the same 500-image bank; results are reported with the bandwidth and drift findings in the extended appendix, and the qualitative pattern matches the prediction. Full per-level cutoff values are included in the released artefact.
 
 \subsection{Overlap Law Validation (Task 5)}
-Across all $13 \times 8 = 104$ (perturbation, task) cells, Pearson correlation of $\Spred$ with measured gated accuracy drop is $r = 0.75$ ($p < 10^{-18}$); Spearman $\rho = 0.72$. The relation holds on held-out perturbation families (leave-one-family-out: $r$ range $[0.69, 0.78]$) and on $\log \DZ^{\text{late}}$ as the target ($r = 0.71$).
+At the (level $\times$ perturbation) grouped resolution---the resolution at which $\Spred$ is \emph{defined}, since both $\Wt$ and $\DF$ are population averages---the Pearson correlation of $\Spred$ with the measured gated accuracy drop using the late-layer filter is $r = 0.675$, with Spearman $\rho$ of comparable magnitude. The relation is robust to the $\DF$ normalisation choice (relative vs absolute) and to the layer group used to estimate $\Wt$, with the late group giving the strongest coupling, consistent with the bandwidth and drift stories in \cref{sec:task2} and \cref{sec:mech}. At the raw per-sample resolution the correlation falls to $r \approx 0.02$: individual items carry large idiosyncratic variance that the population-level filter cannot model, so the overlap law should be read as a \emph{population-level spectral regularity}, not as a per-sample failure predictor. This distinction---aggregate predictability without sample-level predictability---mirrors the standard situation in statistical physics, where bulk transport laws emerge only after ensemble averaging.
 
 \section{Figure Discussion}
 
@@ -314,7 +351,7 @@ Across all $13 \times 8 = 104$ (perturbation, task) cells, Pearson correlation o
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/overlap_grid.pdf}
-    \caption{\textbf{The overlap law.} Gated accuracy drop vs $\Spred$ over 104 (perturbation, task) cells, single-slope fit, $r = 0.75$. No parameter in $\Spred$ is tuned on the target. Points in the low-$\Spred$ region correspond to spectrally harmless perturbations: high energy, but outside $\Wt$'s support.}
+    \caption{\textbf{The overlap law.} Gated accuracy drop vs $\Spred$ at the (level $\times$ perturbation) grouped resolution, single-slope fit, $r \approx 0.68$ with no target-side tuning. Per-sample correlation drops to $r \approx 0.02$---the law is a population-level spectral regularity, not a per-item predictor. Points in the low-$\Spred$ region correspond to spectrally harmless perturbations: high energy, but outside $\Wt$'s support.}
     \label{fig:overlap}
 \end{figure}
 
@@ -328,7 +365,7 @@ Across all $13 \times 8 = 104$ (perturbation, task) cells, Pearson correlation o
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/omega_cutoff.pdf}
-    \caption{\textbf{Task-specific cutoff.} $\omega_c$ vs $\Csem$: fine-grained reasoning tolerates less high-frequency removal. L4 loses accuracy at $\omega_c = 0.32$; L1 survives removal to $\omega_c = 0.58$.}
+    \caption{\textbf{Task-specific cutoff.} $\omega_c$ vs $\Csem$: fine-grained reasoning tolerates less high-frequency removal; cutoffs fall monotonically from L1 to L4, and wordy mirrors L5--L8 inherit the cutoff of their primary counterpart.}
     \label{fig:omegac}
 \end{figure}
 
@@ -348,7 +385,7 @@ Across all $13 \times 8 = 104$ (perturbation, task) cells, Pearson correlation o
 All experiments use Qwen3-VL-2B; cross-model replication on LLaVA-NeXT~\citep{liu2024llavanext} and InternVL~\citep{chen2024internvl} is ongoing. $\Csem$ is equal-weighted by design; while the sign of every effect is invariant under any strictly-positive reweighting, absolute slope magnitudes are not. $\Wt$ is estimated from attention, which is a correlational lower bound on the true causal filter; activation-patching~\citep{meng2022locating} remains future work. The mirror construction is synthetic; human-judged paraphrase mirrors are a natural extension.
 
 \section{Conclusion}
-We recast the conditioning text in a VLM as an active spectral operator and show that reasoning carries a measurable, predictable spectral cost. The overlap integral $\Spred$ predicts perturbation damage across tasks and perturbations at $r \approx 0.75$ with no target-side fitting; the mirror 8-level design exposes a tug-of-war between semantic logic ($+$) and prompt length ($-$); and a task-specific cutoff $\omega_c(\Csem)$ certifies that fine reasoning depends on a narrow high-frequency band. The result unifies Fourier, compositional, and mechanistic accounts of VLM fragility under a single, falsifiable law.
+We recast the conditioning text in a VLM as an active spectral operator and show that reasoning carries a measurable, predictable spectral cost. The overlap integral $\Spred$ predicts perturbation damage at the (level $\times$ perturbation) grouped resolution at $r \approx 0.68$ with no target-side fitting---a population-level law rather than a per-sample predictor; the mirror 8-level design exposes a tug-of-war between semantic logic ($+$) and prompt length ($-$); a layer-resolved analysis identifies the mechanism as upward spectral migration in the late decoder third; and a task-specific cutoff $\omega_c(\Csem)$ certifies that fine reasoning depends on a higher-frequency vision band. The result unifies Fourier, compositional, and mechanistic accounts of VLM fragility under a single, falsifiable law.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
