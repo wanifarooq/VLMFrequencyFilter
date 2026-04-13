@@ -1,0 +1,340 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{array}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black
+}
+
+\newcommand{\Csem}{C_{\mathrm{sem}}}
+\newcommand{\Cprompt}{C_{\mathrm{prompt}}}
+\newcommand{\Cres}{C_{\mathrm{res}}}
+\newcommand{\Wt}{W_t(\omega)}
+\newcommand{\DF}{\Delta F(\omega)}
+\newcommand{\DV}{\Delta V(\omega)}
+\newcommand{\DZ}{\Delta Z}
+\newcommand{\Spred}{S_{\mathrm{pred}}}
+\newcommand{\Gt}{G(t)}
+
+\title{\textbf{The Spectral Cost of Reasoning:\\
+A Dual-Force Theory of Vision--Language Model Robustness}}
+
+\author{Anonymous Submission}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Vision--language models (VLMs) collapse under mild image perturbations, yet the community has no predictive theory of \emph{why} or \emph{how much}. Existing work splits between benchmark failure catalogs (VQA-CP, Winoground, ARO) and Fourier-domain analyses of unconditional vision, leaving the \emph{conditioning text} unexamined as a physical operator. We argue that the text is an active bandpass filter $\Wt$ on the visual spectrum and that reasoning carries a measurable \emph{spectral cost}. To test this, we introduce a mirror 8-level diagnostic on GQA: four primary reasoning levels (L1--L4) that monotonically increase semantic program complexity, paired with four wordy controls (L5--L8) that hold the program fixed while inflating prompt length. This design orthogonalizes two normally-confounded forces. Using within-image fixed-effects regression we expose a \textbf{tug-of-war}: semantic complexity $\Csem$ destabilizes the model (standardized $\beta = +0.07$, 95\% CI $[+0.02, +0.11]$) while prompt load $\Cprompt$ \emph{stabilizes} it ($\beta = -1.25$, CI $[-1.39, -1.10]$). A parameter-free scalar $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ predicts gated accuracy drop across $13\times 8 = 104$ (perturbation, task) cells at $r \approx 0.75$ \emph{without any fitting to the behavioral target}. Effective filter bandwidth $\Gt$, measured via the Inverse Participation Ratio of $\Wt$, narrows monotonically with $\Csem$ but is invariant to $\Cprompt$, confirming that logic---not length---reshapes the filter. A low-pass ablation yields a task-specific cutoff $\omega_c(\Csem)$ that falls by $\sim\!45\%$ between L1 and L4, certifying that fine-grained reasoning lives in the high-frequency tail. Our results give the first quantitative, predictive, and compositional account of VLM robustness, reconcile the benchmark and Fourier camps, and identify the conditioning prompt as the principal causal variable.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{The Gap in Current Understanding}
+The dominant narrative of vision--language model (VLM) robustness rests on three disconnected pillars. The first is \emph{benchmark cataloguing}: datasets such as VQA-CP~\citep{agrawal2018vqacp}, Winoground~\citep{thrush2022winoground}, ARO~\citep{yuksekgonul2023aro}, SugarCrepe~\citep{hsieh2023sugarcrepe}, and CREPE~\citep{ma2023crepe} report compositional or distributional failures but treat the model as a black box. The second is \emph{frequency analysis of unconditional vision}: work such as \citet{yin2019fourier}, \citet{wang2020high}, and \citet{tsuzuku2019structural} shows CNNs lean on high-frequency texture, but none of these studies condition on a task-specifying prompt. The third is \emph{representation probing}: studies of cross-modal attention \citep{cao2020behind,frank2021vision,parcalabescu2022valse} describe \emph{what} a VLM looks at but do not predict robustness. The result is that we can demonstrate a VLM is fragile, measure a symptom, and describe a map---but no existing framework \emph{predicts how much} a VLM will break before the perturbation is applied.
+
+\subsection{A Dual-Force, Spectral Account}
+We propose that the conditioning text acts as a physical operator on the image's Fourier representation. A task $t$ with semantic program $\Csem(t)$ induces a task-specific radial filter $\Wt$ over vision-token frequencies, estimable directly from the cross-modal attention tensor. An image perturbation injects energy $\DF$ into the same Fourier basis. Behavioral damage is not a function of $\|\DF\|$ alone, but of the overlap integral $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$. Two covariates co-shape $\Wt$: semantic program complexity ($\Csem$, the reasoning logic) and prompt load ($\Cprompt$, the lexical surface). Natural questions confound them. Our mirror design separates them, and the resulting behavioral, representational, and internal signatures all reveal a \emph{tug-of-war}: logic destabilizes, length anchors.
+
+\subsection{Contributions}
+\begin{enumerate}[leftmargin=1.4em]
+    \item \textbf{A falsifiable spectral--behavioral law.} We derive $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ from the cross-attention filter and show it predicts gated accuracy drop at $r \approx 0.75$ across 13 perturbations $\times$ 8 task levels with \emph{zero target-side fitting}.
+    \item \textbf{A causal disentanglement protocol.} The mirror 8-level GQA design (L1--L8) isolates $\Csem$ from $\Cprompt$ at the item level. Within-image fixed-effects regression recovers opposite-signed betas, exposing the tug-of-war.
+    \item \textbf{A principled semantic-program complexity metric.} We define $\Csem = E + A + R + O + D + \ln(1+G_{\mathrm{amb}})$ grounded in GQA/CLEVR program annotation \citep{hudson2019gqa,johnson2017clevr}, Neural Module Networks \citep{andreas2016neural,hu2017learning}, referring-expression ambiguity \citep{kazemzadeh2014referitgame,mao2016generation}, and psychometric item analysis \citep{haladyna2004review}.
+    \item \textbf{Representational tuning.} The effective bandwidth $\Gt$ of the cross-modal filter, measured by the Inverse Participation Ratio, narrows with $\Csem$ and is invariant to $\Cprompt$---logic, not length, reshapes $\Wt$.
+    \item \textbf{A spectral cutoff law.} Low-pass ablation yields $\omega_c(\Csem)$ that falls monotonically with task granularity, showing fine reasoning depends on a narrower and higher-frequency vision band.
+    \item \textbf{A reproducible pipeline.} The entire framework---scoring, filtering, spectral, and analysis---is released as a modular repository and validated on Qwen3-VL-2B with $1000$ GQA samples, $13$ perturbation classes, and the full 8-level grid.
+\end{enumerate}
+
+\section{Related Work}
+
+\subsection{VLM Robustness and Compositional Generalisation}
+A large body of work documents VLM failures on controlled generalization and compositionality probes. VQA-CP~\citep{agrawal2018vqacp} and VQA v2~\citep{goyal2017making} exposed answer-prior shortcuts; GQA~\citep{hudson2019gqa} introduced scene-graph-grounded compositional questions; CLEVR~\citep{johnson2017clevr} isolated program depth in synthetic scenes. On the vision--language alignment side, Winoground~\citep{thrush2022winoground} showed SOTA VLMs fail at word-order-sensitive image--text matching, ARO~\citep{yuksekgonul2023aro} generalised the finding to attributes/relations, and SugarCrepe~\citep{hsieh2023sugarcrepe} corrected benchmark artefacts. CREPE~\citep{ma2023crepe} scaled to systematicity. Parallel probing benchmarks include VALSE~\citep{parcalabescu2022valse} and CROSSMODAL-3600~\citep{thapliyal2022crossmodal}. All of these are \emph{diagnostic}: they catalogue failures without a predictive model of when and how much failure occurs. Our $\Spred$ law is prescriptive rather than diagnostic.
+
+\subsection{Frequency-Domain Robustness in Vision}
+\citet{yin2019fourier} showed CNNs are biased towards high-frequency features, and adversarial/natural perturbations exploit this band. \citet{wang2020high} demonstrated generalization depends on high-frequency content, \citet{tsuzuku2019structural} linked adversarial vulnerability to the spectrum of the Jacobian, and \citet{abello2021dissecting} connected frequency bias to texture-vs-shape tradeoffs~\citep{geirhos2018imagenet}. Subsequent work \citep{chen2022amplitude,ortiz2021optimism} used Fourier-domain augmentation for robustness. None condition on a task-specifying prompt; the vision system's frequency response is treated as an intrinsic property. We show it is \emph{not} intrinsic---it is dynamically reshaped by the text.
+
+\subsection{Perturbation Benchmarks and Corruption Robustness}
+ImageNet-C and 3DCC~\citep{hendrycks2019benchmarking,kar20223d} systematized common corruptions; ImageNet-R and ObjectNet~\citep{hendrycks2021many,barbu2019objectnet} added distribution shift. These benchmarks enumerate perturbation classes but aggregate over tasks. We instead decompose each perturbation spectrally and ask how its Fourier signature interacts with the task-specific filter.
+
+\subsection{Cross-Modal Attention and Mechanistic Probing}
+Attention-based probes of VLMs~\citep{cao2020behind,frank2021vision,ilinykh2022attention} visualize what the language stream asks of the vision stream. Mechanistic interpretability work~\citep{merullo2024language,palit2023towards,basu2023localizing} localizes factual and visual information in VLM layers. Our estimate of $\Wt$ in \cref{eq:filter} extends this by projecting cross-modal attention into a radial Fourier basis, converting an uninterpretable attention tensor into a one-dimensional, task-conditioned filter.
+
+\subsection{Compositional Reasoning and Program Counting}
+The tradition of treating reasoning as program execution begins with Neural Module Networks~\citep{andreas2016neural,hu2017learning} and continues through CLEVR~\citep{johnson2017clevr}, GQA~\citep{hudson2019gqa}, and NS-VQA~\citep{yi2018neural}. In these frameworks, task difficulty is counted: number of modules, program depth, number of objects resolved. Our $\Csem$ is in the same family but adds the grounding-ambiguity term $\ln(1+G_{\mathrm{amb}})$ drawn from psycholinguistic work on referring expressions~\citep{kazemzadeh2014referitgame,mao2016generation,yu2016modeling}.
+
+\subsection{Prompt Sensitivity in Large Models}
+Recent LLM work~\citep{sclar2024quantifying,mizrahi2024state,salinas2024butterfly} shows output distributions shift dramatically under semantically-equivalent prompt rephrasings. \citet{anagnostidis2024susceptible} extended this to multimodal models. These works measure \emph{prompt sensitivity} but do not separate it from \emph{reasoning difficulty}; our mirror design does, and the resulting decomposition reveals that prompt load often runs \emph{opposite} to reasoning difficulty in its effect on robustness---a reversal the literature has not reported.
+
+\subsection{Positioning}
+\cref{tab:related} summarizes the landscape. Prior work is either task-free (Fourier), model-free (benchmarks), or diagnostic (probing). We are the first to (i) condition the Fourier view on a task, (ii) derive a behavioral predictor from attention alone, and (iii) disentangle semantic and lexical load with a paired mirror design.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Work} & \textbf{Task-cond.} & \textbf{Fourier} & \textbf{Predictive} & \textbf{Disentangles $\Csem$/$\Cprompt$} \\
+\midrule
+\citet{yin2019fourier}, \citet{wang2020high} & -- & \checkmark & partial & -- \\
+\citet{hendrycks2019benchmarking} & -- & -- & -- & -- \\
+\citet{thrush2022winoground}, \citet{yuksekgonul2023aro} & \checkmark & -- & -- & -- \\
+\citet{hudson2019gqa}, \citet{johnson2017clevr} & \checkmark & -- & -- & partial \\
+\citet{sclar2024quantifying}, \citet{mizrahi2024state} & -- & -- & partial & -- \\
+\textbf{This work} & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\caption{Positioning against prior robustness literature. Ours is the only framework that is simultaneously task-conditioned, spectral, predictive, and orthogonalizes logic from length.}
+\label{tab:related}
+\end{table}
+
+\section{Theoretical Framework}
+
+\subsection{Vision Tokens as a Spatial Signal}
+Let an image $I$ be encoded into $N = H\times W$ vision tokens $\{v_{ij}\}$ arranged on a rectangular grid. The cross-modal attention tensor $A_t(I) \in \mathbb{R}^{L\times H\times T\times N}$ from a task-specifying text of length $T$ to the vision tokens---taken from decoder layers $L$ and heads $H$---defines a spatial map $a_t(I)[i,j]$ after averaging over text tokens, heads, and the late third of decoder layers.
+
+\subsection{The Task-Specific Filter $\Wt$}
+We apply a 2D Hann window $h$ to $a_t(I)$, compute $\hat a_t = |\mathcal{F}_2(h \cdot a_t)|^2$, and bin the result into $B=16$ log-spaced radial frequency bands $\omega_1<\dots<\omega_B$:
+\begin{equation}
+\hat a_t(I,\omega_k) \;=\; \sum_{(i,j) \in \mathcal{R}_k} \hat a_t[i,j].
+\end{equation}
+Averaging over images and normalizing gives the task-conditioned filter
+\begin{equation}
+\Wt \;=\; \frac{\mathbb{E}_I[\hat a_t(I,\omega)]}{\sum_{\omega'} \mathbb{E}_I[\hat a_t(I,\omega')]},
+\label{eq:filter}
+\end{equation}
+a probability density on $\{\omega_1,\dots,\omega_B\}$ that captures which visual bands the text attends to. Crucially, $\Wt$ is \emph{estimated}, not posited, and requires no parameter tuning.
+
+\subsection{Effective Bandwidth via IPR}
+The concentration of $\Wt$ is summarized by the Inverse Participation Ratio:
+\begin{equation}
+\Gt \;=\; \left(\sum_\omega |\Wt|^4\right)^{-1},\qquad 1 \le \Gt \le B.
+\label{eq:ipr}
+\end{equation}
+$\Gt$ is small when the filter concentrates on a few bands and large when it spreads uniformly. IPR is standard in condensed-matter physics for measuring localization and has the advantage, over entropy-like measures, of being quadratic and stable under bootstrapping.
+
+\subsection{Perturbation Spectral Signature $\DF$}
+A perturbation $p$ with strength $\sigma$ produces $I_p = \mathcal{P}(I;\sigma)$. The spectral signature is
+\begin{equation}
+\DF_p(\omega) \;=\; \mathbb{E}_I\!\left[\left|\,|\mathcal{F}_2(I_p)|^2 - |\mathcal{F}_2(I)|^2\right|\right]_\omega,
+\end{equation}
+computed over the same $B$ radial bands. $\DF$ is entirely a property of the perturbation operator and is independent of the model.
+
+\subsection{The Overlap Law}
+Combining a task-specific filter and a perturbation signature gives a scalar \emph{predicted spectral damage}:
+\begin{equation}
+\Spred(t, p) \;=\; \sum_\omega |\Wt|^2 \cdot |\DF_p(\omega)|^2.
+\label{eq:sprod}
+\end{equation}
+$\Spred$ is dimensionally an inner product of two normalized densities; it has no free parameter. Our central empirical claim is
+\begin{equation}
+\mathbb{E}[\,\Delta\mathrm{acc}(t,p)\,] \;\propto\; \Spred(t,p)
+\label{eq:law}
+\end{equation}
+across tasks and perturbations, with a single global slope.
+
+\subsection{Semantic Program Complexity $\Csem$}
+We score each task by a structured, program-aware complexity:
+\begin{equation}
+\Csem \;=\; E + A + R + O + D + \ln(1 + G_{\mathrm{amb}}),
+\label{eq:csem}
+\end{equation}
+where (with sources):
+\begin{description}
+    \item[$E$ (entity refs).] Number of nouns resolved in the scene graph; from GQA's \texttt{select}/\texttt{query} node counts \citep{hudson2019gqa}.
+    \item[$A$ (attribute refs).] Attribute predicates; from GQA's \texttt{query\_attr} and CLEVR's attribute modules \citep{johnson2017clevr}.
+    \item[$R$ (relation refs).] Spatial/semantic relations between entities; GQA \texttt{relate} and CLEVR \texttt{relate} modules.
+    \item[$O$ (reasoning operators).] Logical steps (\texttt{select}, \texttt{filter}, \texttt{query}, \texttt{compare}, \texttt{verify}), mirroring NMN primitives \citep{andreas2016neural,hu2017learning}.
+    \item[$D$ (program depth).] Depth of the functional program tree; the key CLEVR difficulty axis.
+    \item[$G_{\mathrm{amb}}$ (grounding ambiguity).] Number of scene-graph candidates satisfying the referring expression; logarithmic form follows information-theoretic referring-expression cost \citep{kazemzadeh2014referitgame,mao2016generation,yu2016modeling}.
+\end{description}
+Prompt load is defined as content-token count:
+\begin{equation}
+\Cprompt \;=\; |\mathrm{tokens}(q) \setminus \mathcal{S}| \;+\; |\mathrm{tokens}(\mathrm{opts}) \setminus \mathcal{S}|,
+\label{eq:cprompt}
+\end{equation}
+where $\mathcal{S}$ is a conservative stopword set.
+
+\paragraph{Why equal-weighting is sufficient.} Every component of $\Csem$ is a non-negative count that by construction is weakly monotone in task granularity (L1$<$L2$<\dots<$L4). Consequently, \emph{any} strictly positive linear reweighting preserves the rank order of tasks and therefore the sign of every correlation reported here. Reweighting changes slopes, not directions. This is the same license used in CLEVR and GQA to report unweighted atom counts when the claim is about trend. Option-hardness uses the Haladyna et al. psychometric principle of same-category distractors \citep{haladyna2004review} and enters as a control, not as a component of $\Csem$.
+
+\subsection{Residualization and Fixed Effects}
+Because $\Csem$ and $\Cprompt$ are correlated in the wild, we form
+\begin{equation}
+\Cres \;=\; \Csem - \hat\Csem(\Cprompt)
+\end{equation}
+from a linear OLS of $\Csem$ on $\Cprompt$, and additionally run a horse-race
+\begin{equation}
+y \;=\; \alpha + \beta_{\Csem} \tilde\Csem + \beta_{\Cprompt} \tilde\Cprompt + \varepsilon,
+\label{eq:horse}
+\end{equation}
+with $z$-scored predictors. Pooled OLS conflates between- and within-image variance; we therefore run a within-image fixed-effects variant
+\begin{equation}
+y_{i,t} \;=\; \alpha_i + \beta_{\Csem} \Csem(t) + \beta_{\Cprompt} \Cprompt(t) + \varepsilon_{i,t},
+\label{eq:fe}
+\end{equation}
+and report both.
+
+\subsection{Cross-Modal Latent Drift $\DZ$}
+Finally, we summarize the internal mechanism by the last-token cosine distance between clean and perturbed trajectories:
+\begin{equation}
+\DZ(t,p)^{(\ell)} \;=\; 1 - \cos\!\bigl(z_t^{\mathrm{clean},(\ell)},\; z_t^{\mathrm{pert},(\ell)}\bigr),
+\label{eq:dz}
+\end{equation}
+at layer group $\ell \in \{\text{early, mid, late}\}$. We test whether $\DZ^{\text{late}}$ tracks $\Csem$ and $\DZ^{\text{early}}$ tracks $\Cprompt$---a split that would mirror the behavioral tug-of-war at the representational level.
+
+\section{Methodology}
+
+\subsection{The Mirror 8-Level GQA Design}
+We build a sample bank by parsing GQA scene graphs and generating, per image, up to eight tasks:
+
+\begin{center}
+\small
+\begin{tabular}{cll}
+\toprule
+\textbf{Level} & \textbf{Semantics} & \textbf{Example stem} \\
+\midrule
+L1 & Object presence & ``Is there a cat in the image?'' \\
+L2 & Attribute query & ``What color is the cat?'' (MCQ, same-class distractors) \\
+L3 & Spatial relation & ``Is the cat on the couch?'' \\
+L4 & Compositional & Multi-hop MCQ, program depth $\ge 3$ \\
+\midrule
+L5 & Wordy L1 & ``Taking a careful look at the scene, can you tell me if there is a cat?'' \\
+L6 & Wordy L2 & Same semantic program as L2, padded options \\
+L7 & Wordy L3 & Same as L3 with verbose scaffolding \\
+L8 & Wordy L4 & Same as L4 with verbose scaffolding \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+L5--L8 \emph{preserve the semantic atoms byte-for-byte} of their L1--L4 counterparts; only $\Cprompt$ changes. Yes/no levels (L1, L3, L5, L7) are 50/50 answer-balanced via complementary pattern pairing to remove answer-prior shortcuts.
+
+\subsection{Perturbation Bank}
+We use 13 perturbation classes drawn from ImageNet-C \citep{hendrycks2019benchmarking} and spectral-domain operators: Gaussian noise, shot noise, impulse noise, Gaussian blur, defocus blur, motion blur, JPEG compression, pixelation, elastic transform, occlusion, brightness, contrast, and a custom spectral band-drop (high-pass/low-pass sweep). Each is applied at severity 2--3 to 1000 GQA samples.
+
+\subsection{Model}
+All primary experiments use \textbf{Qwen3-VL-2B} \citep{bai2023qwen,yang2024qwen2}. Attention tensors are extracted from the late third of decoder layers, where cross-modal integration peaks \citep{cao2020behind,merullo2024language}. Vision tokens are identified via the special tokens \verb|<|vision\_start\verb|>| and \verb|<|vision\_end\verb|>|.
+
+\subsection{Five Experimental Tasks}
+\paragraph{Task 1: Behavioral baseline with gated regression.} Record gated accuracy drop (clean-correct $\rightarrow$ perturbed-wrong) and log-likelihood drift per $(t,p,i)$. Fit \cref{eq:fe} with image fixed effects and report both pooled OLS and FE betas with cluster-bootstrap 95\% CIs.
+\paragraph{Task 2: Representational tuning via IPR.} Estimate $\Wt$ by \cref{eq:filter} and $\Gt$ by \cref{eq:ipr}. Test $\mathrm{corr}(\Csem, \Gt) < 0$ and $\mathrm{corr}(\Cprompt, \Gt) \approx 0$ with Spearman.
+\paragraph{Task 3: Internal mechanism via $\DZ$.} Compute \cref{eq:dz} at early/mid/late decoder thirds and regress each against $\Csem, \Cprompt$.
+\paragraph{Task 4: Frequency ablation.} Sweep low-pass cutoffs $\omega_c$ and measure gated accuracy. Define the task cutoff as the largest $\omega_c$ at which accuracy drops by less than $\delta=0.02$; test whether $\omega_c(t)$ falls monotonically with $\Csem$.
+\paragraph{Task 5: Cross-domain validation.} Test the overlap law \cref{eq:law} on held-out perturbation families and on $\log \DZ^{\text{late}}$ as an alternative target.
+
+\subsection{Algorithmic Summary}
+\begin{algorithm}[h]
+\caption{Spectral overlap predictor}
+\label{alg:spred}
+\begin{algorithmic}[1]
+\Require Image bank $\{I_i\}$, task $t$, perturbation $p$, VLM with attention hooks
+\For{each image $I_i$}
+  \State Extract cross-modal attention $a_t(I_i)$ at late decoder third
+  \State Hann-window, 2D FFT, radial-bin $\rightarrow$ $\hat a_t(I_i,\omega)$
+  \State Apply $p$ to $I_i$; compute $\DF_p(\omega)$
+\EndFor
+\State $\Wt \gets \mathrm{normalize}(\mathbb{E}_i[\hat a_t(I_i,\omega)])$
+\State $\Spred(t,p) \gets \sum_\omega |\Wt|^2 |\DF_p(\omega)|^2$
+\State \Return $\Spred$
+\end{algorithmic}
+\end{algorithm}
+
+\section{Results}
+
+\subsection{The Tug-of-War (Task 1)}
+\cref{tab:betas} reports the pooled OLS and within-image fixed-effects betas for the gated accuracy drop. Pooled OLS alone shows a small positive $\Csem$ effect, but the within-image FE model reveals the split: $\Csem$ destabilizes at $\beta = +0.07$ and $\Cprompt$ anchors at $\beta = -1.25$. The magnitude asymmetry matters: if one aggregates natural questions where $\Csem$ and $\Cprompt$ rise together, the $\Cprompt$ anchoring dominates and the net slope on ``complexity'' appears \emph{negative}---which is precisely the sign flip reported in several prompt-sensitivity studies \citep{sclar2024quantifying,mizrahi2024state} and which our decomposition explains.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Predictor} & \textbf{Pooled OLS} $\beta$ (95\% CI) & \textbf{Within-image FE} $\beta$ (95\% CI) \\
+\midrule
+$\Csem$ (z-scored)   & $+0.03$ $[-0.01,+0.07]$ & $+0.07$ $[+0.02,+0.11]$ \\
+$\Cprompt$ (z-scored)& $-0.61$ $[-0.72,-0.50]$ & $-1.25$ $[-1.39,-1.10]$ \\
+\midrule
+$R^2$ / within-$R^2$ & 0.18 & 0.41 \\
+\bottomrule
+\end{tabular}
+\caption{Gated accuracy drop regressed on $\Csem$ and $\Cprompt$. Opposite-signed betas confirm the tug-of-war; FE magnifies the effect by removing scene confounds.}
+\label{tab:betas}
+\end{table}
+
+\subsection{Filter Bandwidth Narrows with Reasoning (Task 2)}
+The Spearman correlation between $\Csem$ and effective bandwidth $\Gt$ is $\rho = -0.58$ ($p<10^{-6}$). Crucially, $\mathrm{corr}(\Cprompt, \Gt) = -0.04$, not significantly different from zero. This is direct evidence that it is the \emph{semantic program}, not the lexical surface, that reshapes $\Wt$: L5--L8 have essentially the same $\Gt$ as their L1--L4 mirrors.
+
+\subsection{Internal Mechanism (Task 3)}
+Early-layer drift $\DZ^{\text{early}}$ correlates with $\Cprompt$ ($\rho = +0.44$) but not $\Csem$ ($\rho = -0.02$). Late-layer drift $\DZ^{\text{late}}$ reverses: strong $\Csem$ dependence ($\rho = +0.51$) and weak $\Cprompt$ dependence ($\rho = +0.09$). The internal split mirrors the behavioral tug-of-war.
+
+\subsection{Frequency Cutoff Law (Task 4)}
+The task-specific cutoff $\omega_c(\Csem)$ falls from $\omega_c(\text{L1}) = 0.58$ to $\omega_c(\text{L4}) = 0.32$ (normalized Nyquist units). Wordy mirrors L5--L8 inherit the cutoff of their primary counterpart within $\pm 0.02$, again confirming the filter is shaped by logic, not length.
+
+\subsection{Overlap Law Validation (Task 5)}
+Across all $13 \times 8 = 104$ (perturbation, task) cells, Pearson correlation of $\Spred$ with measured gated accuracy drop is $r = 0.75$ ($p < 10^{-18}$); Spearman $\rho = 0.72$. The relation holds on held-out perturbation families (leave-one-family-out: $r$ range $[0.69, 0.78]$) and on $\log \DZ^{\text{late}}$ as the target ($r = 0.71$).
+
+\section{Figure Discussion}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/forest_tug_of_war.pdf}
+    \caption{\textbf{Forest plot of the tug-of-war.} Standardized betas from \cref{eq:fe}. Within-image FE (solid) separates the two forces; pooled OLS (faded) compresses them. The opposite signs are the central empirical claim of this paper.}
+    \label{fig:forest}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/overlap_grid.pdf}
+    \caption{\textbf{The overlap law.} Gated accuracy drop vs $\Spred$ over 104 (perturbation, task) cells, single-slope fit, $r = 0.75$. No parameter in $\Spred$ is tuned on the target. Points in the low-$\Spred$ region correspond to spectrally harmless perturbations: high energy, but outside $\Wt$'s support.}
+    \label{fig:overlap}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/bandwidth_vs_csem.pdf}
+    \caption{\textbf{Bandwidth narrows with complexity.} $\Gt$ vs $\Csem$ across L1--L8. Logic (primary levels) drives the decline; length (wordy controls, same color) has no effect.}
+    \label{fig:bw}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/omega_cutoff.pdf}
+    \caption{\textbf{Task-specific cutoff.} $\omega_c$ vs $\Csem$: fine-grained reasoning tolerates less high-frequency removal. L4 loses accuracy at $\omega_c = 0.32$; L1 survives removal to $\omega_c = 0.58$.}
+    \label{fig:omegac}
+\end{figure}
+
+\section{Discussion}
+
+\paragraph{Why reasoning is spectrally costly.} The narrower $\Wt$ becomes with increasing $\Csem$, the greater its overlap with structured high-frequency perturbations---$\Spred$ grows, and damage follows. Fine reasoning literally lives in a small, high-frequency corner of the visual spectrum.
+
+\paragraph{Why length anchors.} A verbose prompt spreads attention mass across many text tokens, damping the per-token cross-modal gradient and shrinking the effective amplitude of $\Wt$ even when its support is unchanged. This explains why $\Cprompt$ stabilizes without changing $\Gt$ or $\omega_c$.
+
+\paragraph{Reconciling prior results.} Benchmark studies that report positive complexity--fragility slopes \citep{thrush2022winoground,yuksekgonul2023aro} and prompt-sensitivity studies that report negative ones \citep{sclar2024quantifying} are both correct: they are measuring the sum of two opposite-signed forces in corpora where the mix differs. Our decomposition resolves the apparent contradiction.
+
+\paragraph{Practical implications.} Robustness-aware training should (i) augment with perturbations that overlap fine-task $\Wt$, and (ii) consider deliberate prompt padding as a cheap inference-time defense---a non-obvious, testable prediction.
+
+\section{Limitations}
+All experiments use Qwen3-VL-2B; cross-model replication on LLaVA-NeXT~\citep{liu2024llavanext} and InternVL~\citep{chen2024internvl} is ongoing. $\Csem$ is equal-weighted by design; while the sign of every effect is invariant under any strictly-positive reweighting, absolute slope magnitudes are not. $\Wt$ is estimated from attention, which is a correlational lower bound on the true causal filter; activation-patching~\citep{meng2022locating} remains future work. The mirror construction is synthetic; human-judged paraphrase mirrors are a natural extension.
+
+\section{Conclusion}
+We recast the conditioning text in a VLM as an active spectral operator and show that reasoning carries a measurable, predictable spectral cost. The overlap integral $\Spred$ predicts perturbation damage across tasks and perturbations at $r \approx 0.75$ with no target-side fitting; the mirror 8-level design exposes a tug-of-war between semantic logic ($+$) and prompt length ($-$); and a task-specific cutoff $\omega_c(\Csem)$ certifies that fine reasoning depends on a narrow high-frequency band. The result unifies Fourier, compositional, and mechanistic accounts of VLM fragility under a single, falsifiable law.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
