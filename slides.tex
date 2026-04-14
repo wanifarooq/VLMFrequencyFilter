@@ -124,6 +124,7 @@
 \end{frame}
 
 \begin{frame}{The Gap in the Literature}
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
   node distance=0.6cm,
   every node/.style={font=\small},
@@ -143,13 +144,15 @@
   \draw[-{Latex[length=2mm]}, pgray] (C) -- (GC);
 
   \node[draw=paccent, line width=0.9pt, fill=paccent!10, rounded corners=3pt, minimum width=11.3cm, minimum height=1.2cm, align=center, text=paccent] at (5.5,-1.8) {\textbf{No framework predicts \emph{how much} a VLM will break \emph{before} the perturbation is applied.}};
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \end{frame}
 
 % -------------------- SECTION: CORE IDEA --------------------
 \section{The Core Idea}
 
 \begin{frame}{Our Thesis in One Picture}
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
   font=\small,
   box/.style={draw=pnavy, fill=white, rounded corners=2pt, minimum width=2.2cm, minimum height=1.0cm, align=center, text=pnavy, line width=0.6pt},
@@ -181,7 +184,8 @@
 
   % damage
   \node[lab, right=0.15cm of sp, text=paccent] {$\propto$ damage};
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \vspace{0.6em}
 \keybox{\textbf{Text is a physical operator on the image's Fourier spectrum.}\\ Damage follows the \emph{overlap} $\Spred$, not the raw magnitude $\|\DF\|$.}
 \end{frame}
@@ -200,6 +204,7 @@
 Natural questions confound them.\\
 Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose each other}.
 \column{0.50\linewidth}
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[font=\small]
   % The Wt filter being pulled two ways
   \node[draw=pnavy, fill=pnavy!8, rounded corners=2pt, line width=0.7pt, minimum width=3.5cm, minimum height=1.1cm, align=center] (W) at (0,0) {\large $\Wt$};
@@ -216,7 +221,8 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
   % outcome axis
   \draw[-{Latex[length=2mm]}, pgray] (-4,-1.6) -- (4,-1.6) node[right, font=\scriptsize] {damage};
   \node[font=\scriptsize, text=pgray] at (0,-1.95) {behavioural output};
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \end{columns}
 \vspace{0.6em}
 \keybox{\textbf{The mirror 8-level design separates the two at the item level.}}
@@ -266,7 +272,7 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
 \column{0.44\linewidth}
 \begin{tikzpicture}[scale=0.9]
   \begin{axis}[
-    width=6.4cm, height=4.6cm,
+    width=5.6cm, height=4.2cm,
     xlabel={\footnotesize radial freq.\ $\omega$},
     ylabel={\footnotesize $\Wt$},
     xtick=\empty, ytick=\empty,
@@ -310,7 +316,7 @@ Model-independent; purely a property of $p$.
 \column{0.46\linewidth}
 \begin{tikzpicture}[scale=0.9]
   \begin{axis}[
-    width=6.6cm, height=5.2cm,
+    width=5.8cm, height=4.7cm,
     xlabel={\footnotesize $\omega$},
     xtick=\empty, ytick=\empty,
     axis line style={pgray},
@@ -515,7 +521,7 @@ $n$ / $R^2$ & $8000$ / $0.187$ & $8000$ / $\mathbf{0.217}$ \\
 \column{0.54\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
-    width=7.2cm, height=5.3cm,
+    width=6.8cm, height=5.0cm,
     xlabel={\footnotesize task level},
     ylabel={\footnotesize loglik volatility},
     label style={text=pgray, font=\footnotesize},
@@ -556,8 +562,8 @@ ANOVA $F = 255$, $p < 10^{-139}$
 \column{0.52\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
-    width=7cm, height=5.3cm,
-    ybar, bar width=10pt,
+    width=6.5cm, height=5.0cm,
+    ybar, bar width=9pt,
     xlabel={\footnotesize mirror pair},
     ylabel={\footnotesize loglik volatility},
     label style={text=pgray, font=\footnotesize},
@@ -647,7 +653,7 @@ FE $\tilde\beta(\Cprompt)$                         & $-0.317$                   
 \column{0.56\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
-    width=7.4cm, height=5.4cm,
+    width=7.0cm, height=5.1cm,
     xlabel={\footnotesize task level}, ylabel={\footnotesize $\Gt^{(\ell)}$},
     label style={text=pgray, font=\footnotesize},
     xtick={1,2,3,4}, xticklabels={L1,L2,L3,L4},
@@ -689,7 +695,7 @@ FE $\tilde\beta(\Cprompt)$                         & $-0.317$                   
 \column{0.46\linewidth}
 \begin{tikzpicture}[scale=0.9]
   \begin{axis}[
-    width=6.8cm, height=5.3cm,
+    width=5.8cm, height=4.8cm,
     xlabel={\footnotesize $\omega$}, ylabel={\footnotesize $\Wt$},
     label style={text=pgray, font=\footnotesize},
     xtick=\empty, ytick=\empty,
@@ -734,8 +740,8 @@ When reasoning shifts weight into the high-freq tail:
 \column{0.50\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
-    width=7cm, height=5cm,
-    ybar, bar width=16pt,
+    width=6.3cm, height=4.8cm,
+    ybar, bar width=12pt,
     xlabel={\footnotesize layer group}, ylabel={\footnotesize Pearson $r$},
     label style={text=pgray, font=\footnotesize},
     symbolic x coords={early, mid, late, overall},
@@ -819,7 +825,7 @@ As $\Csem$ rises:
 \column{0.48\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
-    width=6.6cm, height=5.2cm,
+    width=6.0cm, height=4.8cm,
     xlabel={\footnotesize $\omega$}, xtick=\empty, ytick=\empty,
     label style={text=pgray, font=\footnotesize},
     axis line style={pgray},
