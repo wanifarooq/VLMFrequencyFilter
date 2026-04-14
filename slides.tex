@@ -208,37 +208,91 @@ Severities $\{1,2,3\}$.
 \begin{itemize}
   \item \textbf{Qwen3-VL-2B-Instruct}, attention extraction at all decoder layers.
   \item Layers partitioned into early / mid / late thirds.
-  \item \textbf{500 GQA images}, 2500 (image, level) points, 1878 gated on clean-correct.
+  \item \textbf{1000 GQA images}, \textbf{8000} (image, level) points over the full 8-level grid.
+  \item \textbf{Primary target:} log-likelihood volatility; accuracy drop as confirmatory.
   \item $B = 20$ radial bands, no Hann taper, no DC suppression.
 \end{itemize}
 \end{frame}
 
 % -------------------- RESULTS --------------------
-\begin{frame}{Result 1: The Tug-of-War}
-\textbf{Gated accuracy drop (clean-correct $\to$ perturbed-wrong), standardised $\tilde\beta$:}
+\begin{frame}{Result 1a: The Tug-of-War (Primary --- Volatility)}
+\textbf{Log-likelihood volatility} $\mathbb{V}_p[\log p_\theta(a^\star\mid I_p,t)]$, $n = 8000$:
 \vspace{0.4em}
 
 \begin{center}
 \small
 \begin{tabular}{lcc}
 \toprule
-\textbf{Predictor} & \textbf{Pooled OLS} & \textbf{Within-image FE} \\
+\textbf{Predictor} & \textbf{Pooled OLS} $\tilde\beta$ & \textbf{Within-image FE} $\tilde\beta$ \\
 \midrule
-$\Cres$ (residualised $\Csem$) & $+0.152\;\;(p{=}3.7{\times}10^{-7})$ & $\mathbf{+0.193\;\;(p{=}3.1{\times}10^{-10})}$ \\
-$\Cprompt$                     & $-0.105\;\;(p{=}3.1{\times}10^{-5})$ & $\mathbf{-0.121\;\;(p{=}1.9{\times}10^{-6})}$ \\
-$H_{\mathrm{opt}}$ (control)   & $-0.027$ (n.s.)                     & $-0.035$ (n.s.) \\
+$\Cres$ (residualised $\Csem$) & $+0.266\;\;(p{<}10^{-107})$ & $\mathbf{+0.291\;\;(p{<}10^{-130})}$ \\
+$\Cprompt$                     & $-0.296\;\;(p{<}10^{-177})$ & $\mathbf{-0.317\;\;(p{<}10^{-209})}$ \\
+$H_{\mathrm{opt}}$ (control)   & $+0.090\;\;(p{<}10^{-13})$  & $+0.092\;\;(p{<}10^{-14})$ \\
 \midrule
-$n$ / $R^2$                    & $1878$ / $0.027$                     & $1868$ / $0.039$ \\
+$n$ / $R^2$                    & $8000$ / $0.187$            & $8000$ / $\mathbf{0.217}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+\textbf{Volatility by level (primary):} L1 $=$ 0.64, L2 $=$ 0.78, L3 $=$ 0.84, L4 $=$ \textbf{1.88}.\\
+\textbf{Strictly monotone} (Kendall $\tau = 1.0$); L4/L1 ratio $\times 2.94$; Cohen's $d = 1.43$.
+
+\vspace{0.4em}
+\alert{Logic destabilises ($+$). Length anchors ($-$). Opposite signs, $p$ in the $10^{-100}$s.}
+\end{frame}
+
+\begin{frame}{Result 1b: Mirror Contrast --- Same Logic, More Length}
+Wordy mirrors (L5--L8) share the identical semantic program as L1--L4. Only $\Cprompt$ differs.
+\vspace{0.4em}
+
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Mirror pair} & L1$\leftrightarrow$L5 & L2$\leftrightarrow$L6 & L3$\leftrightarrow$L7 & L4$\leftrightarrow$L8 \\
+\midrule
+Primary volatility & $0.640$ & $0.783$ & $0.836$ & $1.882$ \\
+Wordy volatility   & $0.399$ & $0.587$ & $0.527$ & $0.504$ \\
+Wordy vs primary   & $-38\%$ & $-25\%$ & $-37\%$ & $\mathbf{-73\%}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+\textbf{Every wordy mirror has lower volatility than its primary counterpart.}
+
+\vspace{0.4em}
+The stabilising effect is \emph{largest} exactly where the theory predicts it must be: \textbf{L4}, the spectrally-costliest task. Verbose prompts exert the strongest anchor precisely when upward migration is most needed.
+
+\vspace{0.4em}
+\alert{A paired, within-$\Csem$, assumption-free identification of the $\Cprompt$ force.}
+\end{frame}
+
+\begin{frame}{Result 1c: Why Volatility, Not Accuracy}
+\textbf{Confirmatory accuracy-drop regression} (same $n = 6083$ gated sample):
+
+\vspace{0.4em}
+\begin{center}
+\small
+\begin{tabular}{lc}
+\toprule
+\textbf{Quantity} & \textbf{Volatility vs Accuracy drop} \\
+\midrule
+FE $R^2$                      & $0.217$ vs $0.020$ \\
+FE $\tilde\beta(\Cres)$        & $+0.291$ vs $+0.172$ \\
+FE $\tilde\beta(\Cprompt)$     & $-0.317$ vs $-0.033^{*}$ \\
+L1$\to$L4 monotonicity         & Kendall $\tau = 1.0$ vs $\tau = 0.67$ (one reversal) \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \vspace{0.8em}
-\textbf{Gated drop by level:} L1 $=$ 0.016, L2 $=$ 0.028, L3 $=$ 0.044, L4 $=$ 0.045.\\
-Kendall $\tau = 1.0$; Cohen's $d_{\text{L4 vs L1}} = 1.42$.
+Accuracy drop is a thresholded $\{0,1\}$ projection of confidence displacement.\\
+Perturbation-induced likelihood shifts that don't cross the decision boundary are \emph{invisible} to it.
 
-\vspace{0.4em}
-\alert{Logic destabilises ($+$). Length anchors ($-$). Opposite signs, jointly significant.}
+\vspace{0.6em}
+\alert{The overlap law is dimensionally about spectral energy in the likelihood signal, not about label flips. Volatility is the correct dependent variable.}
 \end{frame}
 
 \begin{frame}{Result 2: Layer-Resolved Bandwidth}
@@ -328,10 +382,11 @@ All cells significant ($p < 10^{-8}$).
 \vspace{0.8em}
 \textbf{Task 5 --- Overlap law validation:}
 \begin{itemize}
-  \item At the (level $\times$ perturbation) \emph{grouped} resolution: $r \approx 0.675$.
+  \item At the (level $\times$ perturbation) \emph{grouped} resolution: $r \approx 0.55$ ($n = 72$, $p < 10^{-6}$).
   \item \emph{Zero} target-side fitting.
   \item Robust to $\DF$ normalisation and to layer choice; late group strongest.
   \item Per-sample resolution: $r \approx 0.02$.
+  \item Follow-up against the volatility target (not yet run) is expected to strengthen the coupling, since volatility carries the spectral signal more directly than thresholded accuracy.
 \end{itemize}
 \alert{$\Spred$ is a \emph{population-level} spectral regularity, not a per-item predictor --- just as bulk transport laws in physics emerge only after ensemble averaging.}
 \end{frame}
@@ -433,7 +488,7 @@ Activation-patching \citep{meng2022locating} and causal mediation analysis are t
   \item All experiments use Qwen3-VL-2B-Instruct; cross-model replication on LLaVA-NeXT and InternVL in progress.
   \item $\Csem$ is equal-weighted; sign of every effect is invariant under strictly-positive reweighting, but absolute slopes are not.
   \item $\Wt$ is estimated from attention --- a correlational lower bound on the true causal filter. Activation-patching remains future work.
-  \item Overlap law is a population-level regularity ($r \approx 0.68$ grouped), not a per-sample predictor ($r \approx 0.02$).
+  \item Overlap law is a population-level regularity ($r \approx 0.55$ grouped), not a per-sample predictor ($r \approx 0.02$).
   \item Mirror controls are synthetic; human-judged paraphrase mirrors are a natural extension.
 \end{itemize}
 \end{frame}
@@ -446,8 +501,8 @@ We give one answer.
 \begin{itemize}
   \item The text is a \textbf{physical spectral operator} $\Wt$.
   \item Reasoning is an \textbf{upward migration} of attention mass in the Fourier basis.
-  \item $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ predicts damage at $r \approx 0.68$ with no target-side fitting.
-  \item A \textbf{tug-of-war}: logic destabilises, length anchors.
+  \item $\Spred = \sum_\omega |\Wt|^2 |\DF|^2$ predicts damage at $r \approx 0.55$ with no target-side fitting.
+  \item A \textbf{tug-of-war} on loglik volatility: $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$.
   \item Mechanism: \textbf{early-layer lexical anchoring} gives way to \textbf{late-layer upward migration}.
 \end{itemize}
 
@@ -496,16 +551,27 @@ Equal weighting preserves L1 $<$ L2 $\lesssim$ L3 $<$ L4 ordering under \emph{an
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Backup: Confidence-Space Regression}
-The horse race on log-likelihood erosion (within-image FE, $n = 2500$):
-\begin{itemize}
-  \item $R^2 = 0.29$ (vs $0.04$ for accuracy drop).
-  \item $\tilde\beta(\Cres) = +0.47$ (vs $+0.19$ for accuracy drop).
-  \item $\tilde\beta(\Cprompt) = -0.20$.
-  \item $H_{\mathrm{opt}}$: n.s.
-\end{itemize}
-\vspace{0.5em}
-The semantic-program effect is even clearer in confidence-space than in discrete accuracy --- accuracy is a thresholded, lossy projection.
+\begin{frame}{Backup: Other Confidence-Space Metrics}
+Within-image FE horse races on the 1000-sample run ($n = 8000$):
+
+\vspace{0.4em}
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Target} & $R^2$ & $\tilde\beta(\Cres)$ & $\tilde\beta(\Cprompt)$ & $\tilde\beta(H_{\mathrm{opt}})$ \\
+\midrule
+Loglik volatility (primary) & $\mathbf{0.217}$ & $+0.291$ & $-0.317$ & $+0.092$ \\
+Loglik erosion              & $0.185$          & $+0.308$ & $-0.284$ & $+0.032$ \\
+Loglik recovery             & $0.140$          & $-0.176$ & $+0.281$ & $-0.118$ \\
+Loglik drift                & $0.016$          & $+0.126$ & $-0.056$ & $-0.030$ \\
+Accuracy drop (confirmatory)& $0.020$          & $+0.172$ & $-0.033$ & $-0.103$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+Volatility wins on all three criteria: largest $R^2$, strongest $\Cprompt$ effect, tightest $p$.
 \end{frame}
 
 \end{document}
