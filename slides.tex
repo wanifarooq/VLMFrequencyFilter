@@ -389,8 +389,8 @@ y_{i,t} &= \alpha_i + \beta_{\Csem}\Csem(t) + \beta_{\Cprompt}\Cprompt(t) + \bet
 \begin{block}{\textcolor{pnavy}{Primary}}
 \small
 Log-likelihood volatility\\
-$\mathbb{V}_p[\log p_\theta(a^\star\mid I_p,t)]$\\
-continuous, model-native
+$\mathbb{E}_p\!\bigl[\,|\log p_\theta(a^\star\mid I_p,t) - \log p_\theta(a^\star\mid I,t)|\,\bigr]$\\
+\scriptsize mean absolute drift (L1)
 \end{block}
 \column{0.48\linewidth}
 \begin{block}{\textcolor{pnavy}{Secondary}}
@@ -478,7 +478,7 @@ No Hann taper, no DC suppression
 \section{Results}
 
 \begin{frame}{Result 1a: The Tug-of-War on Volatility}
-\textbf{Log-likelihood volatility} $\mathbb{V}_p[\log p_\theta(a^\star\mid I_p,t)]$, $n = 8000$:
+\textbf{Log-likelihood volatility} $\mathbb{E}_p\!\bigl[\,|\log p_\theta(a^\star\mid I_p,t) - \log p_\theta(a^\star\mid I,t)|\,\bigr]$, $n = 8000$:
 \vspace{0.4em}
 \begin{center}
 \small
