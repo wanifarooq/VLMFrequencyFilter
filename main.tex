@@ -437,6 +437,10 @@ All experiments use Qwen3-VL-2B; cross-model replication on LLaVA-NeXT~\citep{li
 \section{Conclusion}
 The motivating question of this paper was practical: can we, before deploying a VLM on a given task under a given corruption profile, predict how badly it will break? Existing work can catalogue failures, show that CNNs respond to high-frequency content, or describe what cross-modal attention looks at, but none of these sources gives a practitioner a number. We give one. By recasting the conditioning text as an active spectral operator and treating reasoning as an upward migration of attentional mass in the Fourier basis, we derive a parameter-free predictor $\Spred$ that tracks behavioural damage at the (level $\times$ perturbation) grouped resolution at $r \approx 0.55$ without any target-side fitting; we expose a tug-of-war in which semantic logic destabilises log-likelihood volatility ($R^2 = 0.22$, $\tilde\beta(\Cres) = +0.29$, $p < 10^{-130}$) while prompt length anchors it ($\tilde\beta(\Cprompt) = -0.32$, $p < 10^{-209}$), with every wordy mirror showing 25--73\% lower volatility than its primary counterpart; we verify the tug-of-war survives even the lossy thresholding to discrete accuracy; we identify the physical mechanism as early-layer lexical anchoring giving way to late-layer upward spectral migration; and we certify with a low-pass ablation that fine-grained reasoning genuinely depends on the high-frequency vision band. The immediate payoff is a deployment audit tool---one that turns silent VLM failure into an engineerable, pre-computable quantity---and a family of cheap, training-free interventions (augmentation targeted at $\Wt$, prompt padding as a stabiliser) that follow directly from the theory. The broader payoff is that the Fourier, compositional, and mechanistic accounts of VLM fragility, which until now have talked past each other, become three facets of a single falsifiable law.
 
+
+
+
+
 \bibliographystyle{plainnat}
 \bibliography{references}
 
