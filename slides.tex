@@ -189,8 +189,8 @@
 \vspace{0.6em}
 \keybox{\textbf{Text is a physical operator on the image's Fourier spectrum.}\\ Damage follows the \emph{overlap} $\Spred$, not the raw magnitude $\|\DF\|$.}
 \end{frame}
-
-\begin{frame}{Two Covariates on the Filter: The Tug-of-War}
+%
+\begin{frame}{Can we control the damage? }
 \begin{columns}[T,onlytextwidth]
 \column{0.50\linewidth}
 \textbf{Semantic program complexity} $\Csem$\\
@@ -209,14 +209,14 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
   % The Wt filter being pulled two ways
   \node[draw=pnavy, fill=pnavy!8, rounded corners=2pt, line width=0.7pt, minimum width=3.5cm, minimum height=1.1cm, align=center] (W) at (0,0) {\large $\Wt$};
 
-  \node[draw=paccent, fill=paccent!10, rounded corners=2pt, line width=0.7pt, text=paccent] (cs) at (-3.3, 0) {$\Csem\;(+)$};
-  \node[draw=pgreen, fill=pgreen!10, rounded corners=2pt, line width=0.7pt, text=pgreen] (cp) at (3.3, 0) {$\Cprompt\;(-)$};
+  \node[raw=pgreen, fill=pgreen!10, rounded corners=2pt, line width=0.7pt, text=pgreen] (cs) at (-3.3, 0) {$\Cprompt\;(+)$};
+  \node[draw=paccent, fill=paccent!10, rounded corners=2pt, line width=0.7pt, text=paccent] (cp) at (3.3, 0) {$\Csem\;(-)$};
 
-  \draw[{Latex[length=3mm]}-, line width=1.4pt, paccent] (W.west) -- (cs.east);
-  \draw[-{Latex[length=3mm]}, line width=1.4pt, pgreen] (W.east) -- (cp.west);
+  \draw[{Latex[length=3mm]}-, line width=1.4pt, pgreen]  (cs.east) -- (W.west) ;
+  \draw[-{Latex[length=3mm]}, line width=1.4pt, paccent] (W.east) -- (cp.west);
 
-  \node[below=0.1cm of cs, font=\scriptsize, text=paccent] {destabilises};
-  \node[below=0.1cm of cp, font=\scriptsize, text=pgreen] {anchors};
+  \node[below=0.1cm of cs, font=\scriptsize, text=pgreen] {stabilizes};
+  \node[below=0.1cm of cp, font=\scriptsize, text=paccent] {destabilizes};
 
   % outcome axis
   \draw[-{Latex[length=2mm]}, pgray] (-4,-1.6) -- (4,-1.6) node[right, font=\scriptsize] {damage};
