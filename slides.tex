@@ -53,8 +53,8 @@
   \end{center}
 }
 
-\title{\textbf{The Spectral Cost of Reasoning}}
-\subtitle{A Dual-Force Theory of Vision--Language Model Robustness}
+\title{\textbf{Prompt Verbosity as a Spectral Stabiliser}}
+\subtitle{A Frequency-Filter Account of Vision--Language Model Robustness}
 \author{Anonymous Submission}
 \institute{Vision--Language Robustness}
 \date{}
@@ -68,8 +68,8 @@
   \fill[pnavy] (current page.north west) rectangle ([yshift=-3.6cm]current page.north east);
   % accent strip
   \fill[paccent] ([yshift=-3.6cm]current page.north west) rectangle ([yshift=-3.75cm]current page.north east);
-  \node[anchor=north west, text=white, font=\Huge\bfseries] at ([xshift=0.8cm, yshift=-1.1cm]current page.north west) {The Spectral Cost of Reasoning};
-  \node[anchor=north west, text=white, font=\large] at ([xshift=0.8cm, yshift=-2.4cm]current page.north west) {A Dual-Force Theory of Vision--Language Model Robustness};
+  \node[anchor=north west, text=white, font=\Huge\bfseries] at ([xshift=0.8cm, yshift=-1.1cm]current page.north west) {Prompt Verbosity as a Spectral Stabiliser};
+  \node[anchor=north west, text=white, font=\large] at ([xshift=0.8cm, yshift=-2.4cm]current page.north west) {A Frequency-Filter Account of Vision--Language Model Robustness};
   % small spectrum icon
   \begin{scope}[xshift=11.8cm, yshift=-1.9cm]
     \foreach \i/\h in {0/0.3,1/0.55,2/0.9,3/1.1,4/0.75,5/0.4,6/0.25}{
@@ -78,7 +78,7 @@
   \end{scope}
 
   \node[anchor=north west, font=\normalsize, text=pnavy] at ([xshift=0.8cm, yshift=-4.6cm]current page.north west) {\textbf{Anonymous Submission}};
-  \node[anchor=north west, font=\small, text=pgray] at ([xshift=0.8cm, yshift=-5.1cm]current page.north west) {Predicting when, why, and how much VLMs break.};
+  \node[anchor=north west, font=\small, text=pgray] at ([xshift=0.8cm, yshift=-5.1cm]current page.north west) {Verbose prompts make VLMs more robust --- and we explain why.};
 
   % key formula card
   \node[draw=paccent, fill=paccent!5, line width=0.8pt, rounded corners=3pt, inner sep=10pt, text=pnavy, font=\Large] at ([xshift=0cm, yshift=-6.8cm]current page.north) {$\;\Spred(t,p) \;=\; \textstyle\sum_\omega |\Wt|^2\, |\DF|^2 \;$};
@@ -231,18 +231,18 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
 \begin{frame}{Contributions at a Glance}
 \begin{columns}[T,onlytextwidth]
 \column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{Theory}}
+\begin{block}{\textcolor{pnavy}{Headline}}
 \small
-\textbf{1.} A falsifiable spectral--behavioural law $\Spred$ with \emph{zero target-side fitting}.\\[0.3em]
-\textbf{2.} Upward spectral migration as the mechanism of the tug-of-war.\\[0.3em]
-\textbf{3.} A program-aware complexity metric grounded in GQA/CLEVR, NMN, referring expressions, psychometrics.
+\textbf{1.} \textbf{Verbose prompts stabilise VLMs.} $25$--$73\%$ volatility reduction across mirror pairs (L5--L8 vs L1--L4), strongest at the spectrally-costliest L4. Not previously reported.\\[0.3em]
+\textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt, \DF\rangle$ \emph{explains} the stabilisation: verbose prompts broaden $\Wt$ at late layers and shrink overlap with natural-perturbation $\DF$. Zero target-side fitting.\\[0.3em]
+\textbf{3.} Three-stage layer trajectory (length prior $\to$ uniform compression $\to$ downward concentration) as the mechanism.
 \end{block}
 \column{0.48\linewidth}
 \begin{block}{\textcolor{pnavy}{Method \& Evidence}}
 \small
-\textbf{4.} Mirror 8-level GQA design (L1--L8) isolates $\Csem$ from $\Cprompt$ at the item level.\\[0.3em]
-\textbf{5.} Layer-resolved tuning: early layers anchor on $\Cprompt$, late layers converge on $\Csem$.\\[0.3em]
-\textbf{6.} Reproducible, deployable pipeline --- released as a modular repository.
+\textbf{4.} Mirror 8-level GQA design (L1--L8) isolates $\Csem$ from $\Cprompt$ at the item level. Within-image FE recovers the tug-of-war: $\beta_{\Cprompt} < 0$, $\beta_{\Cres} > 0$.\\[0.3em]
+\textbf{5.} Program-aware complexity metric grounded in GQA/CLEVR, NMN, referring expressions, psychometrics.\\[0.3em]
+\textbf{6.} Reproducible, deployable pipeline --- released as a modular repository. Prompt padding is the cheapest training-free defence.
 \end{block}
 \end{columns}
 \end{frame}
@@ -307,12 +307,19 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
 Model-independent; purely a property of $p$.
 
 \vspace{0.8em}
+\textbf{Two forms, both parameter-free:}
+\begin{align*}
+\Spred^{\mathrm{quad}} &= \textstyle\sum_\omega |\Wt|^2|\DF|^2 \\
+\Spred^{\mathrm{lin}}  &= \langle \Wt, \DF\rangle = \textstyle\sum_\omega \Wt \cdot \DF
+\end{align*}
+
+\vspace{0.4em}
 \textbf{Central claim:}
 \[
 \mathbb{E}[\,\Delta\mathrm{acc}(t,p)\,] \;\propto\; \Spred(t,p)
 \]
 
-\keybox{\textbf{Damage follows the \emph{overlap}, not raw energy.}\\Perturbations outside $\Wt$'s support are invisible.}
+\keybox{\textbf{Damage follows the \emph{overlap}, not raw energy.}\\Linear form reproduces the $\beta_{\Cprompt}<0$ sign via \emph{mass relocation}.}
 \column{0.46\linewidth}
 \begin{tikzpicture}[scale=0.9]
   \begin{axis}[
@@ -690,47 +697,94 @@ FE $\tilde\beta(\Cprompt)$                         & $-0.317$                   
 \end{columns}
 \end{frame}
 
-\begin{frame}{Upward Spectral Migration}
+\begin{frame}{Late-Layer Downward Concentration}
 \begin{columns}[T,onlytextwidth]
 \column{0.46\linewidth}
 \begin{tikzpicture}[scale=0.9]
   \begin{axis}[
     width=5.8cm, height=4.8cm,
-    xlabel={\footnotesize $\omega$}, ylabel={\footnotesize $\Wt$},
+    xlabel={\footnotesize $\omega$}, ylabel={\footnotesize $\Wt^{(\text{late})}$},
     label style={text=pgray, font=\footnotesize},
     xtick=\empty, ytick=\empty,
     axis line style={pgray},
     xmin=0, xmax=10, ymin=0, ymax=1.15,
     legend style={font=\scriptsize, draw=none, fill=none, at={(0.98,0.98)}, anchor=north east}
   ]
-    % L1: low-freq dominant
+    % L1: less concentrated, broader low-freq mass
     \addplot[line width=1.2pt, pnavy, fill=pnavy!15, fill opacity=0.5] coordinates {
-      (0,0.45) (1,0.85) (2,1.0) (3,0.70) (4,0.32) (5,0.14) (6,0.06) (7,0.03) (8,0.02) (9,0.01) (10,0.005)
+      (0,0.55) (1,0.78) (2,0.88) (3,0.62) (4,0.35) (5,0.20) (6,0.12) (7,0.07) (8,0.04) (9,0.02) (10,0.01)
     } \closedcycle;
     \addlegendentry{L1 (coarse)}
-    % L4: upward migration
+    % L4: downward concentration onto top-1/top-2 bins, thinner tail
     \addplot[line width=1.2pt, paccent, fill=paccent!20, fill opacity=0.5] coordinates {
-      (0,0.35) (1,0.62) (2,0.72) (3,0.55) (4,0.48) (5,0.55) (6,0.50) (7,0.38) (8,0.22) (9,0.10) (10,0.04)
+      (0,0.78) (1,1.05) (2,0.62) (3,0.32) (4,0.18) (5,0.10) (6,0.06) (7,0.03) (8,0.02) (9,0.01) (10,0.005)
     } \closedcycle;
     \addlegendentry{L4 (fine)}
   \end{axis}
 \end{tikzpicture}
 \column{0.50\linewidth}
 \small
-\textbf{Why does $\Gt$ \emph{fall} as the filter reaches higher?}
+\textbf{Why does $\Gt^{(\text{late})}$ fall with $\Csem$?}
 
 \vspace{0.3em}
-Low-freq bands carry the bulk of absolute power by default.\\
-When reasoning shifts weight into the high-freq tail:
+Mass concentrates \emph{downward} onto the lowest one or two bins:
 \begin{itemize}\setlength\itemsep{0.2em}
-  \item A few high-freq bands stand out above the residual mass.
-  \item Distribution looks peakier $\Rightarrow$ $\Gt$ drops.
-  \item But effective \emph{support} has widened upward.
+  \item top-$2$ mass \textbf{rises} monotonically with $\Csem$.
+  \item high-freq tail mass \textbf{falls} monotonically.
+  \item $\rho(\Gt^{(\text{late})}, \mathrm{rank}) = -1.0$.
 \end{itemize}
 
 \vspace{0.4em}
-\keybox{\small ``Narrowing'' is not contraction.\\ It is \textbf{upward migration} against a persistent low-freq floor.}
+\keybox{\small Mass does \textbf{not} climb upward.\\ It piles up onto DC \& DC-adjacent bins --- exactly where natural perturbation $\DF$ also lives.}
 \end{columns}
+\end{frame}
+
+\begin{frame}{Shape Signatures (Late Layer)}
+\small
+Because $\Gt$ conflates spread and location, we report direct shape statistics on the late-layer filter:
+
+\vspace{0.4em}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Statistic} & \textbf{L1 (coarse)} & \textbf{L4 (fine)} \\
+\midrule
+top-2 mass (two largest bins)    & lower & \textbf{higher} ($\rho>0$) \\
+high-freq tail mass              & larger & \textbf{thinner} ($\rho<0$) \\
+top-3 mass (three largest bins)  & --- & informational \\
+centroid along $\omega$          & --- & shifts slightly down \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+\textbf{Downward concentration:} the late-layer filter for finer tasks pools its mass into the lowest one or two bins. The high-frequency tail \emph{thins} rather than fattens. Earlier ``upward migration / tail growth'' framing is retracted on these data.
+
+\vspace{0.5em}
+\keybox{\small Top-$2$ mass and tail mass are the two load-bearing gates; both flip sign vs the earlier prediction. $\Gt$ alone misses the location story.}
+\end{frame}
+
+\begin{frame}{Theorem 4 --- Three-Stage Trajectory \& Length Prior}
+\small
+\textbf{Claim.} $\Wt(\ell)$ moves through three stages with depth:
+\begin{itemize}\setlength\itemsep{0.15em}
+  \item \textbf{Early:} prompt-length prior --- longer prompts $\to$ more concentrated; levels cluster by token count, not $\Csem$.
+  \item \textbf{Mid:} uniform compression --- all 8 levels collapse to $\Gt^{(\text{mid})} \approx 2.0$.
+  \item \textbf{Late:} $\Csem$-driven downward concentration with \textbf{asymmetric relaxation} --- wordy mirrors relax \emph{further} than their semantic counterparts because they began more concentrated.
+\end{itemize}
+
+\vspace{0.4em}
+\textbf{Layer-wise signature (divergence, not convergence):} for each mirror pair $(L_i, L_{i+4})$,
+\[
+\underbrace{|\mathrm{shape}(\text{early})\,\text{diff}|}_{\text{small}} \quad\to\quad \underbrace{|\mathrm{shape}(\text{late})\,\text{diff}|}_{\textbf{larger}}
+\]
+The wordy-vs-base gap \emph{grows} with depth (8/8 metric checks).
+
+\vspace{0.4em}
+\textbf{Why $\beta_{\Cprompt}<0$?} Asymmetric late-layer relaxation lands the wordy filter on a \emph{broader} late-layer shape, lowering $\langle\Wt^{(\text{late})},\DF\rangle$ linearly. Drift drops mechanically.
+
+\vspace{0.4em}
+\keybox{\small Wordy prompts are not calming the model --- they trigger an early-layer length prior whose late-layer relaxation lands on a broader, less DC-exposed filter.}
 \end{frame}
 
 \begin{frame}{Result 3: Overlap Predicts Internal Drift}
@@ -812,16 +866,16 @@ All cells significant ($p < 10^{-8}$).
 \begin{columns}[T,onlytextwidth]
 \column{0.48\linewidth}
 \small
-As $\Csem$ rises:
+As $\Csem$ rises (late layer):
 \begin{enumerate}\setlength\itemsep{0.3em}
-  \item Attention mass migrates \textbf{upward} into the high-freq tail.
-  \item Low-freq floor \textbf{persists}.
-  \item New weight lands exactly where structured perturbations (noise, blur edges, JPEG) deposit energy.
-  \item $\Spred$ grows $\Rightarrow$ damage follows.
+  \item Late-layer mass concentrates \textbf{downward} onto the top-$1$/top-$2$ bins (DC \& near-DC).
+  \item High-freq tail \textbf{thins}.
+  \item Natural perturbations $\DF$ also live on DC \& near-DC ($80$--$96\%$ of mass).
+  \item $\langle\Wt^{(\text{late})},\DF\rangle$ grows $\Rightarrow$ damage follows.
 \end{enumerate}
 
 \vspace{0.6em}
-\keybox{\small Fine reasoning is spectrally costly not because it \emph{shrinks} the filter, but because it \emph{reaches higher}.}
+\keybox{\small Fine reasoning is spectrally costly because the late-layer filter concentrates onto exactly the bins where natural perturbations also live.}
 \column{0.48\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
@@ -851,23 +905,23 @@ As $\Csem$ rises:
 \end{columns}
 \end{frame}
 
-\begin{frame}{Why Length Anchors: The Layer-Wise Mechanism}
+\begin{frame}{Why Length Anchors: The Three-Stage Trajectory}
 \begin{center}
 \begin{tikzpicture}[font=\small,
   box/.style={draw=pnavy, fill=white, rounded corners=2pt, minimum width=2.8cm, minimum height=1.3cm, align=center, text=pnavy, line width=0.6pt}
 ]
-  \node[box, fill=pgreen!10, draw=pgreen, text=pgreen] (early) at (0,0) {\textbf{Early layers}\\ \footnotesize lexical resolution\\ $\Gt$ tracks $\Cprompt$};
-  \node[box] (mid) at (4.5,0) {\textbf{Mid layers}\\ \footnotesize transition\\ mass propagates};
-  \node[box, fill=paccent!10, draw=paccent, text=paccent] (late) at (9,0) {\textbf{Late layers}\\ \footnotesize semantic integration\\ $\Gt$ tracks $\Csem$};
+  \node[box, fill=pgreen!10, draw=pgreen, text=pgreen] (early) at (0,0) {\textbf{Early}\\ \footnotesize length prior\\ levels cluster by\\ token count};
+  \node[box] (mid) at (4.5,0) {\textbf{Mid}\\ \footnotesize uniform compression\\ all 8 levels collapse};
+  \node[box, fill=paccent!10, draw=paccent, text=paccent] (late) at (9,0) {\textbf{Late}\\ \footnotesize $\Csem$-driven\\ downward concentration\\ asymmetric relaxation};
 
   \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (early) -- (mid);
   \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (mid) -- (late);
 
-  \node[text=pgray, font=\scriptsize, below=0.3cm of mid, align=center] {verbose prompts compress early-layer mass\\ into the low-frequency floor};
+  \node[text=pgray, font=\scriptsize, below=0.3cm of mid, align=center] {prior is largely erased\\ before semantics engages};
 
-  \node[text=paccent, font=\scriptsize, below=0.3cm of late, align=center] {damps upward migration;\\ late $\Wt$ less high-freq exposed};
+  \node[text=paccent, font=\scriptsize, below=0.3cm of late, align=center] {wordy mirrors relax \emph{further};\\ wordy-vs-base gap grows};
 
-  \node[draw=paccent, fill=paccent!5, line width=0.9pt, rounded corners=3pt, inner sep=7pt, text width=0.9\linewidth, align=center] at (4.5,-3.5) {\textbf{Length anchors because the model spends its first layers settling lexical load, leaving less ``spectral budget'' for upward migration.}};
+  \node[draw=paccent, fill=paccent!5, line width=0.9pt, rounded corners=3pt, inner sep=7pt, text width=0.9\linewidth, align=center] at (4.5,-3.5) {\textbf{Length anchors because the early-layer length prior gives wordy prompts a more concentrated starting filter, and the late-layer asymmetric relaxation lands them on a broader, less DC-exposed shape than their semantic counterparts.}};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -975,23 +1029,20 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 \end{frame}
 
 \begin{frame}{Conclusion}
-\keybox{Can we predict, \emph{before} deploying a VLM, how badly it will break on a given task under a given corruption profile?}
+\keybox{\textbf{Verbose prompts make VLMs measurably more robust to image perturbations} --- and we explain why.}
 \vspace{0.3em}
 
-\textbf{We give one answer.}
+\textbf{What we found.}
 \begin{itemize}\setlength\itemsep{0.25em}
-  \item The text is a \textcolor{pnavy}{\textbf{physical spectral operator}} $\Wt$.
-  \item Reasoning is an \textcolor{paccent}{\textbf{upward migration}} of attention mass in the Fourier basis.
-  \item $\Spred = \sum_\omega |\Wt|^2|\DF|^2$ predicts damage at $r \approx 0.55$ with \emph{no} target-side fitting.
-  \item A \textbf{tug-of-war} on loglik volatility: $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$.
-  \item \textbf{Mechanism:} early-layer lexical anchoring $\to$ late-layer upward migration.
+  \item \textbf{Headline:} every wordy mirror L5--L8 has $25$--$73\%$ lower volatility than its byte-identical-semantics counterpart L1--L4. Largest at the spectrally-costliest L4. Not previously reported.
+  \item \textbf{Mechanism:} text is a \textcolor{pnavy}{\textbf{spectral operator}} $\Wt$; verbose prompts \emph{broaden} $\Wt$ at late layers, shrinking overlap with natural-perturbation $\DF$.
+  \item \textbf{Predictor:} $\langle\Wt,\DF\rangle$ predicts damage at $r = 0.471$ ($p < 10^{-36}$) with \emph{no} target-side fitting.
+  \item \textbf{Trajectory:} early-layer length prior $\to$ mid-layer uniform compression $\to$ late-layer $\Csem$-driven downward concentration with asymmetric relaxation on wordy mirrors.
+  \item \textbf{Tug-of-war:} $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$ --- logic destabilises, length anchors.
 \end{itemize}
 
 \vspace{0.4em}
-\textcolor{pnavy}{\textbf{Immediate payoff:}} a deployment audit tool that turns silent failure into an engineerable quantity --- plus training-free interventions.
-
-\vspace{0.2em}
-\textcolor{pnavy}{\textbf{Broader payoff:}} Fourier, compositional, and mechanistic accounts become three facets of a single falsifiable law.
+\textcolor{pnavy}{\textbf{Immediate payoff:}} prompt padding is a \emph{cheap, training-free defence} for VLM robustness --- and a deployment audit tool that turns silent failure into an engineerable quantity.
 \end{frame}
 
 \begin{frame}[plain]
