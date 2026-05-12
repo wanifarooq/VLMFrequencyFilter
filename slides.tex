@@ -583,11 +583,11 @@ ANOVA $F = 255$, $p < 10^{-139}$
     enlarge x limits=0.15
   ]
     \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {
-      (L1/L5, 0.640) (L2/L6, 0.783) (L3/L7, 0.836) (L4/L8, 1.882)
+      (L1/L5, 2.136) (L2/L6, 3.461) (L3/L7, 2.171) (L4/L8, 3.375)
     };
     \addlegendentry{primary}
     \addplot[fill=pgreen!70, draw=pgreen!80!black] coordinates {
-      (L1/L5, 0.399) (L2/L6, 0.587) (L3/L7, 0.527) (L4/L8, 0.504)
+      (L1/L5, 0.805) (L2/L6, 2.061) (L3/L7, 0.937) (L4/L8, 1.852)
     };
     \addlegendentry{wordy}
   \end{axis}
@@ -597,10 +597,10 @@ ANOVA $F = 255$, $p < 10^{-139}$
 Same semantic program; only $\Cprompt$ changes.
 \vspace{0.4em}
 \begin{tabular}{@{}lr@{}}
-L1$\leftrightarrow$L5 & $-38\%$ \\
-L2$\leftrightarrow$L6 & $-25\%$ \\
-L3$\leftrightarrow$L7 & $-37\%$ \\
-L4$\leftrightarrow$L8 & $\mathbf{-73\%}$ \\
+L1$\leftrightarrow$L5 & $\mathbf{-86\%}$ \\
+L2$\leftrightarrow$L6 & $-64\%$ \\
+L3$\leftrightarrow$L7 & $-81\%$ \\
+L4$\leftrightarrow$L8 & $-70\%$ \\
 \end{tabular}
 
 \vspace{0.5em}
@@ -787,8 +787,8 @@ The wordy-vs-base gap \emph{grows} with depth (8/8 metric checks).
 \keybox{\small Wordy prompts are not calming the model --- they trigger an early-layer length prior whose late-layer relaxation lands on a broader, less DC-exposed filter.}
 \end{frame}
 
-\begin{frame}{Result 3: Overlap Predicts Internal Drift}
-\textbf{Post-fusion drift $\DZ^{(\ell)}$ vs spectral overlap with pre-fusion $\DV$:}
+\begin{frame}{Result 3: Overlap Predicts Behavioural Drift, Layer by Layer}
+\textbf{Pixel-space first-order overlap $\langle\Wt^{(\ell)},\DF\rangle$ vs $\mathrm{loglik\_volatility}$ (100-sample $B{=}20$ run):}
 \vspace{0.3em}
 \begin{columns}[T,onlytextwidth]
 \column{0.50\linewidth}
@@ -796,35 +796,34 @@ The wordy-vs-base gap \emph{grows} with depth (8/8 metric checks).
   \begin{axis}[
     width=6.3cm, height=4.8cm,
     ybar, bar width=12pt,
-    xlabel={\footnotesize layer group}, ylabel={\footnotesize Pearson $r$},
+    xlabel={\footnotesize layer group}, ylabel={\footnotesize Pearson $r$ (grouped)},
     label style={text=pgray, font=\footnotesize},
-    symbolic x coords={early, mid, late, overall},
+    symbolic x coords={early, mid, late, last\_2, overall},
     xtick=data,
     tick label style={text=pgray, font=\scriptsize},
     axis line style={pgray},
-    ymin=0, ymax=0.9,
+    ymin=0, ymax=0.45,
     nodes near coords, nodes near coords style={text=pnavy, font=\scriptsize},
     legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
-    enlarge x limits=0.2
+    enlarge x limits=0.18
   ]
-    \addplot[fill=pgray!50, draw=pgray] coordinates {(early, 0.459) (mid, 0.481) (late, 0.559) (overall, 0.496)};
-    \addlegendentry{raw}
-    \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {(early, 0.159) (mid, 0.548) (late, 0.651) (overall, 0.248)};
-    \addlegendentry{profile-controlled}
-    \draw[paccent, dashed, line width=0.8pt] ({rel axis cs:0,0}) -- ({rel axis cs:1,0}) -- ({axis cs:late, 0.6}) -- ({axis cs:overall, 0.6});
+    \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {(early, 0.294) (mid, 0.290) (late, 0.299) (last\_2, 0.358) (overall, 0.299)};
+    \addlegendentry{first-order}
   \end{axis}
 \end{tikzpicture}
 \column{0.46\linewidth}
 \small
-All cells significant ($p < 10^{-8}$).
+All cells significant ($p \approx 0$, $n = 16{,}800$).
 \vspace{0.2em}
 \begin{itemize}\setlength\itemsep{0.2em}
-  \item Profile-controlled $r$ climbs \textbf{0.16 $\to$ 0.65} early to late.
-  \item Only the \textbf{late} group passes the pre-registered $r > 0.6$.
+  \item Late-layer subgroup \textbf{last\_2} carries the strongest signal at $r = 0.358$.
+  \item Per-level $r \in [0.21, 0.39]$.
+  \item Quadratic variant $r = 0.136$ (legacy); first-order wins by a factor of $2.2\times$.
+  \item Earlier fusion-drift analysis (Exp 3) was retired --- the same predictive signal lives in the pixel-space overlap law.
 \end{itemize}
 
 \vspace{0.4em}
-\keybox{\small The late filter is genuinely task-specific; the early filter is dominated by perturbation-family effects.}
+\keybox{\small $\Wt$ is a population-level spectral predictor of perturbation damage, with the late layers carrying the load.}
 \end{columns}
 \end{frame}
 
@@ -842,13 +841,13 @@ All cells significant ($p < 10^{-8}$).
 \textcolor{paccent}{\textbf{Fine reasoning lives in the high-frequency tail.}}
 \end{block}
 \column{0.46\linewidth}
-\begin{block}{\textcolor{pnavy}{Task 5 --- Overlap law $\Spred$}}
+\begin{block}{\textcolor{pnavy}{Task 5 --- Overlap law $\langle\Wt,\DF\rangle$}}
 \small
 \begin{itemize}
-  \item (level $\times$ perturbation) grouped: $r \approx 0.55$\\ ($n=72$, $p < 10^{-6}$).
+  \item Grouped (image $\times$ level $\times$ family): $r = 0.299$ pooled, $r = 0.332$ primary L1--L4\\ ($n = 16{,}800$, $p \approx 0$).
+  \item 2D analogue $r = 0.279$ --- radial reduction is tight.
   \item Zero target-side fitting.
-  \item Late group strongest.
-  \item Per-sample: $r \approx 0.02$.
+  \item Sample-level $r = 0.271$ ($n = 62{,}400$); modest per-item signal.
 \end{itemize}
 \vspace{0.2em}
 \textcolor{paccent}{\textbf{Population-level law, not a per-item predictor.}}
@@ -1020,7 +1019,7 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 \small
 \begin{itemize}
   \item $\Wt$ from attention $\Rightarrow$ correlational lower bound.
-  \item $\Spred$ is population-level ($r \approx 0.55$ grouped), not per-sample ($r \approx 0.02$).
+  \item $\langle\Wt,\DF\rangle$ is population-level ($r = 0.30$ grouped / $r = 0.27$ per-sample). Matched-FE within-unit $r \approx 0.15$: between-perturbation variance dominates, task-specific signal is real but modest.
   \item $\Csem$ is equal-weighted by design; sign invariant under any positive reweighting, magnitudes are not.
   \item Mirror controls are synthetic; human-judged paraphrases are a natural extension.
 \end{itemize}
@@ -1034,9 +1033,9 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 
 \textbf{What we found.}
 \begin{itemize}\setlength\itemsep{0.25em}
-  \item \textbf{Headline:} every wordy mirror L5--L8 has $25$--$73\%$ lower volatility than its byte-identical-semantics counterpart L1--L4. Largest at the spectrally-costliest L4. Not previously reported.
+  \item \textbf{Headline:} every wordy mirror L5--L8 has $65$--$86\%$ lower volatility than its byte-identical-semantics counterpart L1--L4 (mean variance ratio $0.246$). Largest at the spectrally-costliest L4. Not previously reported.
   \item \textbf{Mechanism:} text is a \textcolor{pnavy}{\textbf{spectral operator}} $\Wt$; verbose prompts \emph{broaden} $\Wt$ at late layers, shrinking overlap with natural-perturbation $\DF$.
-  \item \textbf{Predictor:} $\langle\Wt,\DF\rangle$ predicts damage at $r = 0.471$ ($p < 10^{-36}$) with \emph{no} target-side fitting.
+  \item \textbf{Predictor:} $\langle\Wt,\DF\rangle$ predicts damage at $r = 0.299$ pooled ($r = 0.332$ on primary L1--L4) with \emph{no} target-side fitting.
   \item \textbf{Trajectory:} early-layer length prior $\to$ mid-layer uniform compression $\to$ late-layer $\Csem$-driven downward concentration with asymmetric relaxation on wordy mirrors.
   \item \textbf{Tug-of-war:} $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$ --- logic destabilises, length anchors.
 \end{itemize}
