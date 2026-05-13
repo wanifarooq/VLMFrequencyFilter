@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  13 MAY 2026 03:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  13 MAY 2026 12:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1260,11 +1260,39 @@ and deduce the truth by order and method.
 
 [7
 
-] [8
+]
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <9> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 248.
 
-] [9
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <6> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 248.
 
-] [10
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <5> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 248.
+
+
+Overfull \vbox (35.06221pt too high) detected at line 248
+ []
+
+[8
+
+]
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <10> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 251.
+
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <7> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 251.
+
+ [9
+
+]
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <8> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 297.
+
+LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <12> not available
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 297.
+
+ [10
 
 ]
 Overfull \hbox (3.37659pt too wide) detected at line 353
@@ -1294,10 +1322,16 @@ Overfull \vbox (29.8918pt too high) detected at line 455
 ] [17
 
 ]
+Overfull \vbox (17.28491pt too high) detected at line 505
+ []
+
+[18
+
+]
 ! Undefined control sequence.
 <recently read> \cellcolor 
                            
-l.524 \end{frame}
+l.544 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1308,7 +1342,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \beamer@doifinframe ...sed $\Csem $) & \cellcolor 
                                                   {paccent!8}$+0.266\;\;(p{<...
-l.524 \end{frame}
+l.544 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1319,7 +1353,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \beamer@doifinframe ...<}10^{-107})$ & \cellcolor 
                                                   {paccent!8}$\mathbf {+0.29...
-l.524 \end{frame}
+l.544 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1327,19 +1361,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <9> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 524.
-
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <6> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 524.
-
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <5> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 524.
-
 ! Undefined control sequence.
 <recently read> \cellcolor 
                            
-l.524 \end{frame}
+l.544 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1350,7 +1375,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \beamer@doifinframe ...8}$\Cprompt $ & \cellcolor 
                                                   {pgreen!8}$-0.296\;\;(p{<}...
-l.524 \end{frame}
+l.544 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1361,7 +1386,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \beamer@doifinframe ...<}10^{-177})$ & \cellcolor 
                                                   {pgreen!8}$\mathbf {-0.317...
-l.524 \end{frame}
+l.544 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1369,36 +1394,26 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <7> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 524.
-
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <10> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 524.
-
-[18
+[19
 
 ]
-<figures/forest_tug_of_war.png, id=204, 1240.1532pt x 342.5598pt>
+<figures/forest_tug_of_war.png, id=211, 1240.1532pt x 342.5598pt>
 File: figures/forest_tug_of_war.png Graphic file (type png)
 <use figures/forest_tug_of_war.png>
-Package pdftex.def Info: figures/forest_tug_of_war.png  used on input line 532.
+Package pdftex.def Info: figures/forest_tug_of_war.png  used on input line 552.
 
 (pdftex.def)             Requested size: 310.70361pt x 85.82268pt.
- [19
-
- <./figures/forest_tug_of_war.png>]
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <8> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 573.
-
  [20
 
-] [21
+ <./figures/forest_tug_of_war.png>] [21
+
+] [22
 
 ]
 ! Undefined control sequence.
 <recently read> \cellcolor 
                            
-l.662 \end{frame}
+l.682 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1409,7 +1424,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \beamer@doifinframe ...vy!6}FE $R^2$ & \cellcolor 
                                                   {pnavy!6}$\mathbf {0.217}$...
-l.662 \end{frame}
+l.682 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1420,7 +1435,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <recently read> \cellcolor 
                            
-l.662 \end{frame}
+l.682 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1431,7 +1446,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \beamer@doifinframe ...ty L1$\to $L4 & \cellcolor 
                                                   {pnavy!6}Kendall $\tau = 1...
-l.662 \end{frame}
+l.682 \end{frame}
                  
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1440,133 +1455,129 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \vbox (2.77347pt too high) detected at line 662
+Overfull \vbox (2.77347pt too high) detected at line 682
  []
 
-[22
-
-] [23
+[23
 
 ] [24
 
+] [25
+
 ]
-Overfull \vbox (5.61519pt too high) detected at line 773
+Overfull \vbox (5.61519pt too high) detected at line 793
  []
 
-[25
+[26
 
 ]
-<figures/bandwidth_vs_csem.png, id=246, 1245.64572pt x 376.96033pt>
+<figures/bandwidth_vs_csem.png, id=251, 1245.64572pt x 376.96033pt>
 File: figures/bandwidth_vs_csem.png Graphic file (type png)
 <use figures/bandwidth_vs_csem.png>
-Package pdftex.def Info: figures/bandwidth_vs_csem.png  used on input line 781.
+Package pdftex.def Info: figures/bandwidth_vs_csem.png  used on input line 801.
 
 (pdftex.def)             Requested size: 366.47076pt x 110.90323pt.
- [26
+ [27
 
  <./figures/bandwidth_vs_csem.png>]
-<figures/band_heatmap_last_2.png, id=253, 705.06612pt x 390.83617pt>
+<figures/band_heatmap_last_2.png, id=258, 705.06612pt x 390.83617pt>
 File: figures/band_heatmap_last_2.png Graphic file (type png)
 <use figures/band_heatmap_last_2.png>
-Package pdftex.def Info: figures/band_heatmap_last_2.png  used on input line 78
+Package pdftex.def Info: figures/band_heatmap_last_2.png  used on input line 80
 9.
 (pdftex.def)             Requested size: 310.70361pt x 172.23083pt.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 789.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 809.
 
-Overfull \vbox (29.23851pt too high) detected at line 789
- []
-
-[27
-
- <./figures/band_heatmap_last_2.png>]
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 806.
-
-Overfull \vbox (27.36913pt too high) detected at line 806
+Overfull \vbox (29.23851pt too high) detected at line 809
  []
 
 [28
 
-]
-Overfull \vbox (32.83537pt too high) detected at line 846
+ <./figures/band_heatmap_last_2.png>]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 826.
+
+Overfull \vbox (27.36913pt too high) detected at line 826
  []
 
 [29
 
 ]
-<figures/overlap_grid.png, id=271, 1460.72124pt x 385.05457pt>
+Overfull \vbox (32.83537pt too high) detected at line 866
+ []
+
+[30
+
+]
+<figures/overlap_grid.png, id=276, 1460.72124pt x 385.05457pt>
 File: figures/overlap_grid.png Graphic file (type png)
 <use figures/overlap_grid.png>
-Package pdftex.def Info: figures/overlap_grid.png  used on input line 854.
+Package pdftex.def Info: figures/overlap_grid.png  used on input line 874.
 (pdftex.def)             Requested size: 398.3386pt x 105.00607pt.
- [30
+ [31
 
  <./figures/overlap_grid.png>]
-<figures/matched_fe_question_only.png, id=278, 1047.915pt x 397.485pt>
+<figures/matched_fe_question_only.png, id=284, 1047.915pt x 397.485pt>
 File: figures/matched_fe_question_only.png Graphic file (type png)
 <use figures/matched_fe_question_only.png>
 Package pdftex.def Info: figures/matched_fe_question_only.png  used on input li
-ne 862.
+ne 882.
 (pdftex.def)             Requested size: 358.50229pt x 135.98009pt.
 
-Overfull \vbox (18.58765pt too high) detected at line 862
- []
-
-[31
-
- <./figures/matched_fe_question_only.png>]
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 893.
-
-Overfull \vbox (50.2068pt too high) detected at line 893
+Overfull \vbox (18.58765pt too high) detected at line 882
  []
 
 [32
 
-] [33
+ <./figures/matched_fe_question_only.png>]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 913.
+
+Overfull \vbox (50.2068pt too high) detected at line 913
+ []
+
+[33
 
 ] [34
 
+] [35
+
 ]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 958.
- [35
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 978.
+ [36
 
-] [36
+] [37
 
 ]
-LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <12> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 993.
-
-
-Overfull \vbox (12.01256pt too high) detected at line 993
+Overfull \vbox (12.01256pt too high) detected at line 1013
  []
 
-[37
+[38
 
-] [38
-
-]
-
-Package natbib Warning: Citation `meng2022locating' on page 39 undefined on inp
-ut line 1032.
-
-[39
-
-] [40
+] [39
 
 ]
-Overfull \vbox (15.5624pt too high) detected at line 1061
- []
 
-[41
+Package natbib Warning: Citation `meng2022locating' on page 40 undefined on inp
+ut line 1052.
+
+[40
+
+] [41
 
 ]
-Overfull \vbox (103.63977pt too high) detected at line 1079
+Overfull \vbox (15.5624pt too high) detected at line 1081
  []
 
 [42
+
+]
+Overfull \vbox (117.4397pt too high) detected at line 1099
+ []
+
+[43
 
 ]
 
@@ -1577,26 +1588,26 @@ See the PGF Math package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1093 \end{frame}
+l.1113 \end{frame}
                   
 (That was another \errmessage.)
 
-[43
+[44
 
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\translate ' on input line 1096.
+(hyperref)                removing `\translate ' on input line 1116.
 
-[44
+[45
 
-] [45
+] [46
 
 ]
 ! Undefined control sequence.
 <recently read> \rowcolor 
                           
-l.1140 \end{frame}
+l.1160 \end{frame}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1604,7 +1615,7 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[46
+[47
 
 ]
 \tf@nav=\write6
@@ -1629,14 +1640,17 @@ L3 programming layer <2024-01-22>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: E8C1C74828B2F84AB869009975E54B71;1013.
  ) 
 Here is how much of TeX's memory you used:
- 38018 strings out of 474222
- 908553 string characters out of 5748734
+ 38022 strings out of 474222
+ 908615 string characters out of 5748734
  1946975 words of memory out of 5000000
- 59457 multiletter control sequences out of 15000+600000
+ 59459 multiletter control sequences out of 15000+600000
  579282 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,20n,123p,1873b,2587s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1676,10 +1690,10 @@ mbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sym
 bols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0900.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfss1000.pfb></usr/share/texmf/fonts/
 type1/public/cm-super/sfsx0900.pfb>
-Output written on slides.pdf (46 pages, 1641791 bytes).
+Output written on slides.pdf (47 pages, 1647943 bytes).
 PDF statistics:
- 558 PDF objects out of 1000 (max. 8388607)
- 394 compressed objects within 4 object streams
- 101 named destinations out of 1000 (max. 500000)
+ 564 PDF objects out of 1000 (max. 8388607)
+ 399 compressed objects within 4 object streams
+ 103 named destinations out of 1000 (max. 500000)
  228 words of extra memory for PDF output out of 10000 (max. 10000000)
 

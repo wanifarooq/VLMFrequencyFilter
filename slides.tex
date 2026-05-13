@@ -234,7 +234,7 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
 \begin{block}{\textcolor{pnavy}{Headline}}
 \small
 \textbf{1.} \textbf{Verbose prompts stabilise VLMs.} $65$--$86\%$ drift-variance reduction across mirror pairs (mean ratio $0.247$); mean volatility drops $68$--$90\%$ on 8B, strongest at L4. Not previously reported.\\[0.3em]
-\textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ \emph{explains} the stabilisation at $r = 0.337$ grouped, $r = 0.315$ per-sample, and within-cell median $r = 0.543$ (2D, question-only). Zero target-side fitting.\\[0.3em]
+\textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ \emph{explains} the stabilisation. \textbf{Item-level} (image + perturbation + severity held fixed, only task varies across L1--L8): within-cell median Pearson $\mathbf{r = 0.543}$ (2D, question-only $\Wt$, $n = 7{,}800$ cells). Population-level: $r = 0.337$ grouped, $r = 0.315$ per-sample. Zero target-side fitting.\\[0.3em]
 \textbf{3.} Four-stage layer trajectory: layer-0 length prior $\to$ erasure $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap.
 \end{block}
 \column{0.48\linewidth}
@@ -483,6 +483,26 @@ No Hann taper, no DC suppression
 
 % -------------------- SECTION: RESULTS --------------------
 \section{Results}
+
+\begin{frame}{Notation: What $\tilde\beta$ means, and what ``stabilises'' means}
+\small
+\textbf{$\tilde\beta(X)$ = standardised partial OLS regression coefficient.}\\
+The slope when both the outcome and every predictor are $z$-scored. \textbf{Not} the Pearson correlation $r(X,y)$: by Frisch--Waugh--Lovell, $\tilde\beta(X)$ is the slope on the part of $X$ orthogonal to the other regressors, while $r$ ignores them.
+
+\vspace{0.4em}
+\[
+\tilde\beta(X) = \mathrm{argmin}_{b} \mathrm{Var}\bigl[\,\mathrm{stdise}(y) \;-\; b\cdot\mathrm{stdise}(X) - b'\cdot\mathrm{stdise}(\mathrm{others})\,\bigr]
+\]
+
+\vspace{0.4em}
+\textbf{Stabilises $\Leftrightarrow \tilde\beta(X) < 0$ on volatility.}\\
+A 1-SD increase in $X$ is associated with a $|\tilde\beta(X)|$-SD \emph{decrease} in perturbation-induced drift, with all other regressors held fixed.
+
+\textbf{Destabilises $\Leftrightarrow \tilde\beta(X) > 0$.} 1-SD up $\Rightarrow$ drift up.
+
+\vspace{0.3em}
+\keybox{\small Throughout this paper $r$ = marginal Pearson correlation; $\tilde\beta$ = standardised conditional partial slope. The tug-of-war is a signed statement about partial slopes, not zero-order correlations.}
+\end{frame}
 
 \begin{frame}{Result 1a: The Tug-of-War on Volatility}
 \textbf{Log-likelihood volatility} $\mathbb{E}_p\!\bigl[\,|\log p_\theta(a^\star\mid I_p,t) - \log p_\theta(a^\star\mid I,t)|\,\bigr]$, $n = 8000$:
@@ -1068,8 +1088,8 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 \begin{itemize}\setlength\itemsep{0.25em}
   \item \textbf{Headline:} every wordy mirror L5--L8 has $65$--$86\%$ lower drift variance than L1--L4 (mean ratio $0.247$ on 8B, replicating 2B's $0.246$); mean log-likelihood volatility drops $68$--$90\%$ on 8B.
   \item \textbf{Mechanism:} text is a \textcolor{pnavy}{\textbf{spectral operator}} $\Wt$; verbose prompts \emph{broaden} $\Wt^{(\texttt{last\_2})}$ at the deepest decoder layer, shrinking overlap with natural-perturbation $\DF$.
-  \item \textbf{Predictor (population):} $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ predicts damage at $r = 0.337$ pooled grouped, $r = 0.315$ per-sample, zero target-side fitting.
-  \item \textbf{Predictor (item-level):} matched-FE within-cell median Pearson $r = 0.543$ (2D, question-only $\Wt$). The law works \emph{within-cell}, not just between-cell.
+  \item \textbf{Predictor (item-level, headline):} hold image + perturbation + severity fixed, vary only the question across L1--L8 inside $7{,}800$ cells: within-cell median Pearson $\mathbf{r = 0.543}$ (2D, question-only $\Wt$). Large-effect coupling under the most aggressive physical control.
+  \item \textbf{Predictor (population):} same $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ at $r = 0.337$ grouped, $r = 0.315$ per-sample, zero target-side fitting.
   \item \textbf{Trajectory:} layer-0 length prior $\to$ erasure (1--12) $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap (peak $+0.33$ at layer 31).
   \item \textbf{Tug-of-war:} $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$ --- logic destabilises, length anchors.
 \end{itemize}
