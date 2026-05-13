@@ -235,7 +235,7 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
 \small
 \textbf{1.} \textbf{Verbose prompts stabilise VLMs.} $65$--$86\%$ drift-variance reduction across mirror pairs (mean ratio $0.247$); mean volatility drops $68$--$90\%$ on 8B, strongest at L4. Not previously reported.\\[0.3em]
 \textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ \emph{explains} the stabilisation. \textbf{Item-level} (image + perturbation + severity held fixed, only task varies across L1--L8): within-cell median Pearson $\mathbf{r = 0.543}$ (2D, question-only $\Wt$, $n = 7{,}800$ cells). Population-level: $r = 0.337$ grouped, $r = 0.315$ per-sample. Zero target-side fitting.\\[0.3em]
-\textbf{3.} Four-stage layer trajectory: layer-0 length prior $\to$ erasure $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap.
+\textbf{3.} Four-stage layer trajectory: layer-0 length prior $\to$ erasure $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap. A $4\times4$ $\Delta F \times W_t$ signature matrix confirms the law's geometry: broadband $\Wt$ minimises volatility in every $\Delta F$ row.
 \end{block}
 \column{0.48\linewidth}
 \begin{block}{\textcolor{pnavy}{Method \& Evidence}}
@@ -912,6 +912,30 @@ All cells significant ($p \approx 0$, $n = 16{,}800$).
 \keybox{Grouped $r = 0.34$ shows the population law; within-cell $r = 0.54$ shows the item-level signal once orientation is preserved (2D) and answer-format tokens stripped from $\Wt$ (question-only).}
 \end{frame}
 
+\begin{frame}{Result 6: $\Delta F \times W_t$ Signature Matrix --- Volatility}
+\begin{center}
+\includegraphics[width=0.74\linewidth]{figures/signature_volatility_matrix.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small In every row, the broadband-$\Wt$ column has the lowest mean volatility. Broadband filters mute drift across \emph{every} perturbation profile --- the verbosity-stabiliser mechanism shown without behaviour as input.}
+\end{frame}
+
+\begin{frame}{Result 6: Within-cell Pearson on the Same Grid --- Matched Filter}
+\begin{center}
+\includegraphics[width=0.74\linewidth]{figures/signature_pearson_matrix.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small Within-cell $r$ peaks where filter and perturbation share a band (low$\times$low = $\mathbf{0.44}$), drops as $\Wt$ broadens away from the matched configuration. Matched-filter intuition is empirically satisfied.}
+\end{frame}
+
+\begin{frame}{Result 6: Volatility by Perturbation Signature}
+\begin{center}
+\includegraphics[width=0.62\linewidth]{figures/perturbation_signature_volatility.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small Broadband $\Delta F$ damages most (overlaps $\Wt$ \emph{somewhere}); low-freq damages substantially (lands where $\Wt^{(\texttt{last\_2})}$ lives); high-freq barely moves the likelihood ($\Wt$ has thinned there).}
+\end{frame}
+
 % -------------------- SECTION: DISCUSSION --------------------
 \section{Discussion \& Impact}
 
@@ -1091,6 +1115,7 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
   \item \textbf{Predictor (item-level, headline):} hold image + perturbation + severity fixed, vary only the question across L1--L8 inside $7{,}800$ cells: within-cell median Pearson $\mathbf{r = 0.543}$ (2D, question-only $\Wt$). Large-effect coupling under the most aggressive physical control.
   \item \textbf{Predictor (population):} same $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ at $r = 0.337$ grouped, $r = 0.315$ per-sample, zero target-side fitting.
   \item \textbf{Trajectory:} layer-0 length prior $\to$ erasure (1--12) $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap (peak $+0.33$ at layer 31).
+  \item \textbf{Signature matrix:} broadband $\Wt$ has the lowest mean volatility in every $\Delta F$ row; within-cell $r$ peaks at the matched-band diagonal (low$\times$low $r = 0.44$) and falls as $\Wt$ broadens away.
   \item \textbf{Tug-of-war:} $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$ --- logic destabilises, length anchors.
 \end{itemize}
 

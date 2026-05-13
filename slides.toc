@@ -3,5 +3,5 @@
 \beamer@sectionintoc {3}{Theoretical Framework}{9}{0}{3}
 \beamer@sectionintoc {4}{The Mirror 8-Level Design}{14}{0}{4}
 \beamer@sectionintoc {5}{Results}{17}{0}{5}
-\beamer@sectionintoc {6}{Discussion \& Impact}{34}{0}{6}
-\beamer@sectionintoc {7}{Limitations \& Conclusion}{41}{0}{7}
+\beamer@sectionintoc {6}{Discussion \& Impact}{37}{0}{6}
+\beamer@sectionintoc {7}{Limitations \& Conclusion}{44}{0}{7}

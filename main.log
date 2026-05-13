@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  13 MAY 2026 12:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  13 MAY 2026 14:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -584,306 +584,306 @@ Package microtype Info: Loading generic protrusion settings for font family
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 
 Package natbib Warning: Citation `agrawal2018vqacp' on page 2 undefined on inpu
-t line 54.
+t line 60.
 
 
 Package natbib Warning: Citation `thrush2022winoground' on page 2 undefined on 
-input line 54.
+input line 60.
 
 
 Package natbib Warning: Citation `yuksekgonul2023aro' on page 2 undefined on in
-put line 54.
+put line 60.
 
 
 Package natbib Warning: Citation `hsieh2023sugarcrepe' on page 2 undefined on i
-nput line 54.
+nput line 60.
 
 
 Package natbib Warning: Citation `ma2023crepe' on page 2 undefined on input lin
-e 54.
+e 60.
 
 
 Package natbib Warning: Citation `yin2019fourier' on page 2 undefined on input 
-line 54.
+line 60.
 
 
 Package natbib Warning: Citation `wang2020high' on page 2 undefined on input li
-ne 54.
+ne 60.
 
 
 Package natbib Warning: Citation `tsuzuku2019structural' on page 2 undefined on
- input line 54.
+ input line 60.
 
 
 Package natbib Warning: Citation `cao2020behind' on page 2 undefined on input l
-ine 54.
+ine 60.
 
 
 Package natbib Warning: Citation `frank2021vision' on page 2 undefined on input
- line 54.
+ line 60.
 
 
 Package natbib Warning: Citation `parcalabescu2022valse' on page 2 undefined on
- input line 54.
+ input line 60.
 
 [2] [3]
 
 Package natbib Warning: Citation `hudson2019gqa' on page 4 undefined on input l
-ine 67.
+ine 74.
 
 
 Package natbib Warning: Citation `johnson2017clevr' on page 4 undefined on inpu
-t line 67.
+t line 74.
 
 
 Package natbib Warning: Citation `andreas2016neural' on page 4 undefined on inp
-ut line 67.
+ut line 74.
 
 
 Package natbib Warning: Citation `hu2017learning' on page 4 undefined on input 
-line 67.
+line 74.
 
 
 Package natbib Warning: Citation `kazemzadeh2014referitgame' on page 4 undefine
-d on input line 67.
+d on input line 74.
 
 
 Package natbib Warning: Citation `mao2016generation' on page 4 undefined on inp
-ut line 67.
+ut line 74.
 
 
 Package natbib Warning: Citation `haladyna2004review' on page 4 undefined on in
-put line 67.
+put line 74.
 
 
 Package natbib Warning: Citation `agrawal2018vqacp' on page 4 undefined on inpu
-t line 77.
+t line 84.
 
 
 Package natbib Warning: Citation `goyal2017making' on page 4 undefined on input
- line 77.
+ line 84.
 
 
 Package natbib Warning: Citation `hudson2019gqa' on page 4 undefined on input l
-ine 77.
+ine 84.
 
 
 Package natbib Warning: Citation `johnson2017clevr' on page 4 undefined on inpu
-t line 77.
+t line 84.
 
 
 Package natbib Warning: Citation `thrush2022winoground' on page 4 undefined on 
-input line 77.
+input line 84.
 
 
 Package natbib Warning: Citation `yuksekgonul2023aro' on page 4 undefined on in
-put line 77.
+put line 84.
 
 
 Package natbib Warning: Citation `hsieh2023sugarcrepe' on page 4 undefined on i
-nput line 77.
+nput line 84.
 
 
 Package natbib Warning: Citation `ma2023crepe' on page 4 undefined on input lin
-e 77.
+e 84.
 
 
 Package natbib Warning: Citation `parcalabescu2022valse' on page 4 undefined on
- input line 77.
+ input line 84.
 
 
 Package natbib Warning: Citation `thapliyal2022crossmodal' on page 4 undefined 
-on input line 77.
+on input line 84.
 
 
 Package natbib Warning: Citation `yin2019fourier' on page 4 undefined on input 
-line 80.
+line 87.
 
 
 Package natbib Warning: Citation `wang2020high' on page 4 undefined on input li
-ne 80.
+ne 87.
 
 
 Package natbib Warning: Citation `tsuzuku2019structural' on page 4 undefined on
- input line 80.
+ input line 87.
 
 
 Package natbib Warning: Citation `abello2021dissecting' on page 4 undefined on 
-input line 80.
+input line 87.
 
 
 Package natbib Warning: Citation `geirhos2018imagenet' on page 4 undefined on i
-nput line 80.
+nput line 87.
 
 
 Package natbib Warning: Citation `chen2022amplitude' on page 4 undefined on inp
-ut line 80.
+ut line 87.
 
 
 Package natbib Warning: Citation `ortiz2021optimism' on page 4 undefined on inp
-ut line 80.
+ut line 87.
 
 [4]
 
 Package natbib Warning: Citation `hendrycks2019benchmarking' on page 5 undefine
-d on input line 83.
+d on input line 90.
 
 
 Package natbib Warning: Citation `kar20223d' on page 5 undefined on input line 
-83.
+90.
 
 
 Package natbib Warning: Citation `hendrycks2021many' on page 5 undefined on inp
-ut line 83.
+ut line 90.
 
 
 Package natbib Warning: Citation `barbu2019objectnet' on page 5 undefined on in
-put line 83.
+put line 90.
 
 
 Package natbib Warning: Citation `cao2020behind' on page 5 undefined on input l
-ine 86.
+ine 93.
 
 
 Package natbib Warning: Citation `frank2021vision' on page 5 undefined on input
- line 86.
+ line 93.
 
 
 Package natbib Warning: Citation `ilinykh2022attention' on page 5 undefined on 
-input line 86.
+input line 93.
 
 
 Package natbib Warning: Citation `merullo2024language' on page 5 undefined on i
-nput line 86.
+nput line 93.
 
 
 Package natbib Warning: Citation `palit2023towards' on page 5 undefined on inpu
-t line 86.
+t line 93.
 
 
 Package natbib Warning: Citation `basu2023localizing' on page 5 undefined on in
-put line 86.
+put line 93.
 
 
 Package natbib Warning: Citation `andreas2016neural' on page 5 undefined on inp
-ut line 89.
+ut line 96.
 
 
 Package natbib Warning: Citation `hu2017learning' on page 5 undefined on input 
-line 89.
+line 96.
 
 
 Package natbib Warning: Citation `johnson2017clevr' on page 5 undefined on inpu
-t line 89.
+t line 96.
 
 
 Package natbib Warning: Citation `hudson2019gqa' on page 5 undefined on input l
-ine 89.
+ine 96.
 
 
 Package natbib Warning: Citation `yi2018neural' on page 5 undefined on input li
-ne 89.
+ne 96.
 
 
 Package natbib Warning: Citation `kazemzadeh2014referitgame' on page 5 undefine
-d on input line 89.
+d on input line 96.
 
 
 Package natbib Warning: Citation `mao2016generation' on page 5 undefined on inp
-ut line 89.
+ut line 96.
 
 
 Package natbib Warning: Citation `yu2016modeling' on page 5 undefined on input 
-line 89.
+line 96.
 
 
 Package natbib Warning: Citation `sclar2024quantifying' on page 5 undefined on 
-input line 92.
+input line 99.
 
 
 Package natbib Warning: Citation `mizrahi2024state' on page 5 undefined on inpu
-t line 92.
+t line 99.
 
 
 Package natbib Warning: Citation `salinas2024butterfly' on page 5 undefined on 
-input line 92.
+input line 99.
 
 
 Package natbib Warning: Citation `anagnostidis2024susceptible' on page 5 undefi
-ned on input line 92.
+ned on input line 99.
 
 
 Package natbib Warning: Citation `yin2019fourier' on page 5 undefined on input 
-line 104.
+line 111.
 
 
 Package natbib Warning: Citation `wang2020high' on page 5 undefined on input li
-ne 104.
+ne 111.
 
 
 Package natbib Warning: Citation `hendrycks2019benchmarking' on page 5 undefine
-d on input line 105.
+d on input line 112.
 
 
 Package natbib Warning: Citation `thrush2022winoground' on page 5 undefined on 
-input line 106.
+input line 113.
 
 
 Package natbib Warning: Citation `yuksekgonul2023aro' on page 5 undefined on in
-put line 106.
+put line 113.
 
 
 Package natbib Warning: Citation `hudson2019gqa' on page 5 undefined on input l
-ine 107.
+ine 114.
 
 
 Package natbib Warning: Citation `johnson2017clevr' on page 5 undefined on inpu
-t line 107.
+t line 114.
 
 
 Package natbib Warning: Citation `sclar2024quantifying' on page 5 undefined on 
-input line 108.
+input line 115.
 
 
 Package natbib Warning: Citation `mizrahi2024state' on page 5 undefined on inpu
-t line 108.
+t line 115.
 
 [5]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 123.
+(hyperref)                removing `math shift' on input line 130.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 123.
+(hyperref)                removing `subscript' on input line 130.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 123.
+(hyperref)                removing `\omega' on input line 130.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 123.
+(hyperref)                removing `math shift' on input line 130.
 
 [6
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.140 \end{equation}
+l.147 \end{equation}
                     ] [7{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1
 .enc}]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 158.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 165.
 
-Overfull \hbox (37.52759pt too wide) in paragraph at lines 160--161
+Overfull \hbox (37.52759pt too wide) in paragraph at lines 167--168
 \OT1/cmr/m/n/10.95 (-20) biliser en-gaged). The cor-re-spond-ing gate is \OT1/c
 mtt/m/n/10.95 exp2/hypothesis[]tests.json::wordy[]layerwise[]divergence\OT1/cmr
 /m/n/10.95 (-20) ,
  []
 
 
-Overfull \hbox (258.30931pt too wide) in paragraph at lines 160--161
+Overfull \hbox (258.30931pt too wide) in paragraph at lines 167--168
 \OT1/cmr/m/n/10.95 (-20) with tar-get \OT1/cmtt/m/n/10.95 mean[]abs[]delta[]lat
 e > mean[]abs[]delta[]early\OT1/cmr/m/n/10.95 (-20) . The be-havioural side-eff
 ect, \OT1/cmtt/m/n/10.95 exp1/hypothesis[]tests.json::wordy[]volatility[]reduct
@@ -892,143 +892,144 @@ ion
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 162.
+(hyperref)                removing `math shift' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 162.
+(hyperref)                removing `\Delta' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 162.
+(hyperref)                removing `\omega' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 162.
+(hyperref)                removing `math shift' on input line 169.
 
 [8]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 182.
+(hyperref)                removing `math shift' on input line 189.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 182.
+(hyperref)                removing `subscript' on input line 189.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 182.
+(hyperref)                removing `math shift' on input line 189.
 
 
 Package natbib Warning: Citation `hudson2019gqa' on page 9 undefined on input l
-ine 190.
+ine 197.
 
 
 Package natbib Warning: Citation `johnson2017clevr' on page 9 undefined on inpu
-t line 191.
+t line 198.
 
 
 Package natbib Warning: Citation `andreas2016neural' on page 9 undefined on inp
-ut line 193.
+ut line 200.
 
 
 Package natbib Warning: Citation `hu2017learning' on page 9 undefined on input 
-line 193.
+line 200.
 
 
 Package natbib Warning: Citation `kazemzadeh2014referitgame' on page 9 undefine
-d on input line 195.
+d on input line 202.
 
 
 Package natbib Warning: Citation `mao2016generation' on page 9 undefined on inp
-ut line 195.
+ut line 202.
 
 
 Package natbib Warning: Citation `yu2016modeling' on page 9 undefined on input 
-line 195.
+line 202.
 
 
 Package natbib Warning: Citation `hudson2019gqa' on page 9 undefined on input l
-ine 205.
+ine 212.
 
 
 Package natbib Warning: Citation `johnson2017clevr' on page 9 undefined on inpu
-t line 205.
+t line 212.
 
 
 Package natbib Warning: Citation `kazemzadeh2014referitgame' on page 9 undefine
-d on input line 205.
+d on input line 212.
 
 
 Package natbib Warning: Citation `mao2016generation' on page 9 undefined on inp
-ut line 205.
+ut line 212.
 
 
 Package natbib Warning: Citation `yu2016modeling' on page 9 undefined on input 
-line 205.
+line 212.
 
 
 Package natbib Warning: Citation `haladyna2004review' on page 9 undefined on in
-put line 205.
+put line 212.
 
 [9] [10]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 232.
+(hyperref)                removing `math shift' on input line 239.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 232.
+(hyperref)                removing `\Delta' on input line 239.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 232.
+(hyperref)                removing `math shift' on input line 239.
 
 [11]
 
 Package natbib Warning: Citation `wang2020high' on page 12 undefined on input l
-ine 273.
+ine 281.
 
 
 Package natbib Warning: Citation `yin2019fourier' on page 12 undefined on input
- line 273.
+ line 281.
 
 
 Package natbib Warning: Citation `hendrycks2019benchmarking' on page 12 undefin
-ed on input line 275.
+ed on input line 283.
 
 
 Package natbib Warning: Citation `bai2023qwen' on page 12 undefined on input li
-ne 278.
+ne 286.
 
 
 Package natbib Warning: Citation `yang2024qwen2' on page 12 undefined on input 
-line 278.
+line 286.
 
-[12]
+[12] [13]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 289.
+put line 298.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13] [14
+[14] [15
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.332 \begin{center}
-                    ]
+l.372 \paragraph
+                {Reconciliation.} The magnitude asymmetry of the two $\Cprom...
+]
 
-Package natbib Warning: Citation `sclar2024quantifying' on page 15 undefined on
- input line 362.
+Package natbib Warning: Citation `sclar2024quantifying' on page 16 undefined on
+ input line 372.
 
 
-Package natbib Warning: Citation `mizrahi2024state' on page 15 undefined on inp
-ut line 362.
+Package natbib Warning: Citation `mizrahi2024state' on page 16 undefined on inp
+ut line 372.
 
-[15] [16]
-Overfull \hbox (4.45895pt too wide) in paragraph at lines 407--408
+[16]
+Overfull \hbox (4.45895pt too wide) in paragraph at lines 417--418
 \OT1/cmr/m/it/10.95 (-20) Prediction. \OT1/cmr/m/n/10.95 (-20) If $\OML/cmm/m/i
 t/10.95 W[]\OT1/cmr/m/n/10.95 (-20) (\OML/cmm/m/it/10.95 !\OT1/cmr/m/n/10.95 (-
 20) )[]$ is the ob-ject that me-di-ates per-tur-ba-tion dam-age, the over-lap $
@@ -1039,164 +1040,229 @@ m/it/10.95 !\OT1/cmr/m/n/10.95 (-20) )[]\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.9
  []
 
 
-Overfull \hbox (7.31018pt too wide) in paragraph at lines 410--421
+Overfull \hbox (7.31018pt too wide) in paragraph at lines 420--431
  [] 
  []
 
-[17]
+[17] [18]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 454.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 464.
 
-Overfull \hbox (15.08554pt too wide) in paragraph at lines 452--461
+Overfull \hbox (15.08554pt too wide) in paragraph at lines 462--471
  [] 
  []
 
-[18]
-<figures/forest_tug_of_war.png, id=325, 1240.1532pt x 342.5598pt>
+[19]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 494.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Delta' on input line 494.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\times' on input line 494.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 494.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 494.
+
+[20]
+<figures/forest_tug_of_war.png, id=351, 1240.1532pt x 342.5598pt>
 File: figures/forest_tug_of_war.png Graphic file (type png)
 <use figures/forest_tug_of_war.png>
-Package pdftex.def Info: figures/forest_tug_of_war.png  used on input line 488.
+Package pdftex.def Info: figures/forest_tug_of_war.png  used on input line 538.
 
 (pdftex.def)             Requested size: 399.29463pt x 110.29565pt.
- [19]
-<figures/overlap_grid.png, id=336, 1460.72124pt x 385.05457pt>
+<figures/overlap_grid.png, id=353, 1460.72124pt x 385.05457pt>
 File: figures/overlap_grid.png Graphic file (type png)
 <use figures/overlap_grid.png>
-Package pdftex.def Info: figures/overlap_grid.png  used on input line 495.
+Package pdftex.def Info: figures/overlap_grid.png  used on input line 545.
 (pdftex.def)             Requested size: 469.75502pt x 123.83102pt.
-<figures/bandwidth_vs_csem.png, id=337, 1245.64572pt x 376.96033pt>
+<figures/bandwidth_vs_csem.png, id=354, 1245.64572pt x 376.96033pt>
 File: figures/bandwidth_vs_csem.png Graphic file (type png)
 <use figures/bandwidth_vs_csem.png>
-Package pdftex.def Info: figures/bandwidth_vs_csem.png  used on input line 502.
+Package pdftex.def Info: figures/bandwidth_vs_csem.png  used on input line 552.
 
 (pdftex.def)             Requested size: 399.29463pt x 120.83682pt.
-<figures/omega_cutoff.png, id=338, 1555.53947pt x 375.22585pt>
+<figures/omega_cutoff.png, id=355, 1555.53947pt x 375.22585pt>
 File: figures/omega_cutoff.png Graphic file (type png)
 <use figures/omega_cutoff.png>
-Package pdftex.def Info: figures/omega_cutoff.png  used on input line 509.
+Package pdftex.def Info: figures/omega_cutoff.png  used on input line 559.
 (pdftex.def)             Requested size: 399.29463pt x 96.31398pt.
-<figures/wordy_volatility.png, id=339, 1515.35736pt x 636.26508pt>
+<figures/wordy_volatility.png, id=356, 1515.35736pt x 636.26508pt>
 File: figures/wordy_volatility.png Graphic file (type png)
 <use figures/wordy_volatility.png>
-Package pdftex.def Info: figures/wordy_volatility.png  used on input line 516.
+Package pdftex.def Info: figures/wordy_volatility.png  used on input line 566.
 (pdftex.def)             Requested size: 469.75502pt x 197.24013pt.
-<figures/band_heatmap_last_2.png, id=340, 705.06612pt x 390.83617pt>
+<figures/band_heatmap_last_2.png, id=357, 705.06612pt x 390.83617pt>
 File: figures/band_heatmap_last_2.png Graphic file (type png)
 <use figures/band_heatmap_last_2.png>
-Package pdftex.def Info: figures/band_heatmap_last_2.png  used on input line 52
+Package pdftex.def Info: figures/band_heatmap_last_2.png  used on input line 57
 3.
 (pdftex.def)             Requested size: 399.29463pt x 221.33571pt.
-<figures/matched_fe_question_only.png, id=341, 1047.915pt x 397.485pt>
+<figures/matched_fe_question_only.png, id=358, 1047.915pt x 397.485pt>
 File: figures/matched_fe_question_only.png Graphic file (type png)
 <use figures/matched_fe_question_only.png>
 Package pdftex.def Info: figures/matched_fe_question_only.png  used on input li
-ne 530.
+ne 580.
 (pdftex.def)             Requested size: 469.75502pt x 178.18123pt.
-<figures/wordy_divergence.png, id=344, 904.8204pt x 247.45248pt>
+<figures/signature_volatility_matrix.png, id=361, 635.976pt x 520.344pt>
+File: figures/signature_volatility_matrix.png Graphic file (type png)
+<use figures/signature_volatility_matrix.png>
+Package pdftex.def Info: figures/signature_volatility_matrix.png  used on input
+ line 587.
+(pdftex.def)             Requested size: 399.29463pt x 326.691pt.
+<figures/signature_pearson_matrix.png, id=362, 635.976pt x 520.344pt>
+File: figures/signature_pearson_matrix.png Graphic file (type png)
+<use figures/signature_pearson_matrix.png>
+Package pdftex.def Info: figures/signature_pearson_matrix.png  used on input li
+ne 594.
+(pdftex.def)             Requested size: 399.29463pt x 326.691pt.
+<figures/perturbation_signature_volatility.png, id=365, 831.105pt x 433.62pt>
+File: figures/perturbation_signature_volatility.png Graphic file (type png)
+<use figures/perturbation_signature_volatility.png>
+Package pdftex.def Info: figures/perturbation_signature_volatility.png  used on
+ input line 601.
+(pdftex.def)             Requested size: 305.33789pt x 159.30547pt.
+<figures/designed_vs_actual_signature.png, id=366, 758.835pt x 661.2705pt>
+File: figures/designed_vs_actual_signature.png Graphic file (type png)
+<use figures/designed_vs_actual_signature.png>
+Package pdftex.def Info: figures/designed_vs_actual_signature.png  used on inpu
+t line 608.
+(pdftex.def)             Requested size: 352.31625pt x 307.02345pt.
+<figures/wordy_divergence.png, id=369, 904.8204pt x 247.45248pt>
 File: figures/wordy_divergence.png Graphic file (type png)
 <use figures/wordy_divergence.png>
-Package pdftex.def Info: figures/wordy_divergence.png  used on input line 537.
+Package pdftex.def Info: figures/wordy_divergence.png  used on input line 615.
 (pdftex.def)             Requested size: 399.29463pt x 109.20036pt.
-
-
-Package natbib Warning: Citation `thrush2022winoground' on page 20 undefined on
- input line 550.
-
-
-Package natbib Warning: Citation `yuksekgonul2023aro' on page 20 undefined on i
-nput line 550.
-
-
-Package natbib Warning: Citation `sclar2024quantifying' on page 20 undefined on
- input line 550.
-
-[20
+ [21
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.551 
-       <./figures/forest_tug_of_war.png>]
-
-Package natbib Warning: Citation `liu2024llavanext' on page 21 undefined on inp
-ut line 557.
-
-
-Package natbib Warning: Citation `chen2024internvl' on page 21 undefined on inp
-ut line 557.
-
-
-Package natbib Warning: Citation `meng2022locating' on page 21 undefined on inp
-ut line 557.
-
-[21
+l.623 
+       <./figures/forest_tug_of_war.png>] [22
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.558 
-       <./figures/overlap_grid.png>] [22
+l.628 \paragraph
+                {Reconciling prior results.} Benchmark studies that report p...
+ <./figures/overlap_grid.png>]
+
+Package natbib Warning: Citation `thrush2022winoground' on page 23 undefined on
+ input line 628.
+
+
+Package natbib Warning: Citation `yuksekgonul2023aro' on page 23 undefined on i
+nput line 628.
+
+
+Package natbib Warning: Citation `sclar2024quantifying' on page 23 undefined on
+ input line 628.
+
+[23
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.561 
+l.633 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.561 
-       <./figures/bandwidth_vs_csem.png> <./figures/omega_cutoff.png>] [23
+l.633 
+       <./figures/bandwidth_vs_csem.png> <./figures/omega_cutoff.png>]
+
+Package natbib Warning: Citation `liu2024llavanext' on page 24 undefined on inp
+ut line 635.
+
+
+Package natbib Warning: Citation `chen2024internvl' on page 24 undefined on inp
+ut line 635.
+
+
+Package natbib Warning: Citation `meng2022locating' on page 24 undefined on inp
+ut line 635.
+
+[24
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.561 
-       <./figures/wordy_volatility.png>]
-No file main.bbl.
-
-Package natbib Warning: There were undefined citations.
-
-[24
+l.636 
+       <./figures/wordy_volatility.png>] [25
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.569 \end{document}
-                     <./figures/band_heatmap_last_2.png>] [25
+l.642 
+       <./figures/band_heatmap_last_2.png>] [26
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.569 \end{document}
-                    
+l.648 
+       <./figures/matched_fe_question_only.png>]
+No file main.bbl.
+
+Package natbib Warning: There were undefined citations.
+
+[27] [28
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.569 \end{document}
-                     <./figures/matched_fe_question_only.png> <./figures/wordy_
-divergence.png>] (./main.aux)
+l.656 \end{document}
+                     <./figures/signature_volatility_matrix.png>] [29
+pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.656 \end{document}
+                     <./figures/signature_pearson_matrix.png>] [30
+pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.656 \end{document}
+                     <./figures/perturbation_signature_volatility.png>]
+[31
+pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.656 \end{document}
+                     <./figures/designed_vs_actual_signature.png>] [32
+pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.656 \end{document}
+                     <./figures/wordy_divergence.png>] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 3AEA1EF6E68D7C6BBFF6B36C40466DBD;7686.
+(rerunfilecheck)             Checksum: 920737631D66D670FF594C908C6412A4;8084.
  ) 
 Here is how much of TeX's memory you used:
- 16295 strings out of 474222
- 262397 string characters out of 5748734
- 1942975 words of memory out of 5000000
- 37940 multiletter control sequences out of 15000+600000
- 580382 words of font info for 231 fonts, out of 8000000 for 9000
+ 16362 strings out of 474222
+ 264276 string characters out of 5748734
+ 1949975 words of memory out of 5000000
+ 37984 multiletter control sequences out of 15000+600000
+ 580478 words of font info for 232 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,79p,4619b,616s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,3098b,620s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1219,10 +1285,10 @@ public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 nts/cm/cmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sym
 bols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on main.pdf (25 pages, 2454412 bytes).
+Output written on main.pdf (32 pages, 2873426 bytes).
 PDF statistics:
- 525 PDF objects out of 1000 (max. 8388607)
- 427 compressed objects within 5 object streams
- 128 named destinations out of 1000 (max. 500000)
- 47449 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 592 PDF objects out of 1000 (max. 8388607)
+ 477 compressed objects within 5 object streams
+ 149 named destinations out of 1000 (max. 500000)
+ 47477 words of extra memory for PDF output out of 51595 (max. 10000000)
 
