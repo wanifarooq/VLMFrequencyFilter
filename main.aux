@@ -1,0 +1,207 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{agrawal2018vqacp}
+\citation{thrush2022winoground}
+\citation{yuksekgonul2023aro}
+\citation{hsieh2023sugarcrepe}
+\citation{ma2023crepe}
+\citation{yin2019fourier}
+\citation{wang2020high}
+\citation{tsuzuku2019structural}
+\citation{cao2020behind,frank2021vision,parcalabescu2022valse}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Why VLM Robustness Matters Now}{2}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}The Gap in Current Understanding}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}A Spectral Account of Why Verbosity Stabilises}{2}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Contributions}{3}{subsection.1.4}\protected@file@percent }
+\citation{hudson2019gqa,johnson2017clevr}
+\citation{andreas2016neural,hu2017learning}
+\citation{kazemzadeh2014referitgame,mao2016generation}
+\citation{haladyna2004review}
+\citation{agrawal2018vqacp}
+\citation{goyal2017making}
+\citation{hudson2019gqa}
+\citation{johnson2017clevr}
+\citation{thrush2022winoground}
+\citation{yuksekgonul2023aro}
+\citation{hsieh2023sugarcrepe}
+\citation{ma2023crepe}
+\citation{parcalabescu2022valse}
+\citation{thapliyal2022crossmodal}
+\citation{yin2019fourier}
+\citation{wang2020high}
+\citation{tsuzuku2019structural}
+\citation{abello2021dissecting}
+\citation{geirhos2018imagenet}
+\citation{chen2022amplitude,ortiz2021optimism}
+\citation{hendrycks2019benchmarking,kar20223d}
+\citation{hendrycks2021many,barbu2019objectnet}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{4}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}VLM Robustness and Compositional Generalisation}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Frequency-Domain Robustness in Vision}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Perturbation Benchmarks and Corruption Robustness}{4}{subsection.2.3}\protected@file@percent }
+\citation{cao2020behind,frank2021vision,ilinykh2022attention}
+\citation{merullo2024language,palit2023towards,basu2023localizing}
+\citation{andreas2016neural,hu2017learning}
+\citation{johnson2017clevr}
+\citation{hudson2019gqa}
+\citation{yi2018neural}
+\citation{kazemzadeh2014referitgame,mao2016generation,yu2016modeling}
+\citation{sclar2024quantifying,mizrahi2024state,salinas2024butterfly}
+\citation{anagnostidis2024susceptible}
+\citation{yin2019fourier}
+\citation{wang2020high}
+\citation{hendrycks2019benchmarking}
+\citation{thrush2022winoground}
+\citation{yuksekgonul2023aro}
+\citation{hudson2019gqa}
+\citation{johnson2017clevr}
+\citation{sclar2024quantifying}
+\citation{mizrahi2024state}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Positioning against prior robustness literature. Ours is the only framework that is simultaneously task-conditioned, spectral, predictive, and orthogonalizes logic from length.}}{5}{table.1}\protected@file@percent }
+\newlabel{tab:related}{{1}{5}{Positioning against prior robustness literature. Ours is the only framework that is simultaneously task-conditioned, spectral, predictive, and orthogonalizes logic from length}{table.1}{}}
+\newlabel{tab:related@cref}{{[table][1][]1}{[1][5][]5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Cross-Modal Attention and Mechanistic Probing}{5}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Compositional Reasoning and Program Counting}{5}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Prompt Sensitivity in Large Models}{5}{subsection.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Positioning}{5}{subsection.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Theoretical Framework}{6}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Vision Tokens as a Spatial Signal}{6}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}The Task-Specific Filter $W_t(\omega )$}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{eq:filter}{{2}{6}{The Task-Specific Filter $\Wt $}{equation.3.2}{}}
+\newlabel{eq:filter@cref}{{[equation][2][]2}{[1][6][]6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Effective Bandwidth via IPR}{6}{subsection.3.3}\protected@file@percent }
+\newlabel{eq:ipr}{{3}{6}{Effective Bandwidth via IPR}{equation.3.3}{}}
+\newlabel{eq:ipr@cref}{{[equation][3][]3}{[1][6][]6}}
+\@writefile{toc}{\contentsline {paragraph}{IPR as a downward-concentration diagnostic.}{7}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Shape diagnostics that complement $G(t)$.}{7}{section*.2}\protected@file@percent }
+\newlabel{par:pprior}{{3.3}{7}{Four-stage layer trajectory and the prompt-length prior (Theorem 4)}{section*.3}{}}
+\newlabel{par:pprior@cref}{{[subsection][3][3]3.3}{[1][7][]7}}
+\@writefile{toc}{\contentsline {paragraph}{Four-stage layer trajectory and the prompt-length prior (Theorem 4).}{7}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Perturbation Spectral Signature $\Delta F(\omega )$}{8}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}The Overlap Law}{8}{subsection.3.5}\protected@file@percent }
+\newlabel{eq:sprod}{{5}{8}{The Overlap Law}{equation.3.5}{}}
+\newlabel{eq:sprod@cref}{{[equation][5][]5}{[1][8][]8}}
+\newlabel{eq:sprod-lin}{{6}{8}{The Overlap Law}{equation.3.6}{}}
+\newlabel{eq:sprod-lin@cref}{{[equation][6][]6}{[1][8][]8}}
+\newlabel{eq:law}{{7}{8}{The Overlap Law}{equation.3.7}{}}
+\newlabel{eq:law@cref}{{[equation][7][]7}{[1][8][]8}}
+\citation{hudson2019gqa}
+\citation{johnson2017clevr}
+\citation{andreas2016neural,hu2017learning}
+\citation{kazemzadeh2014referitgame,mao2016generation,yu2016modeling}
+\citation{hudson2019gqa}
+\citation{johnson2017clevr}
+\citation{kazemzadeh2014referitgame,mao2016generation,yu2016modeling}
+\citation{haladyna2004review}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Semantic Program Complexity $C_{\mathrm  {sem}}$}{9}{subsection.3.6}\protected@file@percent }
+\newlabel{eq:csem}{{8}{9}{Semantic Program Complexity $\Csem $}{equation.3.8}{}}
+\newlabel{eq:csem@cref}{{[equation][8][]8}{[1][8][]9}}
+\newlabel{eq:cprompt}{{9}{9}{Semantic Program Complexity $\Csem $}{equation.3.9}{}}
+\newlabel{eq:cprompt@cref}{{[equation][9][]9}{[1][9][]9}}
+\@writefile{toc}{\contentsline {paragraph}{Validity of the semantic complexity score.}{9}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Residualization and Fixed Effects}{10}{subsection.3.7}\protected@file@percent }
+\newlabel{eq:horse}{{11}{10}{Residualization and Fixed Effects}{equation.3.11}{}}
+\newlabel{eq:horse@cref}{{[equation][11][]11}{[1][10][]10}}
+\newlabel{eq:fe}{{12}{10}{Residualization and Fixed Effects}{equation.3.12}{}}
+\newlabel{eq:fe@cref}{{[equation][12][]12}{[1][10][]10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Cross-Modal Latent Drift $\Delta Z$}{10}{subsection.3.8}\protected@file@percent }
+\citation{wang2020high,yin2019fourier}
+\citation{hendrycks2019benchmarking}
+\newlabel{eq:dz}{{13}{11}{Cross-Modal Latent Drift $\DZ $}{equation.3.13}{}}
+\newlabel{eq:dz@cref}{{[equation][13][]13}{[1][10][]11}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{11}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}The Mirror 8-Level GQA Design}{11}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Perturbation Bank}{11}{subsection.4.2}\protected@file@percent }
+\citation{bai2023qwen,yang2024qwen2}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Model and Evaluation Scale}{12}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Five Experimental Tasks}{12}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 1: Behavioural baseline, volatility-primary.}{12}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 2: Layer-resolved representational tuning.}{12}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 3: Internal mechanism via $\Delta Z$.}{12}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 4: Frequency ablation.}{13}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 5: Cross-domain validation.}{13}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Algorithmic Summary}{13}{subsection.4.5}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Spectral overlap predictor}}{13}{algorithm.1}\protected@file@percent }
+\newlabel{alg:spred}{{1}{13}{Algorithmic Summary}{algorithm.1}{}}
+\newlabel{alg:spred@cref}{{[algorithm][1][]1}{[1][13][]13}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{13}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The Tug-of-War (Task 1)}{13}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Strict monotonicity in volatility.}{13}{section*.10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Horse-race for the tug-of-war on the larger 1000-image standardised regression ($n = 8000$ for volatility, $n = 6083$ for the gated accuracy-drop confirmatory column). The primary target is log-likelihood volatility $\mathrm  {Vol}(t,I) = \mathbb  {E}_p\bigl  [\,|\log p_\theta (a^\star \mid I_p,t) - \log p_\theta (a^\star \mid I,t)|\,\bigr  ]$; the confirmatory target is gated accuracy drop. Both specifications recover the same qualitative split---$C_{\mathrm  {res}}$ destabilises ($\beta > 0$) while $C_{\mathrm  {prompt}}$ stabilises ($\beta < 0$)---but the volatility regression captures an order of magnitude more variance ($R^2 = 0.22$ vs $0.02$) and its $p$-values are $120$ orders of magnitude smaller on both forces. $\tilde  \beta (C_{\mathrm  {res}})$ and $\tilde  \beta (C_{\mathrm  {prompt}})$ on volatility: $p < 10^{-130}$ and $p < 10^{-209}$ respectively. The 100-sample 8B DC-on $B = 7$ replication under a cluster-robust (CR1) long-format specification reproduces both signs at $\beta _{C_{\mathrm  {prompt}}} = -0.054$ ($p < 10^{-52}$) and $\beta _{C_{\mathrm  {res}}} = +0.035$ ($p = 1.1{\times }10^{-3}$, $n = 62{,}400$ observations, 100 image clusters); the standardised tilde-betas reported here are not directly comparable to the raw CR1 betas because of the standardisation and the different sample size. $^{*}p<0.05$; $^{***}p<10^{-5}$. The fixed-effects specification slightly magnifies both effects by removing between-image variance, as expected.}}{14}{table.2}\protected@file@percent }
+\newlabel{tab:betas}{{2}{14}{Horse-race for the tug-of-war on the larger 1000-image standardised regression ($n = 8000$ for volatility, $n = 6083$ for the gated accuracy-drop confirmatory column). The primary target is log-likelihood volatility $\mathrm {Vol}(t,I) = \mathbb {E}_p\bigl [\,|\log p_\theta (a^\star \mid I_p,t) - \log p_\theta (a^\star \mid I,t)|\,\bigr ]$; the confirmatory target is gated accuracy drop. Both specifications recover the same qualitative split---$\Cres $ destabilises ($\beta > 0$) while $\Cprompt $ stabilises ($\beta < 0$)---but the volatility regression captures an order of magnitude more variance ($R^2 = 0.22$ vs $0.02$) and its $p$-values are $120$ orders of magnitude smaller on both forces. $\tilde \beta (\Cres )$ and $\tilde \beta (\Cprompt )$ on volatility: $p < 10^{-130}$ and $p < 10^{-209}$ respectively. The 100-sample 8B DC-on $B = 7$ replication under a cluster-robust (CR1) long-format specification reproduces both signs at $\beta _{\Cprompt } = -0.054$ ($p < 10^{-52}$) and $\beta _{\Cres } = +0.035$ ($p = 1.1{\times }10^{-3}$, $n = 62{,}400$ observations, 100 image clusters); the standardised tilde-betas reported here are not directly comparable to the raw CR1 betas because of the standardisation and the different sample size. $^{*}p<0.05$; $^{***}p<10^{-5}$. The fixed-effects specification slightly magnifies both effects by removing between-image variance, as expected}{table.2}{}}
+\newlabel{tab:betas@cref}{{[table][2][]2}{[1][13][]14}}
+\@writefile{toc}{\contentsline {paragraph}{The mirror contrast: $C_{\mathrm  {prompt}}$ stabilises at every level.}{14}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Why volatility and not accuracy.}{14}{section*.12}\protected@file@percent }
+\citation{sclar2024quantifying,mizrahi2024state}
+\@writefile{toc}{\contentsline {paragraph}{Reconciliation.}{15}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Layer-Resolved Bandwidth and the Four-Stage Trajectory (Task 2)}{15}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:task2}{{5.2}{15}{Layer-Resolved Bandwidth and the Four-Stage Trajectory (Task 2)}{subsection.5.2}{}}
+\newlabel{sec:task2@cref}{{[subsection][2][5]5.2}{[1][15][]15}}
+\@writefile{toc}{\contentsline {paragraph}{Stage 1: Layer 0, the prompt-length prior.}{15}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 2: Layers 1--12, the prior is erased.}{15}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 3: Layers 13--23 (mid), $C_{\mathrm  {sem}}$-driven narrowing, length-insensitive.}{15}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 4: Layers 24--35 (late) and \texttt  {last\_2}, content narrowing plus verbosity gap.}{16}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mechanistic consequence.}{16}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Direct 2D evidence that wordy mirrors broaden $W_t(\omega )$.}{16}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Internal Mechanism: Layer-Resolved Behavioural Prediction (Task 3)}{16}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:mech}{{5.3}{16}{Internal Mechanism: Layer-Resolved Behavioural Prediction (Task 3)}{subsection.5.3}{}}
+\newlabel{sec:mech@cref}{{[subsection][3][5]5.3}{[1][16][]16}}
+\@writefile{toc}{\contentsline {paragraph}{Vision-feature mirror.}{17}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Frequency Cutoff Law (Task 4)}{17}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Overlap Law Validation (Task 5)}{17}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:task5}{{5.5}{17}{Overlap Law Validation (Task 5)}{subsection.5.5}{}}
+\newlabel{sec:task5@cref}{{[subsection][5][5]5.5}{[1][17][]17}}
+\@writefile{toc}{\contentsline {paragraph}{Headline correlations (image-Fourier space, \texttt  {last\_2}).}{17}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Population vs item-level: matched fixed-effects diagnostic.}{18}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Radial vs 2D: a useful asymmetry.}{18}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Vision-feature space: the radial-reduction sign-flip.}{18}{section*.24}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Forest plot of the tug-of-war} (1000-image standardised regression on Qwen3-VL-2B, $n = 8000$ for volatility / $n = 6083$ for accuracy-drop). Standardised betas from \cref  {eq:fe} on log-likelihood volatility (primary) and gated accuracy drop (confirmatory). Within-image FE (solid) separates the two forces; pooled OLS (faded) compresses them. The opposite signs are the central empirical claim of this paper; the volatility target carries the effect at $R^2 = 0.22$, the thresholded accuracy-drop target carries the same signs at $R^2 = 0.02$. The 100-sample 8B CR1 replication (see \cref  {tab:betas} caption) reproduces both signs.}}{19}{figure.1}\protected@file@percent }
+\newlabel{fig:forest}{{1}{19}{\textbf {Forest plot of the tug-of-war} (1000-image standardised regression on Qwen3-VL-2B, $n = 8000$ for volatility / $n = 6083$ for accuracy-drop). Standardised betas from \cref {eq:fe} on log-likelihood volatility (primary) and gated accuracy drop (confirmatory). Within-image FE (solid) separates the two forces; pooled OLS (faded) compresses them. The opposite signs are the central empirical claim of this paper; the volatility target carries the effect at $R^2 = 0.22$, the thresholded accuracy-drop target carries the same signs at $R^2 = 0.02$. The 100-sample 8B CR1 replication (see \cref {tab:betas} caption) reproduces both signs}{figure.1}{}}
+\newlabel{fig:forest@cref}{{[figure][1][]1}{[1][19][]19}}
+\@writefile{toc}{\contentsline {paragraph}{Spearman--Pearson gap.}{19}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{DC handling.}{19}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Figure Discussion}{19}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{19}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Why reasoning is spectrally costly.}{19}{section*.27}\protected@file@percent }
+\citation{thrush2022winoground,yuksekgonul2023aro}
+\citation{sclar2024quantifying}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \textbf  {The overlap law.} Behavioural damage vs $S_{\mathrm  {pred}}^{\mathrm  {lin}} = \langle W_t(\omega )^{(\texttt  {last\_2})}, \Delta F(\omega )\rangle $ at the (level $\times $ perturbation) grouped resolution, single-slope fit, $r = 0.337$ pooled ($r_{\mathrm  {primary}} = 0.333$, $r_{\mathrm  {wordy}} = 0.318$) on the 100-sample 8B DC-on run with no target-side tuning. Per-sample correlation is $r = 0.315$ ($n = 62{,}400$); within-cell matched-FE median Pearson is $r = 0.350$ (radial) / $r = 0.457$ (2D) / $r = 0.543$ (2D, question-only filter)---the law works within-cell, not just population-level. Points in the low-$S_{\mathrm  {pred}}$ region correspond to spectrally harmless perturbations: high energy, but outside $W_t(\omega )$'s support.}}{20}{figure.2}\protected@file@percent }
+\newlabel{fig:overlap}{{2}{20}{\textbf {The overlap law.} Behavioural damage vs $\Spred ^{\mathrm {lin}} = \langle \Wt ^{(\texttt {last\_2})}, \DF \rangle $ at the (level $\times $ perturbation) grouped resolution, single-slope fit, $r = 0.337$ pooled ($r_{\mathrm {primary}} = 0.333$, $r_{\mathrm {wordy}} = 0.318$) on the 100-sample 8B DC-on run with no target-side tuning. Per-sample correlation is $r = 0.315$ ($n = 62{,}400$); within-cell matched-FE median Pearson is $r = 0.350$ (radial) / $r = 0.457$ (2D) / $r = 0.543$ (2D, question-only filter)---the law works within-cell, not just population-level. Points in the low-$\Spred $ region correspond to spectrally harmless perturbations: high energy, but outside $\Wt $'s support}{figure.2}{}}
+\newlabel{fig:overlap@cref}{{[figure][2][]2}{[1][19][]20}}
+\@writefile{toc}{\contentsline {paragraph}{Why length anchors.}{20}{section*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{A testable consequence.}{20}{section*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reconciling prior results.}{20}{section*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Practical implications.}{20}{section*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Societal impact: turning silent failure into an auditable quantity.}{20}{section*.32}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Layer-resolved bandwidth and the four-stage trajectory} (Qwen3-VL-8B, 100 samples, all 36 decoder attention layers). At layer 0 the wordy mean bandwidth sits $-0.74$ below the primary mean (length prior). By layer 2 the gap closes; through layers 1--12 all eight levels equilibrate near bandwidth $\approx 6.0$ (prior erased). Mid layers (13--23) drive $C_{\mathrm  {sem}}$-driven narrowing: L4 drops to $G(t)\approx 4.4$ at layer 22, while primary--wordy gap stays $\approx 0$ (length-insensitive content engagement). Late layers (24--35) and \texttt  {last\_2} re-open the primary--wordy gap to a peak $+0.33$ at layer 31, with wordy mirrors now \emph  {broader} than primaries (verbosity stabiliser). The bandwidth ladder by L1--L4 at \texttt  {last\_2} is $5.93, 5.92, 5.72, 5.68$, monotone with $C_{\mathrm  {sem}}$. Mass concentrates downward onto DC and DC-adjacent bins, where natural perturbation $\Delta F(\omega )$ also lives---the overlap that makes fine reasoning spectrally costly.}}{21}{figure.3}\protected@file@percent }
+\newlabel{fig:bw}{{3}{21}{\textbf {Layer-resolved bandwidth and the four-stage trajectory} (Qwen3-VL-8B, 100 samples, all 36 decoder attention layers). At layer 0 the wordy mean bandwidth sits $-0.74$ below the primary mean (length prior). By layer 2 the gap closes; through layers 1--12 all eight levels equilibrate near bandwidth $\approx 6.0$ (prior erased). Mid layers (13--23) drive $\Csem $-driven narrowing: L4 drops to $\Gt \approx 4.4$ at layer 22, while primary--wordy gap stays $\approx 0$ (length-insensitive content engagement). Late layers (24--35) and \texttt {last\_2} re-open the primary--wordy gap to a peak $+0.33$ at layer 31, with wordy mirrors now \emph {broader} than primaries (verbosity stabiliser). The bandwidth ladder by L1--L4 at \texttt {last\_2} is $5.93, 5.92, 5.72, 5.68$, monotone with $\Csem $. Mass concentrates downward onto DC and DC-adjacent bins, where natural perturbation $\DF $ also lives---the overlap that makes fine reasoning spectrally costly}{figure.3}{}}
+\newlabel{fig:bw@cref}{{[figure][3][]3}{[1][19][]21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Task-specific cutoff.} $\omega _c$ vs $C_{\mathrm  {sem}}$: fine-grained reasoning tolerates less high-frequency removal; cutoffs fall monotonically from L1 to L4, and wordy mirrors L5--L8 inherit the cutoff of their primary counterpart.}}{21}{figure.4}\protected@file@percent }
+\newlabel{fig:omegac}{{4}{21}{\textbf {Task-specific cutoff.} $\omega _c$ vs $\Csem $: fine-grained reasoning tolerates less high-frequency removal; cutoffs fall monotonically from L1 to L4, and wordy mirrors L5--L8 inherit the cutoff of their primary counterpart}{figure.4}{}}
+\newlabel{fig:omegac@cref}{{[figure][4][]4}{[1][19][]21}}
+\citation{liu2024llavanext}
+\citation{chen2024internvl}
+\citation{meng2022locating}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Mirror contrast: wordy stabilisation on 100-sample 8B.} Per-level log-likelihood volatility for primary (L1--L4, left) and wordy (L5--L8, right) levels. Every wordy mirror sits below its primary counterpart; reductions are $89.5$\%, $68.4$\%, $69.8$\%, $71.4$\% for the four pairs (drift-variance reductions of $86$\%, $65$\%, $81$\%, $70$\% on the same data---the canonical Table 1 numbers). Largest stabilisation appears at L1$\leftrightarrow $L5 (already the spectrally cheapest reasoning, dampened furthest by verbosity at the input attention layer); largest absolute volatility drop is at L4$\leftrightarrow $L8 ($1.56$ vs $0.21$ at L1).}}{22}{figure.5}\protected@file@percent }
+\newlabel{fig:wordy_volatility}{{5}{22}{\textbf {Mirror contrast: wordy stabilisation on 100-sample 8B.} Per-level log-likelihood volatility for primary (L1--L4, left) and wordy (L5--L8, right) levels. Every wordy mirror sits below its primary counterpart; reductions are $89.5$\%, $68.4$\%, $69.8$\%, $71.4$\% for the four pairs (drift-variance reductions of $86$\%, $65$\%, $81$\%, $70$\% on the same data---the canonical Table 1 numbers). Largest stabilisation appears at L1$\leftrightarrow $L5 (already the spectrally cheapest reasoning, dampened furthest by verbosity at the input attention layer); largest absolute volatility drop is at L4$\leftrightarrow $L8 ($1.56$ vs $0.21$ at L1)}{figure.5}{}}
+\newlabel{fig:wordy_volatility@cref}{{[figure][5][]5}{[1][19][]22}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Limitations}{22}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{22}{section.9}\protected@file@percent }
+\bibstyle{plainnat}
+\bibdata{references}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces \textbf  {Cross-modal attention spectrum $W_t(\omega )^{(\texttt  {last\_2})}$ across the 8-level grid.} Radial-band-resolved filter mass per question level at the second-from-last attention layer ($B = 7$ auto-resolved). L1--L4 primaries (top half) concentrate mass downward onto the DC--adjacent bins as $C_{\mathrm  {sem}}$ rises (top-$2$ mass grows; tail thins). L5--L8 wordy mirrors (bottom half) show a broader, more uniform mass distribution at the same depth---the verbosity-stabilising relaxation. The bandwidth ladder at \texttt  {last\_2} is $5.93, 5.92, 5.72, 5.68$ for L1--L4 (monotone), and $5.94, 5.98, 5.99, 5.96$ for L5--L8 (consistently broader).}}{23}{figure.6}\protected@file@percent }
+\newlabel{fig:band_heatmap}{{6}{23}{\textbf {Cross-modal attention spectrum $\Wt ^{(\texttt {last\_2})}$ across the 8-level grid.} Radial-band-resolved filter mass per question level at the second-from-last attention layer ($B = 7$ auto-resolved). L1--L4 primaries (top half) concentrate mass downward onto the DC--adjacent bins as $\Csem $ rises (top-$2$ mass grows; tail thins). L5--L8 wordy mirrors (bottom half) show a broader, more uniform mass distribution at the same depth---the verbosity-stabilising relaxation. The bandwidth ladder at \texttt {last\_2} is $5.93, 5.92, 5.72, 5.68$ for L1--L4 (monotone), and $5.94, 5.98, 5.99, 5.96$ for L5--L8 (consistently broader)}{figure.6}{}}
+\newlabel{fig:band_heatmap@cref}{{[figure][6][]6}{[1][19][]23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces \textbf  {Matched-FE within-cell scatter (the item-level law).} Within each (image $\times $ perturbation $\times $ severity) cell, image content and perturbation strength are held identical; only the task level varies across L1--L8. Both predicted overlap (question-only $W_t(\omega )$, 2D first-order, image-space) and observed log-likelihood volatility are demeaned within-cell, then plotted. Within-cell median Pearson $r = 0.543$; per-unit positive-correlation rate $> 0.68$. This is the disclosure the earlier population-level-only caveat made impossible: the law works \emph  {within-cell}, not only between-cell.}}{24}{figure.7}\protected@file@percent }
+\newlabel{fig:matched_fe}{{7}{24}{\textbf {Matched-FE within-cell scatter (the item-level law).} Within each (image $\times $ perturbation $\times $ severity) cell, image content and perturbation strength are held identical; only the task level varies across L1--L8. Both predicted overlap (question-only $\Wt $, 2D first-order, image-space) and observed log-likelihood volatility are demeaned within-cell, then plotted. Within-cell median Pearson $r = 0.543$; per-unit positive-correlation rate $> 0.68$. This is the disclosure the earlier population-level-only caveat made impossible: the law works \emph {within-cell}, not only between-cell}{figure.7}{}}
+\newlabel{fig:matched_fe@cref}{{[figure][7][]7}{[1][19][]24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces \textbf  {Pixel-space vs vision-feature-space overlap.} (a) $\langle W_t(\omega )^{(\texttt  {last\_2})}, \Delta F(\omega )\rangle $ vs log-likelihood volatility in image-Fourier space ($r = 0.337$). (b) Same predictor computed against vision-encoder feature-space deltas $\Delta V$ at \texttt  {last\_2} ($r = 0.197$ radial, $0.273$ 2D). The radial pixel-space form is the strongest aggregate predictor; the 2D form recovers a positive law in feature space where the radial form gives an apparent sign flip (matched-FE radial $r = -0.346$ vs 2D $r = +0.193$, see \cref  {sec:task5}).}}{25}{figure.8}\protected@file@percent }
+\newlabel{fig:image_vs_feature}{{8}{25}{\textbf {Pixel-space vs vision-feature-space overlap.} (a) $\langle \Wt ^{(\texttt {last\_2})}, \DF \rangle $ vs log-likelihood volatility in image-Fourier space ($r = 0.337$). (b) Same predictor computed against vision-encoder feature-space deltas $\Delta V$ at \texttt {last\_2} ($r = 0.197$ radial, $0.273$ 2D). The radial pixel-space form is the strongest aggregate predictor; the 2D form recovers a positive law in feature space where the radial form gives an apparent sign flip (matched-FE radial $r = -0.346$ vs 2D $r = +0.193$, see \cref {sec:task5})}{figure.8}{}}
+\newlabel{fig:image_vs_feature@cref}{{[figure][8][]8}{[1][19][]25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces \textbf  {Wordy--primary bandwidth gap across decoder depth} (per-layer, 100-sample 8B). The primary--wordy bandwidth difference shows the four-stage trajectory of \cref  {sec:task2}: a strong negative gap at layer 0 (length prior, wordy narrower); near-zero through layers 1--12 (prior erased) and the mid third 13--23 (length-insensitive content narrowing); a growing positive gap through the late third 24--35, peaking at $+0.33$ at layer 31 (verbosity-stabilising broadening). The sign reversal between layer 0 and layer 31 is the mechanistic signature of how prompt length is processed: applied as an immediate spectral bias, erased during semantic integration, and re-expressed in the opposite direction at deep decoder layers as a stabilising broadening.}}{25}{figure.9}\protected@file@percent }
+\newlabel{fig:wordy_divergence}{{9}{25}{\textbf {Wordy--primary bandwidth gap across decoder depth} (per-layer, 100-sample 8B). The primary--wordy bandwidth difference shows the four-stage trajectory of \cref {sec:task2}: a strong negative gap at layer 0 (length prior, wordy narrower); near-zero through layers 1--12 (prior erased) and the mid third 13--23 (length-insensitive content narrowing); a growing positive gap through the late third 24--35, peaking at $+0.33$ at layer 31 (verbosity-stabilising broadening). The sign reversal between layer 0 and layer 31 is the mechanistic signature of how prompt length is processed: applied as an immediate spectral bias, erased during semantic integration, and re-expressed in the opposite direction at deep decoder layers as a stabilising broadening}{figure.9}{}}
+\newlabel{fig:wordy_divergence@cref}{{[figure][9][]9}{[1][19][]25}}
+\gdef \@abspage@last{25}

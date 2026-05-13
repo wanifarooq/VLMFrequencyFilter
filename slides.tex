@@ -233,9 +233,9 @@ Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose
 \column{0.48\linewidth}
 \begin{block}{\textcolor{pnavy}{Headline}}
 \small
-\textbf{1.} \textbf{Verbose prompts stabilise VLMs.} $25$--$73\%$ volatility reduction across mirror pairs (L5--L8 vs L1--L4), strongest at the spectrally-costliest L4. Not previously reported.\\[0.3em]
-\textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt, \DF\rangle$ \emph{explains} the stabilisation: verbose prompts broaden $\Wt$ at late layers and shrink overlap with natural-perturbation $\DF$. Zero target-side fitting.\\[0.3em]
-\textbf{3.} Three-stage layer trajectory (length prior $\to$ uniform compression $\to$ downward concentration) as the mechanism.
+\textbf{1.} \textbf{Verbose prompts stabilise VLMs.} $65$--$86\%$ drift-variance reduction across mirror pairs (mean ratio $0.247$); mean volatility drops $68$--$90\%$ on 8B, strongest at L4. Not previously reported.\\[0.3em]
+\textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ \emph{explains} the stabilisation at $r = 0.337$ grouped, $r = 0.315$ per-sample, and within-cell median $r = 0.543$ (2D, question-only). Zero target-side fitting.\\[0.3em]
+\textbf{3.} Four-stage layer trajectory: layer-0 length prior $\to$ erasure $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap.
 \end{block}
 \column{0.48\linewidth}
 \begin{block}{\textcolor{pnavy}{Method \& Evidence}}
@@ -523,6 +523,14 @@ $n$ / $R^2$ & $8000$ / $0.187$ & $8000$ / $\mathbf{0.217}$ \\
 \alert{Opposite signs, jointly significant at $p$ in the $10^{-100}$s.}
 \end{frame}
 
+\begin{frame}{Result 1a: Forest Plot of the Tug-of-War}
+\begin{center}
+\includegraphics[width=0.78\linewidth]{figures/forest_tug_of_war.png}
+\end{center}
+\vspace{-0.3em}
+\keybox{\small Standardised within-image FE betas: $\tilde\beta(\Cprompt) < 0$ stabilises, $\tilde\beta(\Cres) > 0$ destabilises. Same sign reproduced on the 100-sample 8B CR1 long-format replication.}
+\end{frame}
+
 \begin{frame}{Result 1b: Strict Monotonicity in Volatility}
 \begin{columns}[T,onlytextwidth]
 \column{0.54\linewidth}
@@ -583,18 +591,18 @@ ANOVA $F = 255$, $p < 10^{-139}$
     enlarge x limits=0.15
   ]
     \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {
-      (L1/L5, 2.136) (L2/L6, 3.461) (L3/L7, 2.171) (L4/L8, 3.375)
+      (L1/L5, 2.073) (L2/L6, 3.460) (L3/L7, 2.171) (L4/L8, 3.374)
     };
-    \addlegendentry{primary}
+    \addlegendentry{primary (std drift)}
     \addplot[fill=pgreen!70, draw=pgreen!80!black] coordinates {
-      (L1/L5, 0.805) (L2/L6, 2.061) (L3/L7, 0.937) (L4/L8, 1.852)
+      (L1/L5, 0.787) (L2/L6, 2.061) (L3/L7, 0.937) (L4/L8, 1.852)
     };
-    \addlegendentry{wordy}
+    \addlegendentry{wordy (std drift)}
   \end{axis}
 \end{tikzpicture}
 \column{0.44\linewidth}
 \small
-Same semantic program; only $\Cprompt$ changes.
+Same semantic program; only $\Cprompt$ changes. Bars: drift std deviation; ladder: drift-variance reduction.
 \vspace{0.4em}
 \begin{tabular}{@{}lr@{}}
 L1$\leftrightarrow$L5 & $\mathbf{-86\%}$ \\
@@ -764,31 +772,41 @@ centroid along $\omega$          & --- & shifts slightly down \\
 \keybox{\small Top-$2$ mass and tail mass are the two load-bearing gates; both flip sign vs the earlier prediction. $\Gt$ alone misses the location story.}
 \end{frame}
 
-\begin{frame}{Theorem 4 --- Three-Stage Trajectory \& Length Prior}
+\begin{frame}{Empirical Four-Stage Trajectory (8B, 100 samples)}
+\begin{center}
+\includegraphics[width=0.92\linewidth]{figures/bandwidth_vs_csem.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small Layer 0 length prior ($-0.74$ gap) $\to$ erasure (layers 1--12) $\to$ mid-layer content narrowing $\to$ \texttt{last\_2} verbosity gap ($+0.33$ peak at layer 31).}
+\end{frame}
+
+\begin{frame}{Filter Shape Across the 8 Levels (\texttt{last\_2})}
+\begin{center}
+\includegraphics[width=0.78\linewidth]{figures/band_heatmap_last_2.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small Primary L1--L4 (top) concentrate mass downward as $\Csem$ rises; wordy L5--L8 (bottom) keep a broader, more uniform mass distribution at the same depth.}
+\end{frame}
+
+\begin{frame}{Theorem 4 --- Four-Stage Trajectory \& Length Prior}
 \small
-\textbf{Claim.} $\Wt(\ell)$ moves through three stages with depth:
+\textbf{Claim.} $\Wt(\ell)$ moves through \emph{four} stages with depth (Qwen3-VL-8B, 36 decoder attention layers):
 \begin{itemize}\setlength\itemsep{0.15em}
-  \item \textbf{Early:} prompt-length prior --- longer prompts $\to$ more concentrated; levels cluster by token count, not $\Csem$.
-  \item \textbf{Mid:} uniform compression --- all 8 levels collapse to $\Gt^{(\text{mid})} \approx 2.0$.
-  \item \textbf{Late:} $\Csem$-driven downward concentration with \textbf{asymmetric relaxation} --- wordy mirrors relax \emph{further} than their semantic counterparts because they began more concentrated.
+  \item \textbf{Layer 0:} prompt-length prior --- wordy mirrors $-0.74$ narrower than primaries in mean bandwidth (largest single-layer gap anywhere in network).
+  \item \textbf{Layers 1--12:} prior erased --- gap collapses by layer 2; all 8 levels equilibrate near bandwidth $\approx 6.0$, length and content blind.
+  \item \textbf{Layers 13--23 (mid):} $\Csem$-driven narrowing, length-insensitive --- L4 dips to $\Gt = 4.4$ at layer 22; primary $\approx$ wordy throughout.
+  \item \textbf{Layers 24--35 + \texttt{last\_2}:} content narrowing + verbosity gap --- wordy filter \emph{broader} than primary, peaking at $+0.33$ at layer 31.
 \end{itemize}
 
-\vspace{0.4em}
-\textbf{Layer-wise signature (divergence, not convergence):} for each mirror pair $(L_i, L_{i+4})$,
-\[
-\underbrace{|\mathrm{shape}(\text{early})\,\text{diff}|}_{\text{small}} \quad\to\quad \underbrace{|\mathrm{shape}(\text{late})\,\text{diff}|}_{\textbf{larger}}
-\]
-The wordy-vs-base gap \emph{grows} with depth (8/8 metric checks).
+\vspace{0.3em}
+\textbf{Why $\beta_{\Cprompt}<0$?} The deep-decoder verbosity gap lands the wordy filter on a broader, less DC-exposed shape, lowering $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ linearly. Drift drops mechanically.
 
-\vspace{0.4em}
-\textbf{Why $\beta_{\Cprompt}<0$?} Asymmetric late-layer relaxation lands the wordy filter on a \emph{broader} late-layer shape, lowering $\langle\Wt^{(\text{late})},\DF\rangle$ linearly. Drift drops mechanically.
-
-\vspace{0.4em}
-\keybox{\small Wordy prompts are not calming the model --- they trigger an early-layer length prior whose late-layer relaxation lands on a broader, less DC-exposed filter.}
+\vspace{0.3em}
+\keybox{\small Wordy prompts trigger a sharp layer-0 length prior, get equalised at early layers, undergo content narrowing without surface-form bias at mid, then open a stabilising gap at late and \texttt{last\_2}.}
 \end{frame}
 
 \begin{frame}{Result 3: Overlap Predicts Behavioural Drift, Layer by Layer}
-\textbf{Pixel-space first-order overlap $\langle\Wt^{(\ell)},\DF\rangle$ vs $\mathrm{loglik\_volatility}$ (100-sample $B{=}20$ run):}
+\textbf{Pixel-space first-order overlap $\langle\Wt^{(\ell)},\DF\rangle$ vs $\mathrm{loglik\_volatility}$ (100-sample 8B run, $B{=}7$):}
 \vspace{0.3em}
 \begin{columns}[T,onlytextwidth]
 \column{0.50\linewidth}
@@ -798,17 +816,17 @@ The wordy-vs-base gap \emph{grows} with depth (8/8 metric checks).
     ybar, bar width=12pt,
     xlabel={\footnotesize layer group}, ylabel={\footnotesize Pearson $r$ (grouped)},
     label style={text=pgray, font=\footnotesize},
-    symbolic x coords={early, mid, late, last\_2, overall},
+    symbolic x coords={overall, early, mid, late, last\_2},
     xtick=data,
     tick label style={text=pgray, font=\scriptsize},
     axis line style={pgray},
-    ymin=0, ymax=0.45,
+    ymin=0, ymax=0.40,
     nodes near coords, nodes near coords style={text=pnavy, font=\scriptsize},
     legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
     enlarge x limits=0.18
   ]
-    \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {(early, 0.294) (mid, 0.290) (late, 0.299) (last\_2, 0.358) (overall, 0.299)};
-    \addlegendentry{first-order}
+    \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {(overall, 0.296) (early, 0.282) (mid, 0.281) (late, 0.306) (last\_2, 0.337)};
+    \addlegendentry{first-order, radial}
   \end{axis}
 \end{tikzpicture}
 \column{0.46\linewidth}
@@ -816,15 +834,31 @@ The wordy-vs-base gap \emph{grows} with depth (8/8 metric checks).
 All cells significant ($p \approx 0$, $n = 16{,}800$).
 \vspace{0.2em}
 \begin{itemize}\setlength\itemsep{0.2em}
-  \item Late-layer subgroup \textbf{last\_2} carries the strongest signal at $r = 0.358$.
-  \item Per-level $r \in [0.21, 0.39]$.
-  \item Quadratic variant $r = 0.136$ (legacy); first-order wins by a factor of $2.2\times$.
-  \item Earlier fusion-drift analysis (Exp 3) was retired --- the same predictive signal lives in the pixel-space overlap law.
+  \item \textbf{last\_2} carries the strongest signal: $r = 0.337$ grouped, $r = 0.315$ per-sample.
+  \item Per-level $r \in [0.22, 0.38]$.
+  \item 2D first-order at \texttt{last\_2}: $r = 0.315$ grouped.
+  \item Quadratic variant $r = 0.14$ (legacy); first-order wins by $\approx 2.4\times$.
 \end{itemize}
 
 \vspace{0.4em}
-\keybox{\small $\Wt$ is a population-level spectral predictor of perturbation damage, with the late layers carrying the load.}
+\keybox{\small $\Wt^{(\texttt{last\_2})}$ carries the strongest spectral coupling to perturbation damage --- the second-from-last attention layer is where the task-conditioned filter is sharpest.}
 \end{columns}
+\end{frame}
+
+\begin{frame}{Overlap Law: Empirical Scatter (8B, \texttt{last\_2})}
+\begin{center}
+\includegraphics[width=0.74\linewidth]{figures/overlap_grid.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ vs log-likelihood volatility, single-slope fit, $r = 0.337$ pooled grouped, $r = 0.315$ per-sample. Zero target-side fitting.}
+\end{frame}
+
+\begin{frame}{Matched-FE: The Item-Level Law}
+\begin{center}
+\includegraphics[width=0.66\linewidth]{figures/matched_fe_question_only.png}
+\end{center}
+\vspace{-0.2em}
+\keybox{\small Within each (image $\times$ perturbation $\times$ severity) cell, demean both predicted overlap and observed volatility, then correlate. Within-cell median Pearson $r = 0.543$ (2D, question-only $\Wt$). The law works \emph{within-cell}.}
 \end{frame}
 
 \begin{frame}{Results 4 \& 5: Cutoff Law and Overlap Validation}
@@ -841,21 +875,21 @@ All cells significant ($p \approx 0$, $n = 16{,}800$).
 \textcolor{paccent}{\textbf{Fine reasoning lives in the high-frequency tail.}}
 \end{block}
 \column{0.46\linewidth}
-\begin{block}{\textcolor{pnavy}{Task 5 --- Overlap law $\langle\Wt,\DF\rangle$}}
+\begin{block}{\textcolor{pnavy}{Task 5 --- Overlap law $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$}}
 \small
 \begin{itemize}
-  \item Grouped (image $\times$ level $\times$ family): $r = 0.299$ pooled, $r = 0.332$ primary L1--L4\\ ($n = 16{,}800$, $p \approx 0$).
-  \item 2D analogue $r = 0.279$ --- radial reduction is tight.
+  \item Grouped: $r = 0.337$ pooled radial, $r = 0.315$ 2D ($n = 16{,}800$).
+  \item Per-sample: $r = 0.315$ ($n = 62{,}400$).
+  \item Matched-FE within-cell median Pearson:\\ $0.350$ radial, $0.457$ 2D, $\mathbf{0.543}$ 2D + question-only.
   \item Zero target-side fitting.
-  \item Sample-level $r = 0.271$ ($n = 62{,}400$); modest per-item signal.
 \end{itemize}
 \vspace{0.2em}
-\textcolor{paccent}{\textbf{Population-level law, not a per-item predictor.}}
+\textcolor{paccent}{\textbf{The law works at both population \emph{and} item level.}}
 \end{block}
 \end{columns}
 
 \vspace{0.5em}
-\keybox{Bulk transport regularities in physics also emerge only after ensemble averaging --- same situation here.}
+\keybox{Grouped $r = 0.34$ shows the population law; within-cell $r = 0.54$ shows the item-level signal once orientation is preserved (2D) and answer-format tokens stripped from $\Wt$ (question-only).}
 \end{frame}
 
 % -------------------- SECTION: DISCUSSION --------------------
@@ -865,16 +899,16 @@ All cells significant ($p \approx 0$, $n = 16{,}800$).
 \begin{columns}[T,onlytextwidth]
 \column{0.48\linewidth}
 \small
-As $\Csem$ rises (late layer):
+As $\Csem$ rises (deep-decoder filter):
 \begin{enumerate}\setlength\itemsep{0.3em}
-  \item Late-layer mass concentrates \textbf{downward} onto the top-$1$/top-$2$ bins (DC \& near-DC).
+  \item $\Wt^{(\texttt{last\_2})}$ mass concentrates \textbf{downward} onto the top-$1$/top-$2$ bins (DC \& near-DC).
   \item High-freq tail \textbf{thins}.
   \item Natural perturbations $\DF$ also live on DC \& near-DC ($80$--$96\%$ of mass).
-  \item $\langle\Wt^{(\text{late})},\DF\rangle$ grows $\Rightarrow$ damage follows.
+  \item $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ grows $\Rightarrow$ damage follows.
 \end{enumerate}
 
 \vspace{0.6em}
-\keybox{\small Fine reasoning is spectrally costly because the late-layer filter concentrates onto exactly the bins where natural perturbations also live.}
+\keybox{\small Fine reasoning is spectrally costly because the second-from-last-layer filter concentrates onto exactly the bins where natural perturbations also live.}
 \column{0.48\linewidth}
 \begin{tikzpicture}
   \begin{axis}[
@@ -904,23 +938,21 @@ As $\Csem$ rises (late layer):
 \end{columns}
 \end{frame}
 
-\begin{frame}{Why Length Anchors: The Three-Stage Trajectory}
+\begin{frame}{Why Length Anchors: The Four-Stage Trajectory}
 \begin{center}
-\begin{tikzpicture}[font=\small,
-  box/.style={draw=pnavy, fill=white, rounded corners=2pt, minimum width=2.8cm, minimum height=1.3cm, align=center, text=pnavy, line width=0.6pt}
+\begin{tikzpicture}[font=\footnotesize,
+  box/.style={draw=pnavy, fill=white, rounded corners=2pt, minimum width=2.5cm, minimum height=1.4cm, align=center, text=pnavy, line width=0.6pt}
 ]
-  \node[box, fill=pgreen!10, draw=pgreen, text=pgreen] (early) at (0,0) {\textbf{Early}\\ \footnotesize length prior\\ levels cluster by\\ token count};
-  \node[box] (mid) at (4.5,0) {\textbf{Mid}\\ \footnotesize uniform compression\\ all 8 levels collapse};
-  \node[box, fill=paccent!10, draw=paccent, text=paccent] (late) at (9,0) {\textbf{Late}\\ \footnotesize $\Csem$-driven\\ downward concentration\\ asymmetric relaxation};
+  \node[box, fill=pgreen!10, draw=pgreen, text=pgreen] (l0) at (0,0) {\textbf{Layer 0}\\ \scriptsize length prior\\ wordy $-0.74$\\ narrower};
+  \node[box] (erase) at (3.3,0) {\textbf{Layers 1--12}\\ \scriptsize prior erased\\ all levels $\approx 6.0$};
+  \node[box, fill=pnavy!10] (mid) at (6.6,0) {\textbf{Mid (13--23)}\\ \scriptsize $\Csem$-narrowing\\ length-insensitive};
+  \node[box, fill=paccent!10, draw=paccent, text=paccent] (late) at (9.9,0) {\textbf{Late + \texttt{last\_2}}\\ \scriptsize content + verbosity\\ wordy $+0.33$ broader\\ (layer 31 peak)};
 
-  \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (early) -- (mid);
+  \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (l0) -- (erase);
+  \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (erase) -- (mid);
   \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (mid) -- (late);
 
-  \node[text=pgray, font=\scriptsize, below=0.3cm of mid, align=center] {prior is largely erased\\ before semantics engages};
-
-  \node[text=paccent, font=\scriptsize, below=0.3cm of late, align=center] {wordy mirrors relax \emph{further};\\ wordy-vs-base gap grows};
-
-  \node[draw=paccent, fill=paccent!5, line width=0.9pt, rounded corners=3pt, inner sep=7pt, text width=0.9\linewidth, align=center] at (4.5,-3.5) {\textbf{Length anchors because the early-layer length prior gives wordy prompts a more concentrated starting filter, and the late-layer asymmetric relaxation lands them on a broader, less DC-exposed shape than their semantic counterparts.}};
+  \node[draw=paccent, fill=paccent!5, line width=0.9pt, rounded corners=3pt, inner sep=7pt, text width=0.9\linewidth, align=center] at (5,-3) {\textbf{Length anchors because the layer-0 length prior + deep-decoder verbosity gap land the wordy filter on a broader, less DC-exposed shape than its primary counterpart---reducing $\langle\Wt^{(\texttt{last\_2})}, \DF\rangle$ and the drift it predicts.}};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1008,7 +1040,7 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 \begin{block}{\textcolor{pnavy}{What's not yet validated}}
 \small
 \begin{itemize}
-  \item Single model (Qwen3-VL-2B); LLaVA-NeXT / InternVL replication in progress.
+  \item Two Qwen3-VL scales (2B for 1000-image regression; 8B for 100-sample replication); LLaVA-NeXT / InternVL still ongoing.
   \item Severity-1 only in the main run.
   \item Task 4 (cutoff) reported qualitatively.
 \end{itemize}
@@ -1019,8 +1051,9 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 \small
 \begin{itemize}
   \item $\Wt$ from attention $\Rightarrow$ correlational lower bound.
-  \item $\langle\Wt,\DF\rangle$ is population-level ($r = 0.30$ grouped / $r = 0.27$ per-sample). Matched-FE within-unit $r \approx 0.15$: between-perturbation variance dominates, task-specific signal is real but modest.
-  \item $\Csem$ is equal-weighted by design; sign invariant under any positive reweighting, magnitudes are not.
+  \item Pixel-space radial Pearson--Spearman gap: $r = 0.34$ vs $\rho = 0.19$ at \texttt{last\_2}. The 2D form and vision-feature space close this gap.
+  \item Radial wins between-cells ($r = 0.34$); 2D wins within-cells ($r = 0.46$ median). Unified estimator open work.
+  \item $\Csem$ equal-weighted by design; signs invariant under positive reweighting, magnitudes are not.
   \item Mirror controls are synthetic; human-judged paraphrases are a natural extension.
 \end{itemize}
 \end{block}
@@ -1033,10 +1066,11 @@ This is a \textbf{falsifiable mechanistic prediction} that purely behavioural ac
 
 \textbf{What we found.}
 \begin{itemize}\setlength\itemsep{0.25em}
-  \item \textbf{Headline:} every wordy mirror L5--L8 has $65$--$86\%$ lower volatility than its byte-identical-semantics counterpart L1--L4 (mean variance ratio $0.246$). Largest at the spectrally-costliest L4. Not previously reported.
-  \item \textbf{Mechanism:} text is a \textcolor{pnavy}{\textbf{spectral operator}} $\Wt$; verbose prompts \emph{broaden} $\Wt$ at late layers, shrinking overlap with natural-perturbation $\DF$.
-  \item \textbf{Predictor:} $\langle\Wt,\DF\rangle$ predicts damage at $r = 0.299$ pooled ($r = 0.332$ on primary L1--L4) with \emph{no} target-side fitting.
-  \item \textbf{Trajectory:} early-layer length prior $\to$ mid-layer uniform compression $\to$ late-layer $\Csem$-driven downward concentration with asymmetric relaxation on wordy mirrors.
+  \item \textbf{Headline:} every wordy mirror L5--L8 has $65$--$86\%$ lower drift variance than L1--L4 (mean ratio $0.247$ on 8B, replicating 2B's $0.246$); mean log-likelihood volatility drops $68$--$90\%$ on 8B.
+  \item \textbf{Mechanism:} text is a \textcolor{pnavy}{\textbf{spectral operator}} $\Wt$; verbose prompts \emph{broaden} $\Wt^{(\texttt{last\_2})}$ at the deepest decoder layer, shrinking overlap with natural-perturbation $\DF$.
+  \item \textbf{Predictor (population):} $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ predicts damage at $r = 0.337$ pooled grouped, $r = 0.315$ per-sample, zero target-side fitting.
+  \item \textbf{Predictor (item-level):} matched-FE within-cell median Pearson $r = 0.543$ (2D, question-only $\Wt$). The law works \emph{within-cell}, not just between-cell.
+  \item \textbf{Trajectory:} layer-0 length prior $\to$ erasure (1--12) $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap (peak $+0.33$ at layer 31).
   \item \textbf{Tug-of-war:} $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$ --- logic destabilises, length anchors.
 \end{itemize}
 
