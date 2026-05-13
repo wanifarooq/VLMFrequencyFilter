@@ -482,14 +482,14 @@ The radial form gives a strong \emph{negative} correlation (within-cell median $
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/forest_tug_of_war.png}
-    \caption{\textbf{Forest plot of the tug-of-war} (1000-image standardised regression on Qwen3-VL-2B, $n = 8000$ for volatility / $n = 6083$ for accuracy-drop). Standardised betas from \cref{eq:fe} on log-likelihood volatility (primary) and gated accuracy drop (confirmatory). Within-image FE (solid) separates the two forces; pooled OLS (faded) compresses them. The opposite signs are the central empirical claim of this paper; the volatility target carries the effect at $R^2 = 0.22$, the thresholded accuracy-drop target carries the same signs at $R^2 = 0.02$. The 100-sample 8B CR1 replication (see \cref{tab:betas} caption) reproduces both signs.}
+    \caption{\textbf{Forest plot of the tug-of-war} (100-sample 8B replication, primary target log-likelihood volatility). Standardised regression coefficients with 95\% CIs. Pooled OLS (circles) and within-image fixed effects (squares) both recover the opposite-signed split: $\tilde\beta(\Cres) > 0$ destabilises (top, green); $\tilde\beta(\Cprompt) < 0$ stabilises (middle, grey); option hardness and prediction entropy enter as controls. The 1000-image 2B headline reports the same signs at larger magnitudes ($\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$, $p < 10^{-130}$ / $p < 10^{-209}$).}
     \label{fig:forest}
 \end{figure}
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/overlap_grid.png}
-    \caption{\textbf{The overlap law.} Behavioural damage vs $\Spred^{\mathrm{lin}} = \langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ at the (level $\times$ perturbation) grouped resolution, single-slope fit, $r = 0.337$ pooled ($r_{\mathrm{primary}} = 0.333$, $r_{\mathrm{wordy}} = 0.318$) on the 100-sample 8B DC-on run with no target-side tuning. Per-sample correlation is $r = 0.315$ ($n = 62{,}400$); within-cell matched-FE median Pearson is $r = 0.350$ (radial) / $r = 0.457$ (2D) / $r = 0.543$ (2D, question-only filter)---the law works within-cell, not just population-level. Points in the low-$\Spred$ region correspond to spectrally harmless perturbations: high energy, but outside $\Wt$'s support.}
+    \includegraphics[width=\linewidth]{figures/overlap_grid.png}
+    \caption{\textbf{The overlap law: predicted vs observed vs residual} (100-sample 8B, image-space, \texttt{last\_2}, target = log-likelihood volatility). Left: predicted overlap $\langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ by (level $\times$ perturbation). Middle: observed log-likelihood volatility on the same grid. Right: residual (observed $-$ predicted) after a single global slope fit, no target-side tuning. Hot spots in predicted line up with hot spots in observed (low-pass, high-pass spectral perturbations); the residual is mostly noise. Headline: grouped $r = 0.337$, per-sample $r = 0.315$; within-cell matched-FE median Pearson $r = 0.350$ (radial) / $r = 0.457$ (2D) / $r = 0.543$ (2D, question-only $\Wt$).}
     \label{fig:overlap}
 \end{figure}
 
@@ -509,8 +509,8 @@ The radial form gives a strong \emph{negative} correlation (within-cell median $
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/wordy_volatility.png}
-    \caption{\textbf{Mirror contrast: wordy stabilisation on 100-sample 8B.} Per-level log-likelihood volatility for primary (L1--L4, left) and wordy (L5--L8, right) levels. Every wordy mirror sits below its primary counterpart; reductions are $89.5$\%, $68.4$\%, $69.8$\%, $71.4$\% for the four pairs (drift-variance reductions of $86$\%, $65$\%, $81$\%, $70$\% on the same data---the canonical Table 1 numbers). Largest stabilisation appears at L1$\leftrightarrow$L5 (already the spectrally cheapest reasoning, dampened furthest by verbosity at the input attention layer); largest absolute volatility drop is at L4$\leftrightarrow$L8 ($1.56$ vs $0.21$ at L1).}
+    \includegraphics[width=\linewidth]{figures/wordy_volatility.png}
+    \caption{\textbf{Linguistic stabilisation effect across four behavioural targets.} Within-pair difference (base $-$ wordy) for the four primary-wordy mirror pairs, on accuracy drop, log-likelihood drift, log-likelihood erosion, and log-likelihood volatility (the primary outcome). Positive bars indicate wordy mirrors stabilise. All 16 cells are positive: every wordy mirror reduces every drift measure. The effect is largest at L2$\leftrightarrow$L6 and L4$\leftrightarrow$L8 (the costliest tasks) on volatility and erosion; even on the lossy accuracy-drop target where overall variance is tiny ($R^2 = 0.02$ in the regression), the wordy direction is preserved. 95\% paired-delta CIs.}
     \label{fig:wordy_volatility}
 \end{figure}
 
@@ -523,25 +523,9 @@ The radial form gives a strong \emph{negative} correlation (within-cell median $
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/matched_fe_question_only.png}
-    \caption{\textbf{Matched-FE within-cell scatter (the item-level law).} Within each (image $\times$ perturbation $\times$ severity) cell, image content and perturbation strength are held identical; only the task level varies across L1--L8. Both predicted overlap (question-only $\Wt$, 2D first-order, image-space) and observed log-likelihood volatility are demeaned within-cell, then plotted. Within-cell median Pearson $r = 0.543$; per-unit positive-correlation rate $> 0.68$. This is the disclosure the earlier population-level-only caveat made impossible: the law works \emph{within-cell}, not only between-cell.}
+    \includegraphics[width=\linewidth]{figures/matched_fe_question_only.png}
+    \caption{\textbf{Matched-FE within-cell Pearson: image vs feature space, radial vs 2D.} Within each (image $\times$ perturbation $\times$ severity) cell only the task level varies (L1--L8). Bars are the FE-Pearson correlation between within-cell demeaned overlap and within-cell demeaned log-likelihood volatility, with bootstrap 95\% CIs. \textbf{Left (image-space):} both radial and 2D forms are positive and significant---\emph{the law works within-cell}. \textbf{Right (vision-feature space):} the radial form is strongly negative, the 2D form is positive---the apparent ``feature-space sign flip'' is a radial-reduction artefact. The paper's headline within-cell median Pearson ($r = 0.350$ / $0.457$ / $0.543$ in Table~\ref{sec:task5}) uses the stronger \texttt{last\_2} layer-group; this plot is the \texttt{late} third for which the matched-FE auxiliary script was run.}
     \label{fig:matched_fe}
-\end{figure}
-
-\begin{figure}[t]
-    \centering
-    \begin{minipage}[t]{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/overlap_image_space.png}
-        \\\textit{(a) Image-Fourier space.}
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/overlap_feature_space.png}
-        \\\textit{(b) Vision-encoder feature space.}
-    \end{minipage}
-    \caption{\textbf{Pixel-space vs vision-feature-space overlap.} (a) $\langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ vs log-likelihood volatility in image-Fourier space ($r = 0.337$). (b) Same predictor computed against vision-encoder feature-space deltas $\Delta V$ at \texttt{last\_2} ($r = 0.197$ radial, $0.273$ 2D). The radial pixel-space form is the strongest aggregate predictor; the 2D form recovers a positive law in feature space where the radial form gives an apparent sign flip (matched-FE radial $r = -0.346$ vs 2D $r = +0.193$, see \cref{sec:task5}).}
-    \label{fig:image_vs_feature}
 \end{figure}
 
 \begin{figure}[t]

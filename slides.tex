@@ -528,7 +528,7 @@ $n$ / $R^2$ & $8000$ / $0.187$ & $8000$ / $\mathbf{0.217}$ \\
 \includegraphics[width=0.78\linewidth]{figures/forest_tug_of_war.png}
 \end{center}
 \vspace{-0.3em}
-\keybox{\small Standardised within-image FE betas: $\tilde\beta(\Cprompt) < 0$ stabilises, $\tilde\beta(\Cres) > 0$ destabilises. Same sign reproduced on the 100-sample 8B CR1 long-format replication.}
+\keybox{\small Standardised regression on the primary target (loglik volatility): $\Cres$ destabilises ($+$, top), $\Cprompt$ stabilises ($-$, middle); pooled OLS and within-image FE agree. 100-sample 8B replication.}
 \end{frame}
 
 \begin{frame}{Result 1b: Strict Monotonicity in Volatility}
@@ -845,20 +845,20 @@ All cells significant ($p \approx 0$, $n = 16{,}800$).
 \end{columns}
 \end{frame}
 
-\begin{frame}{Overlap Law: Empirical Scatter (8B, \texttt{last\_2})}
+\begin{frame}{Overlap Law: Predicted vs Observed vs Residual (8B, \texttt{last\_2})}
 \begin{center}
-\includegraphics[width=0.74\linewidth]{figures/overlap_grid.png}
+\includegraphics[width=\linewidth]{figures/overlap_grid.png}
 \end{center}
-\vspace{-0.2em}
-\keybox{\small $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ vs log-likelihood volatility, single-slope fit, $r = 0.337$ pooled grouped, $r = 0.315$ per-sample. Zero target-side fitting.}
+\vspace{-0.4em}
+\keybox{\small Predicted overlap (left) and observed volatility (middle) light up the same (level, perturbation) cells; residual (right) is mostly noise. $r = 0.337$ grouped, $0.315$ per-sample, zero target-side fitting.}
 \end{frame}
 
-\begin{frame}{Matched-FE: The Item-Level Law}
+\begin{frame}{Matched-FE: Item-Level Law + Vision-Feature Sign Flip}
 \begin{center}
-\includegraphics[width=0.66\linewidth]{figures/matched_fe_question_only.png}
+\includegraphics[width=0.9\linewidth]{figures/matched_fe_question_only.png}
 \end{center}
-\vspace{-0.2em}
-\keybox{\small Within each (image $\times$ perturbation $\times$ severity) cell, demean both predicted overlap and observed volatility, then correlate. Within-cell median Pearson $r = 0.543$ (2D, question-only $\Wt$). The law works \emph{within-cell}.}
+\vspace{-0.4em}
+\keybox{\small \textbf{Image-space:} both radial and 2D positive (law works within-cell). \textbf{Feature-space:} radial flips negative; 2D recovers positive --- the apparent ``sign flip'' is a radial-reduction artefact. Within-cell median Pearson at \texttt{last\_2}: $0.350$ radial / $0.457$ 2D / $\mathbf{0.543}$ 2D + question-only.}
 \end{frame}
 
 \begin{frame}{Results 4 \& 5: Cutoff Law and Overlap Validation}
