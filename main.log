@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  14 MAY 2026 02:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  15 MAY 2026 01:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -765,117 +765,140 @@ Overfull \hbox (0.92929pt too wide) in paragraph at lines 119--120
  []
 
 [4]
-Underfull \hbox (badness 1320) in paragraph at lines 126--127
-\T1/ptm/m/n/10.95 (+20) 6 ops), oc-clu-sion (text and box over-lays; 3
+Underfull \hbox (badness 1502) in paragraph at lines 121--122
+\T1/ptm/m/n/10.95 (+20) terse clean log p; cells match-ing the worry
  []
 
 
-Overfull \hbox (6.85156pt too wide) in paragraph at lines 139--150
+Overfull \hbox (9.72836pt too wide) in paragraph at lines 121--122
+\T1/zi4/m/n/10.95 scripts/verify_drift_baseline_concerns.py\T1/ptm/m/n/10.95 (-
+20) ).
+ []
+
+
+Underfull \hbox (badness 4765) in paragraph at lines 121--122
+\T1/ptm/m/n/10.95 (+20) (first-order over-lap $\OMS/cmsy/m/n/10.95 h\OML/cmm/m/
+it/10.95 W[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 !\OT1/cmr/m/n/10.95 )\OML/c
+mm/m/it/10.95 ; \OT1/cmr/m/n/10.95 ^^A\OML/cmm/m/it/10.95 F\OT1/cmr/m/n/10.95 (
+\OML/cmm/m/it/10.95 !\OT1/cmr/m/n/10.95 )\OMS/cmsy/m/n/10.95 i$ \T1/ptm/m/n/10.
+95 (+20) or IPR
+ []
+
+
+Underfull \hbox (badness 1024) in paragraph at lines 121--122
+\T1/ptm/m/n/10.95 (+20) at-ten-tion scores, never from log-probs. The
+ []
+
+
+Underfull \hbox (badness 1320) in paragraph at lines 128--129
+\T1/ptm/m/n/10.95 (+20) 6 ops), oc-clu-sion (text and box over-lays; 3
+ []
+
+[5]
+Overfull \hbox (6.85156pt too wide) in paragraph at lines 141--152
  [][] 
  []
 
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 156.
+(Font)              using `T1/zi4/m/n' instead on input line 158.
 
-[5]
 LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
-(Font)              scaled to size 9.0pt on input line 167.
+(Font)              scaled to size 9.0pt on input line 169.
 
-Overfull \hbox (25.96718pt too wide) in paragraph at lines 165--179
+Overfull \hbox (25.96718pt too wide) in paragraph at lines 167--181
  [][] 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 183.
+(hyperref)                removing `math shift' on input line 185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 183.
+(hyperref)                removing `\Delta' on input line 185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\times' on input line 183.
+(hyperref)                removing `\times' on input line 185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 183.
+(hyperref)                removing `subscript' on input line 185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 183.
+(hyperref)                removing `math shift' on input line 185.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 5862) has occurred while \output is active []
 
-<figures/forest_tug_of_war.png, id=344, 1240.1532pt x 342.5598pt>
+ [6]
+<figures/forest_tug_of_war.png, id=353, 1240.1532pt x 342.5598pt>
 File: figures/forest_tug_of_war.png Graphic file (type png)
 <use figures/forest_tug_of_war.png>
-Package pdftex.def Info: figures/forest_tug_of_war.png  used on input line 207.
+Package pdftex.def Info: figures/forest_tug_of_war.png  used on input line 209.
 
 (pdftex.def)             Requested size: 219.08614pt x 60.51337pt.
-<figures/bandwidth_vs_csem.png, id=346, 1245.64572pt x 376.96033pt>
+<figures/bandwidth_vs_csem.png, id=355, 1245.64572pt x 376.96033pt>
 File: figures/bandwidth_vs_csem.png Graphic file (type png)
 <use figures/bandwidth_vs_csem.png>
-Package pdftex.def Info: figures/bandwidth_vs_csem.png  used on input line 214.
+Package pdftex.def Info: figures/bandwidth_vs_csem.png  used on input line 216.
 
 (pdftex.def)             Requested size: 219.08614pt x 66.2969pt.
-<figures/overlap_grid.png, id=347, 1460.72124pt x 385.05457pt>
+<figures/overlap_grid.png, id=356, 1460.72124pt x 385.05457pt>
 File: figures/overlap_grid.png Graphic file (type png)
 <use figures/overlap_grid.png>
-Package pdftex.def Info: figures/overlap_grid.png  used on input line 221.
+Package pdftex.def Info: figures/overlap_grid.png  used on input line 223.
 (pdftex.def)             Requested size: 219.08614pt x 57.74982pt.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 222.
-<figures/signature_volatility_matrix.png, id=348, 635.976pt x 520.344pt>
+(Font)              scaled to size 10.0pt on input line 224.
+<figures/signature_volatility_matrix.png, id=357, 635.976pt x 520.344pt>
 File: figures/signature_volatility_matrix.png Graphic file (type png)
 <use figures/signature_volatility_matrix.png>
 Package pdftex.def Info: figures/signature_volatility_matrix.png  used on input
- line 228.
+ line 230.
 (pdftex.def)             Requested size: 219.08614pt x 179.24892pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 229--229
+Underfull \hbox (badness 10000) in paragraph at lines 231--231
 []\T1/ptm/m/n/10 (+20) Figure 4: |Mean log-likelihood volatil-ity by
  []
 
-[6] [7 <./figures/forest_tug_of_war.png> <./figures/bandwidth_vs_csem.png> <./f
-igures/overlap_grid.png> <./figures/signature_volatility_matrix.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 243--244
+[7 <./figures/forest_tug_of_war.png> <./figures/bandwidth_vs_csem.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 245--246
 \T1/ptm/m/n/10.95 (+20) We give a parameter-free, mech-a-nis-ti-cally
  []
 
 
-Underfull \hbox (badness 1231) in paragraph at lines 243--244
+Underfull \hbox (badness 1231) in paragraph at lines 245--246
 \T1/ptm/m/n/10.95 (+20) grounded pre-dic-tor of vision--language model
  []
 
 
-Underfull \hbox (badness 2119) in paragraph at lines 243--244
+Underfull \hbox (badness 2119) in paragraph at lines 245--246
 \T1/ptm/m/n/10.95 (+20) drift is largest where fil-ter and per-tur-ba-tion
  []
 
 
-Underfull \hbox (badness 1460) in paragraph at lines 243--244
+Underfull \hbox (badness 1460) in paragraph at lines 245--246
 \T1/ptm/m/n/10.95 (+20) broad-band fil-ters min-imise drift across ev-ery
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 243--244
+Underfull \hbox (badness 2012) in paragraph at lines 245--246
 \T1/ptm/m/n/10.95 (+20) the verbosity-stabilises phe-nomenon (65--86%
  []
 
-[8
-
-] [9
+[8 <./figures/overlap_grid.png> <./figures/signature_volatility_matrix.png>]
+[9
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 285--286
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 \T1/ptm/m/n/10.95 (+20) Layer-0 band-width across all 8 lev-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--286
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 \T1/ptm/m/n/10.95 (+20) els: $\OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 6\OML/cmm
 /m/it/10.95 :\OT1/cmr/m/n/10.95 18\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OM
 L/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 00\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
@@ -885,7 +908,7 @@ L/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 00\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--286
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 \OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 5\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.9
 5 41\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it/10.95 :\OT1/cmr/m/n
 /10.95 21\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it/10.95 :\OT1/cm
@@ -895,30 +918,30 @@ T1/cmr/m/n/10.95 14\OMS/cmsy/m/n/10.95 g$ \T1/ptm/m/n/10.95 (+20) (L5--L8). Pri
  []
 
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 297.
+(Font)              scaled to size 9.0pt on input line 299.
 
-Overfull \hbox (60.6853pt too wide) in paragraph at lines 290--300
+Overfull \hbox (60.6853pt too wide) in paragraph at lines 292--302
  [][] 
  []
 
-<figures/wordy_divergence.png, id=393, 904.8204pt x 247.45248pt>
+<figures/wordy_divergence.png, id=396, 904.8204pt x 247.45248pt>
 File: figures/wordy_divergence.png Graphic file (type png)
 <use figures/wordy_divergence.png>
-Package pdftex.def Info: figures/wordy_divergence.png  used on input line 306.
+Package pdftex.def Info: figures/wordy_divergence.png  used on input line 308.
 (pdftex.def)             Requested size: 219.08614pt x 59.91464pt.
-<figures/band_heatmap_last_2.png, id=394, 705.06612pt x 390.83617pt>
+<figures/band_heatmap_last_2.png, id=397, 705.06612pt x 390.83617pt>
 File: figures/band_heatmap_last_2.png Graphic file (type png)
 <use figures/band_heatmap_last_2.png>
 Package pdftex.def Info: figures/band_heatmap_last_2.png  used on input line 31
-3.
+5.
 (pdftex.def)             Requested size: 219.08614pt x 121.44421pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
+Underfull \hbox (badness 10000) in paragraph at lines 323--324
 \T1/ptm/m/n/10.95 (+20) Vision-feature space, ra-dial first-order:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
+Underfull \hbox (badness 10000) in paragraph at lines 323--324
 \OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.9
 5 218\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/
 n/10.95 221\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/
@@ -931,53 +954,53 @@ cmr/m/n/10.95 228\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95
 
 Underfull \vbox (badness 3049) has occurred while \output is active []
 
-<figures/matched_fe_question_only.png, id=395, 1047.915pt x 397.485pt>
+<figures/matched_fe_question_only.png, id=398, 1047.915pt x 397.485pt>
 File: figures/matched_fe_question_only.png Graphic file (type png)
 <use figures/matched_fe_question_only.png>
 Package pdftex.def Info: figures/matched_fe_question_only.png  used on input li
-ne 338.
+ne 340.
 (pdftex.def)             Requested size: 219.08614pt x 83.09827pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/wordy_volatility.png, id=396, 1515.35736pt x 636.26508pt>
+<figures/wordy_volatility.png, id=399, 1515.35736pt x 636.26508pt>
 File: figures/wordy_volatility.png Graphic file (type png)
 <use figures/wordy_volatility.png>
-Package pdftex.def Info: figures/wordy_volatility.png  used on input line 345.
+Package pdftex.def Info: figures/wordy_volatility.png  used on input line 347.
 (pdftex.def)             Requested size: 219.08614pt x 91.98907pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/signature_pearson_matrix.png, id=397, 635.976pt x 520.344pt>
+<figures/signature_pearson_matrix.png, id=400, 635.976pt x 520.344pt>
 File: figures/signature_pearson_matrix.png Graphic file (type png)
 <use figures/signature_pearson_matrix.png>
 Package pdftex.def Info: figures/signature_pearson_matrix.png  used on input li
-ne 355.
+ne 357.
 (pdftex.def)             Requested size: 219.08614pt x 179.24892pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/perturbation_signature_volatility.png, id=398, 831.105pt x 433.62pt>
+<figures/perturbation_signature_volatility.png, id=401, 831.105pt x 433.62pt>
 File: figures/perturbation_signature_volatility.png Graphic file (type png)
 <use figures/perturbation_signature_volatility.png>
 Package pdftex.def Info: figures/perturbation_signature_volatility.png  used on
- input line 362.
+ input line 364.
 (pdftex.def)             Requested size: 219.08614pt x 114.30664pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/designed_vs_actual_signature.png, id=399, 758.835pt x 661.2705pt>
+<figures/designed_vs_actual_signature.png, id=402, 758.835pt x 661.2705pt>
 File: figures/designed_vs_actual_signature.png Graphic file (type png)
 <use figures/designed_vs_actual_signature.png>
 Package pdftex.def Info: figures/designed_vs_actual_signature.png  used on inpu
-t line 369.
+t line 371.
 (pdftex.def)             Requested size: 219.08614pt x 190.91595pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 378.
+put line 380.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1017,40 +1040,44 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 206DD2E4BA3D35841682A8B434BB94ED;4600.
  ) 
 Here is how much of TeX's memory you used:
- 18950 strings out of 474222
- 312276 string characters out of 5748734
+ 18955 strings out of 474222
+ 312330 string characters out of 5748734
  1962975 words of memory out of 5000000
  40428 multiletter control sequences out of 15000+600000
- 628335 words of font info for 361 fonts, out of 8000000 for 9000
+ 628560 words of font info for 363 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,93p,1784b,661s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4
-b.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata
--zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/tim
-es/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (13 pages, 2359596 bytes).
+ 84i,12n,93p,2365b,661s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{table.caption.10} has been referenced but does not 
+exist, replaced by a fixed one
+
+</usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-z
+i4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
+/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (13 pages, 2365872 bytes).
 PDF statistics:
- 576 PDF objects out of 1000 (max. 8388607)
- 481 compressed objects within 5 object streams
- 122 named destinations out of 1000 (max. 500000)
+ 579 PDF objects out of 1000 (max. 8388607)
+ 484 compressed objects within 5 object streams
+ 124 named destinations out of 1000 (max. 500000)
  65280 words of extra memory for PDF output out of 74296 (max. 10000000)
 
