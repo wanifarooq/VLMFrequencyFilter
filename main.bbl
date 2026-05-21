@@ -1,4 +1,4 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{33}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Agrawal et~al.(2018)Agrawal, Batra, Parikh, and
@@ -34,6 +34,11 @@ Samyadeep Basu, Nanxuan Zhao, Vlad~I. Morariu, Soheil Feizi, and Varun
 \newblock Localizing and editing knowledge in text-to-image generative models.
 \newblock In \emph{ICLR}.
 
+\bibitem[{Cameron and Miller(2015)}]{cameron2015practitioner}
+A.~Colin Cameron and Douglas~L. Miller. 2015.
+\newblock A practitioner's guide to cluster-robust inference.
+\newblock \emph{Journal of Human Resources}, 50(2):317--372.
+
 \bibitem[{Cao et~al.(2020)Cao, Gan, Cheng, Yu, Chen, and Liu}]{cao2020behind}
 Jize Cao, Zhe Gan, Yu~Cheng, Licheng Yu, Yen-Chun Chen, and Jingjing Liu. 2020.
 \newblock Behind the scene: Revealing the secrets of pre-trained
@@ -53,18 +58,10 @@ Stella Frank, Emanuele Bugliarello, and Desmond Elliott. 2021.
   in multimodal transformers.
 \newblock In \emph{EMNLP}.
 
-\bibitem[{Haladyna et~al.(2004)Haladyna, Downing, and
-  Rodriguez}]{haladyna2004review}
-Thomas~M. Haladyna, Steven~M. Downing, and Michael~C. Rodriguez. 2004.
-\newblock A review of multiple-choice item-writing guidelines for classroom
-  assessment.
-\newblock \emph{Applied Measurement in Education}.
-
-\bibitem[{Hendrycks and Dietterich(2019)}]{hendrycks2019benchmarking}
-Dan Hendrycks and Thomas Dietterich. 2019.
-\newblock Benchmarking neural network robustness to common corruptions and
-  perturbations.
-\newblock In \emph{ICLR}.
+\bibitem[{Frisch and Waugh(1933)}]{frisch1933partial}
+Ragnar Frisch and Frederick~V. Waugh. 1933.
+\newblock Partial time regressions as compared with individual trends.
+\newblock \emph{Econometrica}, 1(4):387--401.
 
 \bibitem[{Hsieh et~al.(2023)Hsieh, Zhang, Ma, Kembhavi, and
   Krishna}]{hsieh2023sugarcrepe}
@@ -107,6 +104,13 @@ Justin Johnson, Bharath Hariharan, Laurens van~der Maaten, Li~Fei-Fei,
 Sahar Kazemzadeh, Vicente Ordonez, Mark Matten, and Tamara~L. Berg. 2014.
 \newblock {ReferItGame}: Referring to objects in photographs of natural scenes.
 \newblock In \emph{EMNLP}.
+
+\bibitem[{Lovell(1963)}]{lovell1963seasonal}
+Michael~C. Lovell. 1963.
+\newblock Seasonal adjustment of economic time series and multiple regression
+  analysis.
+\newblock \emph{Journal of the American Statistical Association},
+  58(304):993--1010.
 
 \bibitem[{Ma et~al.(2023)Ma, Hong, Gul, Gandhi, Gao, and Krishna}]{ma2023crepe}
 Zixian Ma, Jerry Hong, Mustafa~Omer Gul, Mona Gandhi, Irena Gao, and Ranjay
