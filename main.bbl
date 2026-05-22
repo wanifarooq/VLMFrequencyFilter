@@ -1,4 +1,4 @@
-\begin{thebibliography}{33}
+\begin{thebibliography}{40}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Agrawal et~al.(2018)Agrawal, Batra, Parikh, and
@@ -34,11 +34,6 @@ Samyadeep Basu, Nanxuan Zhao, Vlad~I. Morariu, Soheil Feizi, and Varun
 \newblock Localizing and editing knowledge in text-to-image generative models.
 \newblock In \emph{ICLR}.
 
-\bibitem[{Cameron and Miller(2015)}]{cameron2015practitioner}
-A.~Colin Cameron and Douglas~L. Miller. 2015.
-\newblock A practitioner's guide to cluster-robust inference.
-\newblock \emph{Journal of Human Resources}, 50(2):317--372.
-
 \bibitem[{Cao et~al.(2020)Cao, Gan, Cheng, Yu, Chen, and Liu}]{cao2020behind}
 Jize Cao, Zhe Gan, Yu~Cheng, Licheng Yu, Yen-Chun Chen, and Jingjing Liu. 2020.
 \newblock Behind the scene: Revealing the secrets of pre-trained
@@ -52,6 +47,23 @@ Guangyao Chen, Peixi Peng, Li~Ma, Jia Li, Lin Du, and Yonghong Tian. 2021.
   neural networks in frequency domain.
 \newblock In \emph{ICCV}.
 
+\bibitem[{Dodge and Karam(2016)}]{dodge2016understanding}
+Samuel Dodge and Lina Karam. 2016.
+\newblock Understanding how image quality affects deep neural networks.
+\newblock In \emph{QoMEX}, pages 1--6.
+
+\bibitem[{Driess et~al.(2023)Driess, Xia, Sajjadi, Lynch, Chowdhery, Ichter,
+  Wahid, Tompson, Vuong, Yu, Huang, Chebotar, Sermanet, Duckworth, Levine,
+  Vanhoucke, Hausman, Toussaint, Greff, Zeng, Mordatch, and
+  Florence}]{driess2023palme}
+Danny Driess, Fei Xia, Mehdi S.~M. Sajjadi, Corey Lynch, Aakanksha Chowdhery,
+  Brian Ichter, Ayzaan Wahid, Jonathan Tompson, Quan Vuong, Tianhe Yu, Wenlong
+  Huang, Yevgen Chebotar, Pierre Sermanet, Daniel Duckworth, Sergey Levine,
+  Vincent Vanhoucke, Karol Hausman, Marc Toussaint, Klaus Greff, and 3 others.
+  2023.
+\newblock {PaLM-E}: An embodied multimodal language model.
+\newblock In \emph{ICML}, pages 8469--8488.
+
 \bibitem[{Frank et~al.(2021)Frank, Bugliarello, and Elliott}]{frank2021vision}
 Stella Frank, Emanuele Bugliarello, and Desmond Elliott. 2021.
 \newblock Vision-and-language or vision-for-language? on cross-modal influence
@@ -62,6 +74,20 @@ Stella Frank, Emanuele Bugliarello, and Desmond Elliott. 2021.
 Ragnar Frisch and Frederick~V. Waugh. 1933.
 \newblock Partial time regressions as compared with individual trends.
 \newblock \emph{Econometrica}, 1(4):387--401.
+
+\bibitem[{Gurari et~al.(2018)Gurari, Li, Stangl, Guo, Lin, Grauman, Luo, and
+  Bigham}]{gurari2018vizwiz}
+Danna Gurari, Qing Li, Abigale~J. Stangl, Anhong Guo, Chi Lin, Kristen Grauman,
+  Jiebo Luo, and Jeffrey~P. Bigham. 2018.
+\newblock {VizWiz} grand challenge: Answering visual questions from blind
+  people.
+\newblock In \emph{CVPR}, pages 3608--3617.
+
+\bibitem[{Hendrycks and Dietterich(2019)}]{hendrycks2019benchmarking}
+Dan Hendrycks and Thomas Dietterich. 2019.
+\newblock Benchmarking neural network robustness to common corruptions and
+  perturbations.
+\newblock In \emph{ICLR}.
 
 \bibitem[{Hsieh et~al.(2023)Hsieh, Zhang, Ma, Kembhavi, and
   Krishna}]{hsieh2023sugarcrepe}
@@ -126,6 +152,11 @@ Junhua Mao, Jonathan Huang, Alexander Toshev, Oana Camburu, Alan~L. Yuille, and
 \newblock Generation and comprehension of unambiguous object descriptions.
 \newblock In \emph{CVPR}.
 
+\bibitem[{Mathew et~al.(2021)Mathew, Karatzas, and Jawahar}]{mathew2021docvqa}
+Minesh Mathew, Dimosthenis Karatzas, and C.~V. Jawahar. 2021.
+\newblock {DocVQA}: A dataset for {VQA} on document images.
+\newblock In \emph{WACV}, pages 2199--2208.
+
 \bibitem[{Merullo et~al.(2024)Merullo, Eickhoff, and
   Pavlick}]{merullo2024language}
 Jack Merullo, Carsten Eickhoff, and Ellie Pavlick. 2024.
@@ -139,6 +170,13 @@ Moran Mizrahi, Guy Kaplan, Dan Malkin, Rotem Dror, Dafna Shahaf, and Gabriel
   Stanovsky. 2024.
 \newblock State of what art? a call for multi-prompt {LLM} evaluation.
 \newblock In \emph{TACL}.
+
+\bibitem[{Moor et~al.(2023)Moor, Huang, Wu, Yasunaga, Dalmia, Leskovec, Zakka,
+  Reis, and Rajpurkar}]{moor2023medflamingo}
+Michael Moor, Qian Huang, Shirley Wu, Michihiro Yasunaga, Yash Dalmia, Jure
+  Leskovec, Cyril Zakka, Eduardo~Pontes Reis, and Pranav Rajpurkar. 2023.
+\newblock {Med-Flamingo}: a multimodal medical few-shot learner.
+\newblock In \emph{ML4H}, pages 353--367.
 
 \bibitem[{Ortiz-Jimenez et~al.(2021)Ortiz-Jimenez, Modas, Moosavi-Dezfooli, and
   Frossard}]{ortiz2021optimism}
@@ -167,6 +205,13 @@ Abel Salinas and Fred Morstatter. 2024.
 \newblock The butterfly effect of altering prompts: How small changes and
   jailbreaks affect large language model performance.
 \newblock In \emph{Findings of ACL}.
+
+\bibitem[{Saxena et~al.(2026)Saxena, Suglia, and
+  Minervini}]{saxena2026vlmrobustbench}
+Rohit Saxena, Alessandro Suglia, and Pasquale Minervini. 2026.
+\newblock {VLM-RobustBench}: A comprehensive benchmark for robustness of
+  vision-language models.
+\newblock In \emph{ICML}.
 
 \bibitem[{Sclar et~al.(2024)Sclar, Choi, Tsvetkov, and
   Suhr}]{sclar2024quantifying}
@@ -204,6 +249,14 @@ Peng Wang, Shuai Bai, Sinan Tan, Shijie Wang, Zhihao Fan, Jinze Bai, Keqin
 \newblock {Qwen2-VL}: Enhancing vision-language model's perception of the world
   at any resolution.
 \newblock \emph{arXiv:2409.12191}.
+
+\bibitem[{Wani et~al.(2026)Wani, Suglia, Saxena, Gema, Kwan, Barez, Bucarelli,
+  Silvestri, and Minervini}]{wani2026sameanswer}
+Farooq~Ahmad Wani, Alessandro Suglia, Rohit Saxena, Aryo~Pradipta Gema,
+  Wai-Chung Kwan, Fazl Barez, Maria~Sofia Bucarelli, Fabrizio Silvestri, and
+  Pasquale Minervini. 2026.
+\newblock Same answer, different representations: Hidden instability in {VLMs}.
+\newblock \emph{arXiv:2602.06652}.
 
 \bibitem[{Yi et~al.(2018)Yi, Wu, Gan, Torralba, Kohli, and
   Tenenbaum}]{yi2018neural}

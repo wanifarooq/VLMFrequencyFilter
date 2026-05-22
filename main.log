@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  22 MAY 2026 15:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.5)  23 MAY 2026 00:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -420,6 +420,21 @@ Package: amsthm 2020/05/29 v2.20.6
 \thm@headsep=\skip60
 \dth@everypar=\toks36
 )
+(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+Package cleveref Info: `hyperref' support loaded on input line 2370.
+LaTeX Info: Redefining \cref on input line 2370.
+LaTeX Info: Redefining \Cref on input line 2370.
+LaTeX Info: Redefining \crefrange on input line 2370.
+LaTeX Info: Redefining \Crefrange on input line 2370.
+LaTeX Info: Redefining \cpageref on input line 2370.
+LaTeX Info: Redefining \Cpageref on input line 2370.
+LaTeX Info: Redefining \cpagerefrange on input line 2370.
+LaTeX Info: Redefining \Cpagerefrange on input line 2370.
+LaTeX Info: Redefining \labelcref on input line 2370.
+LaTeX Info: Redefining \labelcpageref on input line 2370.
+Package cleveref Info: `amsthm' support loaded on input line 3026.
+)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -456,21 +471,6 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count307
 \@lastruleclass=\count308
 \@thisrulewidth=\dimen190
-)
-(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty
-Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
-Package cleveref Info: `hyperref' support loaded on input line 2370.
-LaTeX Info: Redefining \cref on input line 2370.
-LaTeX Info: Redefining \Cref on input line 2370.
-LaTeX Info: Redefining \crefrange on input line 2370.
-LaTeX Info: Redefining \Crefrange on input line 2370.
-LaTeX Info: Redefining \cpageref on input line 2370.
-LaTeX Info: Redefining \Cpageref on input line 2370.
-LaTeX Info: Redefining \cpagerefrange on input line 2370.
-LaTeX Info: Redefining \Cpagerefrange on input line 2370.
-LaTeX Info: Redefining \labelcref on input line 2370.
-LaTeX Info: Redefining \labelcpageref on input line 2370.
-Package cleveref Info: `amsthm' support loaded on input line 3026.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
@@ -526,11 +526,19 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 \backup@length=\skip67
 \ar@cellbox=\box58
 )
+(/usr/share/texlive/texmf-dist/tex/latex/paralist/paralist.sty
+Package: paralist 2017/01/22 v2.7 Extended list environments
+\pltopsep=\skip68
+\plpartopsep=\skip69
+\plitemsep=\skip70
+\plparsep=\skip71
+\pl@lab=\toks41
+)
 (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\labelindent=\skip68
+\labelindent=\skip72
 \enit@outerparindent=\dimen194
-\enit@toks=\toks41
+\enit@toks=\toks42
 \enit@inbox=\box59
 \enit@count@id=\count319
 \enitdp@description=\count320
@@ -545,24 +553,24 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count323
@@ -570,12 +578,12 @@ LaTeX Font Info:    ... okay on input line 41.
 \scratchbox=\box61
 \nofMPsegments=\count324
 \nofMParguments=\count325
-\everyMPshowfont=\toks42
+\everyMPshowfont=\toks43
 \MPscratchCnt=\count326
 \MPscratchDim=\dimen196
 \MPnumerator=\count327
 \makeMPintoPDFobject=\count328
-\everyMPtoPDFconversion=\toks43
+\everyMPtoPDFconversion=\toks44
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -623,24 +631,24 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 41.
+Package hyperref Info: Link coloring ON on input line 43.
 (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 41.
-Package microtype Info: Applying patch `item' on input line 41.
-Package microtype Info: Applying patch `toc' on input line 41.
-Package microtype Info: Applying patch `eqnum' on input line 41.
-Package microtype Info: Applying patch `footnote' on input line 41.
-Package microtype Info: Applying patch `verbatim' on input line 41.
+LaTeX Info: Redefining \microtypecontext on input line 43.
+Package microtype Info: Applying patch `item' on input line 43.
+Package microtype Info: Applying patch `toc' on input line 43.
+Package microtype Info: Applying patch `eqnum' on input line 43.
+Package microtype Info: Applying patch `footnote' on input line 43.
+Package microtype Info: Applying patch `verbatim' on input line 43.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 41.
+LaTeX Info: Redefining \showhyphens on input line 43.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -656,13 +664,13 @@ tim
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 42
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 44
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -671,7 +679,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -680,10 +688,10 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-<figures/teaser_fig1.png, id=144, 485.29305pt x 308.23155pt>
+<figures/teaser_fig1.png, id=168, 485.29305pt x 308.23155pt>
 File: figures/teaser_fig1.png Graphic file (type png)
 <use figures/teaser_fig1.png>
-Package pdftex.def Info: figures/teaser_fig1.png  used on input line 55.
+Package pdftex.def Info: figures/teaser_fig1.png  used on input line 92.
 (pdftex.def)             Requested size: 219.08614pt x 139.15442pt.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf
 -dist/fonts/enc/dvips/base/8r.enc}
@@ -691,111 +699,92 @@ Package pdftex.def Info: figures/teaser_fig1.png  used on input line 55.
 
 
  <./figures/teaser_fig1.png>]
-Underfull \hbox (badness 1460) in paragraph at lines 71--72
-\T1/ptm/b/n/10.95 (+20) item level \T1/ptm/m/n/10.95 (+20) (be-haviour only). A
-n 8-level
+Underfull \hbox (badness 10000) in paragraph at lines 162--163
+[]\T1/ptm/b/n/10.95 (+20) A task[]conditioned spec-tral view.
  []
 
 
-Underfull \hbox (badness 3503) in paragraph at lines 71--72
-\T1/ptm/m/n/10.95 (+20) ([][]Frisch and Waugh[][], [][]1933[][]; [][]Lovell[][]
-, [][]1963[][];
+Underfull \hbox (badness 1708) in paragraph at lines 163--164
+\T1/ptm/m/n/10.95 (+20) gres-sion (sep-a-rat-ing se-man-tic com-plex-ity
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 73--74
-\T1/ptm/b/n/10.95 (+20) shifted depth \T1/ptm/m/n/10.95 (+20) (at-ten-tion ge-o
-m-e-try, no be-
- []
-
-
-Underfull \hbox (badness 1424) in paragraph at lines 74--75
-\T1/ptm/m/n/10.95 (+20) i-tively with drift volatil-ity in $\OT1/cmr/m/n/10.95 
-12\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 12$ \T1/ptm/m/n/10.95 (+20) (run,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 83--84
+Underfull \hbox (badness 10000) in paragraph at lines 178--179
  []\T1/ptm/b/n/10.95 (+20) VLM bench-mark cat-a-logu-ing.[] \T1/ptm/m/n/10.95 (
 +20) VQA-CP
  []
 
 
-Underfull \hbox (badness 1635) in paragraph at lines 83--84
+Underfull \hbox (badness 1635) in paragraph at lines 178--179
 \T1/ptm/m/n/10.95 (+20) ([][]Agrawal et al.[][], [][]2018[][]), Winoground ([][
 ]Thrush
  []
 
 [2]
-Underfull \hbox (badness 2221) in paragraph at lines 87--88
+Underfull \hbox (badness 2221) in paragraph at lines 188--192
  []\T1/ptm/b/n/10.95 (+20) Cross-modal at-ten-tion prob-ing.[] [][]\T1/ptm/m/n/
 10.95 (+20) Cao et al.[][]
  []
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 89--90
-\T1/ptm/m/n/10.95 (+20) out-puts shift dra-mat-i-cally un-der semantically-
- []
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 211.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 98.
+(hyperref)                removing `subscript' on input line 211.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 98.
+(hyperref)                removing `\omega' on input line 211.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 98.
+(hyperref)                removing `math shift' on input line 211.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 98.
-
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 11
-0.
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 22
+7.
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.95pt on input line 110.
+(Font)              scaled to size 10.95pt on input line 227.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+ [3{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 237.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 119.
+(hyperref)                removing `\Delta' on input line 237.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 119.
+(hyperref)                removing `\omega' on input line 237.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 119.
+(hyperref)                removing `math shift' on input line 237.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 119.
-
-[3{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}]
-Underfull \hbox (badness 1642) in paragraph at lines 126--128
+Underfull \hbox (badness 1642) in paragraph at lines 248--250
 \T1/ptm/m/n/10.95 (+20) By Par-se-val's the-o-rem the in-te-grated $\OT1/cmr/m/
 n/10.95 ^^A\OML/cmm/m/it/10.95 F\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 !\OT1/c
 mr/m/n/10.95 )$
  []
 
 [4]
-Underfull \hbox (badness 2310) in paragraph at lines 179--180
+Underfull \hbox (badness 2310) in paragraph at lines 305--306
 []\T1/ptm/m/it/10.95 (+20) Concern A: \T1/ptm/m/n/10.95 (+20) the wordy mir-ror
  starts at a
  []
 
 
-Underfull \hbox (badness 6141) in paragraph at lines 199--200
+Underfull \hbox (badness 6141) in paragraph at lines 325--326
 \T1/ptm/m/n/10.95 (+20) We run the same $\OT1/cmr/m/n/10.95 2 \OMS/cmsy/m/n/10.
 95 ^^B \OT1/cmr/m/n/10.95 2$ \T1/ptm/m/n/10.95 (+20) grid for ev-ery
  []
@@ -803,134 +792,126 @@ Underfull \hbox (badness 6141) in paragraph at lines 199--200
 [5]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 258.
+(hyperref)                removing `math shift' on input line 386.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 258.
+(hyperref)                removing `subscript' on input line 386.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 258.
+(hyperref)                removing `\omega' on input line 386.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 258.
+(hyperref)                removing `math shift' on input line 386.
+
+
+Underfull \hbox (badness 2698) in paragraph at lines 389--390
+\T1/ptm/m/n/10.95 (+20) Narrow-$\OML/cmm/m/it/10.95 W[]\OT1/cmr/m/n/10.95 (\OML
+/cmm/m/it/10.95 !\OT1/cmr/m/n/10.95 )$ \T1/ptm/m/n/10.95 (+20) tasks should dri
+ft more than
+ []
 
 [6]
-<figures/n2_signature_matrices_grid.png, id=422, 510.2262pt x 469.755pt>
+<figures/n2_signature_matrices_grid.png, id=454, 510.2262pt x 469.755pt>
 File: figures/n2_signature_matrices_grid.png Graphic file (type png)
 <use figures/n2_signature_matrices_grid.png>
 Package pdftex.def Info: figures/n2_signature_matrices_grid.png  used on input 
-line 265.
+line 393.
 (pdftex.def)             Requested size: 219.08614pt x 201.704pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--266
+Underfull \hbox (badness 10000) in paragraph at lines 394--394
 []\T1/ptm/m/n/10 (+20) Figure 2: |Mean log-likelihood volatil-ity per
  []
 
 
-Underfull \hbox (badness 1005) in paragraph at lines 266--266
+Underfull \hbox (badness 1005) in paragraph at lines 394--394
 \T1/ptm/m/n/10 (+20) four rows re-verse be-cause broadband-$\OML/cmm/m/it/10 W[
 ]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 !\OT1/cmr/m/n/10 )$ \T1/ptm/m/n/10 (+20) cel
 ls
  []
 
 
-Underfull \vbox (badness 4543) has occurred while \output is active []
-
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 417.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 289.
+(hyperref)                removing `subscript' on input line 417.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 289.
+(hyperref)                removing `\omega' on input line 417.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 289.
+(hyperref)                removing `math shift' on input line 417.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 289.
-
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
-94.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 4
+22.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-<figures/n1_trajectory_grid.png, id=430, 523.59615pt x 388.8126pt>
+<figures/n1_trajectory_grid.png, id=462, 523.59615pt x 388.8126pt>
 File: figures/n1_trajectory_grid.png Graphic file (type png)
 <use figures/n1_trajectory_grid.png>
-Package pdftex.def Info: figures/n1_trajectory_grid.png  used on input line 302
+Package pdftex.def Info: figures/n1_trajectory_grid.png  used on input line 430
 .
 (pdftex.def)             Requested size: 219.08614pt x 162.68909pt.
- [7 <./figures/n2_signature_matrices_grid.png> <./figures/n1_trajectory_grid.pn
-g>]
-Underfull \hbox (badness 1028) in paragraph at lines 330--331
-\T1/ptm/m/n/10.95 (+20) The frame-work's most quan-ti-ta-tive pre-dic-tion,
- []
-
-
-Underfull \hbox (badness 2452) in paragraph at lines 330--331
-\T1/ptm/m/n/10.95 (+20) that drift scales with the first-order over-lap
- []
-
-<figures/n3_overlap_law_bars.png, id=445, 511.6716pt x 241.74315pt>
+ [7 <./figures/n2_signature_matrices_grid.png>]
+<figures/n3_overlap_law_bars.png, id=479, 511.6716pt x 241.74315pt>
 File: figures/n3_overlap_law_bars.png Graphic file (type png)
 <use figures/n3_overlap_law_bars.png>
-Package pdftex.def Info: figures/n3_overlap_law_bars.png  used on input line 35
+Package pdftex.def Info: figures/n3_overlap_law_bars.png  used on input line 48
 1.
 (pdftex.def)             Requested size: 219.08614pt x 103.50856pt.
 
-Underfull \hbox (badness 1014) in paragraph at lines 371--372
-\T1/ptm/m/n/10.95 (+20) Five sep-a-ra-ble pre-dic-tions on dis-joint ob-serv-
+Underfull \hbox (badness 4492) in paragraph at lines 491--492
+\T1/ptm/m/n/10.95 (+20) Fine rea-son-ing is spec-trally costly be-cause
  []
 
-(./main.bbl [8 <./figures/n3_overlap_law_bars.png>]
-Underfull \hbox (badness 1092) in paragraph at lines 76--81
+[8 <./figures/n1_trajectory_grid.png> <./figures/n3_overlap_law_bars.png>]
+(./main.bbl
+Underfull \hbox (badness 1092) in paragraph at lines 102--107
 []\T1/ptm/m/n/10 (+20) Ronghang Hu, Ja-cob An-dreas, Mar-cus Rohrbach,
  []
 
-[9]) [10
-
-]
-Underfull \hbox (badness 1694) in paragraph at lines 385--386
+[9]) [10]
+Underfull \hbox (badness 1694) in paragraph at lines 515--516
 \U/msb/m/n/10.95 R[]$ \T1/ptm/m/it/10.95 (+20) with $[][] \OML/cmm/m/it/10.95 w
 [] \OT1/cmr/m/n/10.95 = 1$\T1/ptm/m/it/10.95 (+20) . Then $\OML/cmm/m/it/10.95 
 G\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 t\OT1/cmr/m/n/10.95 ) =
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 387--388
+Underfull \hbox (badness 3009) in paragraph at lines 517--518
 []\T1/ptm/m/it/10.95 (+20) Proof. \T1/ptm/m/n/10.95 (+20) The lower bound is $[
 ][] \OML/cmm/m/it/10.95 w[] \OMS/cmsy/m/n/10.95 ^^T
  []
 
-<figures/appendix_pipeline.png, id=473, 749.4399pt x 562.2606pt>
+<figures/appendix_pipeline.png, id=506, 749.4399pt x 562.2606pt>
 File: figures/appendix_pipeline.png Graphic file (type png)
 <use figures/appendix_pipeline.png>
-Package pdftex.def Info: figures/appendix_pipeline.png  used on input line 416.
+Package pdftex.def Info: figures/appendix_pipeline.png  used on input line 546.
 
 (pdftex.def)             Requested size: 455.24411pt x 341.53712pt.
 [11
 
 ] [12 <./figures/appendix_pipeline.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 597--598
  []\T1/ptm/b/n/10.95 (+20) Wt sig-na-tures.[] \T1/ptm/m/n/10.95 (+20) Given the
  L1-normalised
  []
 
 
-Underfull \hbox (badness 1259) in paragraph at lines 467--468
+Underfull \hbox (badness 1259) in paragraph at lines 597--598
 \OML/cmm/m/it/10.95 ^^Z[]; ^^Z[]$\T1/ptm/m/n/10.95 (+20) . Com-pute the nor-mal
 ised en-tropy
  []
 
 
-Underfull \hbox (badness 1383) in paragraph at lines 467--468
+Underfull \hbox (badness 1383) in paragraph at lines 597--598
 \OML/cmm/m/it/10.95 H \OT1/cmr/m/n/10.95 = \OMS/cmsy/m/n/10.95 ^^@ [][] \OML/cm
 m/m/it/10.95 W[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 !\OT1/cmr/m/n/10.95 )(\
 OML/cmm/m/it/10.95 ![]\OT1/cmr/m/n/10.95 ) [] \OML/cmm/m/it/10.95 W[]\OT1/cmr/m
@@ -939,141 +920,141 @@ OML/cmm/m/it/10.95 ![]\OT1/cmr/m/n/10.95 ) [] \OML/cmm/m/it/10.95 W[]\OT1/cmr/m
  []
 
 
-Underfull \hbox (badness 1675) in paragraph at lines 474--475
+Underfull \hbox (badness 1675) in paragraph at lines 604--605
 \T1/ptm/m/n/10.95 (+20) volatil-ity. The fam-ily clas-si-fier here is the
  []
 
 [13]
-Overfull \hbox (6.24162pt too wide) in paragraph at lines 564--574
+Overfull \hbox (6.24162pt too wide) in paragraph at lines 694--704
  [][] 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 578.
+(hyperref)                removing `math shift' on input line 708.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 578.
+(hyperref)                removing `subscript' on input line 708.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 578.
+(hyperref)                removing `\omega' on input line 708.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 578.
+(hyperref)                removing `math shift' on input line 708.
 
-<figures/n4_band_mass.png, id=517, 564.79005pt x 446.26724pt>
+<figures/n4_band_mass.png, id=550, 564.79005pt x 446.26724pt>
 File: figures/n4_band_mass.png Graphic file (type png)
 <use figures/n4_band_mass.png>
-Package pdftex.def Info: figures/n4_band_mass.png  used on input line 583.
+Package pdftex.def Info: figures/n4_band_mass.png  used on input line 713.
 (pdftex.def)             Requested size: 219.08614pt x 173.11061pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 721--722
 \T1/ptm/m/n/10.95 (+20) The frequency-domain noise in-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 721--722
 \T1/ptm/m/n/10.95 (+20) jec-tion in \T1/zi4/m/n/10.95 frequency_alignment/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 721--722
 \T1/zi4/m/n/10.95 perturbations/engine.py \T1/ptm/m/n/10.95 (+20) builds a low-
 
  []
 
 
-Underfull \hbox (badness 1622) in paragraph at lines 591--592
+Underfull \hbox (badness 1622) in paragraph at lines 721--722
 \T1/ptm/m/n/10.95 (+20) pass mask via \T1/zi4/m/n/10.95 make_frequency_mask \T1
 /ptm/m/n/10.95 (+20) (which
  []
 
 
-Underfull \hbox (badness 1983) in paragraph at lines 591--592
+Underfull \hbox (badness 1983) in paragraph at lines 721--722
 \T1/ptm/m/n/10.95 (+20) lay-out. The op-er-a-tor named \T1/zi4/m/n/10.95 LowBan
 dNoise
  []
 
 
-Underfull \hbox (badness 3439) in paragraph at lines 591--592
+Underfull \hbox (badness 3439) in paragraph at lines 721--722
 \T1/ptm/m/n/10.95 (+20) there-fore in-jects noise band-limited to high
  []
 
 
-Underfull \hbox (badness 4279) in paragraph at lines 591--592
+Underfull \hbox (badness 4279) in paragraph at lines 721--722
 \T1/ptm/m/n/10.95 (+20) The two pure-keep op-er-a-tors (\T1/zi4/m/n/10.95 LowPa
 ssKeep\T1/ptm/m/n/10.95 (+20) ,
  []
 
-<figures/n5_designed_vs_actual.png, id=518, 678.25395pt x 408.68684pt>
+<figures/n5_designed_vs_actual.png, id=551, 678.25395pt x 408.68684pt>
 File: figures/n5_designed_vs_actual.png Graphic file (type png)
 <use figures/n5_designed_vs_actual.png>
 Package pdftex.def Info: figures/n5_designed_vs_actual.png  used on input line 
-595.
+725.
 (pdftex.def)             Requested size: 219.08614pt x 132.01096pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [14 <./figures/n4_band_mass.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/ptm/m/n/10.95 (+20) The re-leased arte-fact con-tains: (a) the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/zi4/m/n/10.95 frequency_alignment/ \T1/ptm/m/n/10.95 (+20) pipeline; (b) th
 e
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/ptm/m/n/10.95 (+20) four 500-sample server-run out-put di-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/ptm/m/n/10.95 (+20) rec-to-ries \T1/zi4/m/n/10.95 qwen_{clevr,gpa}_{2B,8B}/
 \T1/ptm/m/n/10.95 (+20) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/ptm/m/n/10.95 (+20) (c) \T1/zi4/m/n/10.95 formal/Math.lean \T1/ptm/m/n/10.9
 5 (+20) stat-ing ev-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/ptm/m/n/10.95 (+20) ery math-e-mat-i-cal lemma; (d)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 733--734
 \T1/zi4/m/n/10.95 scripts/compose_cross_run_figures.py
  []
 
 
-Overfull \hbox (5.11475pt too wide) in paragraph at lines 603--604
+Overfull \hbox (5.11475pt too wide) in paragraph at lines 733--734
 \T1/zi4/m/n/10.95 scripts/verify_drift_baseline_concerns.py
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 605--606
+Underfull \hbox (badness 10000) in paragraph at lines 735--736
 \T1/zi4/m/n/10.95 prompt_complexity_score\T1/ptm/m/n/10.95 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 605--606
+Underfull \hbox (badness 10000) in paragraph at lines 735--736
 \T1/zi4/m/n/10.95 option_hardness_score\T1/ptm/m/n/10.95 (+20) ,
  []
 
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 608.
+(Font)              scaled to size 9.0pt on input line 738.
 
-Underfull \hbox (badness 4726) in paragraph at lines 612--613
+Underfull \hbox (badness 4726) in paragraph at lines 742--743
 []\T1/ptm/m/n/10.95 (+20) with the snap-shot \T1/zi4/m/n/10.95 config_snapshot.
 json
  []
@@ -1086,16 +1067,16 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: AB82BE400018CBA84C2562E1157EA717;6706.
+(rerunfilecheck)             Checksum: 87538161BC4610324DC7EAB0F2EC2D40;6583.
  ) 
 Here is how much of TeX's memory you used:
- 19088 strings out of 474222
- 313280 string characters out of 5748734
+ 19266 strings out of 474222
+ 316278 string characters out of 5748734
  1962975 words of memory out of 5000000
- 40491 multiletter control sequences out of 15000+600000
- 633460 words of font info for 389 fonts, out of 8000000 for 9000
+ 40650 multiletter control sequences out of 15000+600000
+ 634088 words of font info for 392 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,13n,93p,1712b,665s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,13n,93p,1712b,659s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4
 r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
 /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/s
@@ -1120,10 +1101,10 @@ ts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/u
 hvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (15 pages, 1812097 bytes).
+Output written on main.pdf (15 pages, 1816351 bytes).
 PDF statistics:
- 681 PDF objects out of 1000 (max. 8388607)
- 587 compressed objects within 6 object streams
- 144 named destinations out of 1000 (max. 500000)
- 70972 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 718 PDF objects out of 1000 (max. 8388607)
+ 623 compressed objects within 7 object streams
+ 154 named destinations out of 1000 (max. 500000)
+ 70964 words of extra memory for PDF output out of 74296 (max. 10000000)
 
