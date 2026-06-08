@@ -1,1187 +1,470 @@
-\documentclass[aspectratio=169,10pt]{beamer}
+%==============================================================================
+%  Cross-Modal Attention Acts as a Frequency Filter
+%  Why Verbose Prompts Improve Robustness in Vision-Language Models
+%  Presentation deck — generated to match current paper state (2026-05-26)
+%  All numbers verified against run JSONs; figures from paper/figures/.
+%==============================================================================
+\documentclass[aspectratio=169,11pt]{beamer}
 
 \usetheme{metropolis}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{natbib}
 \usepackage{array}
 \usepackage{xcolor}
+\usepackage{pifont}
 \usepackage{tikz}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.17}
-\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,backgrounds,decorations.pathreplacing,patterns,shadows}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,backgrounds,decorations.pathreplacing}
 
-% Fallback if metropolis is not installed: comment the \usetheme above and uncomment:
-% \usetheme{Madrid}
+\graphicspath{{figures/}}
 
-% -------------------- Color palette --------------------
+% -------------------- Colour palette --------------------
 \definecolor{pnavy}{HTML}{1F3A68}
-\definecolor{paccent}{HTML}{D7552B}     % destabilising / Csem
-\definecolor{pgreen}{HTML}{2E7D55}      % anchoring / Cprompt
+\definecolor{paccent}{HTML}{D7552B}     % destabilising / Csem (complexity)
+\definecolor{pgreen}{HTML}{2E7D55}      % stabilising / Cprompt (verbosity)
 \definecolor{psoft}{HTML}{E8EEF4}
 \definecolor{pgray}{HTML}{6B7280}
 \definecolor{pgold}{HTML}{B08900}
 
 \setbeamercolor{frametitle}{bg=pnavy, fg=white}
 \setbeamercolor{progress bar}{fg=paccent}
-\setbeamercolor{block title}{bg=pnavy!10, fg=pnavy}
-\setbeamercolor{block body}{bg=pnavy!5}
 \setbeamercolor{alerted text}{fg=paccent}
 \setbeamercolor{title separator}{fg=paccent}
-\setbeamercolor{section in head/foot}{bg=pnavy,fg=white}
-\metroset{sectionpage=progressbar, subsectionpage=progressbar, block=fill}
+\metroset{sectionpage=progressbar, block=fill, numbering=fraction}
 
-% -------------------- Math macros --------------------
+% -------------------- Math macros (match paper) --------------------
 \newcommand{\Csem}{C_{\mathrm{sem}}}
 \newcommand{\Cprompt}{C_{\mathrm{prompt}}}
 \newcommand{\Cres}{C_{\mathrm{res}}}
+\newcommand{\Hopt}{H_{\mathrm{opt}}}
 \newcommand{\Wt}{W_t(\omega)}
 \newcommand{\DF}{\Delta F(\omega)}
-\newcommand{\DV}{\Delta V(\omega)}
-\newcommand{\DZ}{\Delta Z}
 \newcommand{\Spred}{S_{\mathrm{pred}}}
 \newcommand{\Gt}{G(t)}
 
-% Fancy key-idea box
+% -------------------- Helper boxes --------------------
 \newcommand{\keybox}[1]{%
   \begin{center}
   \begin{tikzpicture}
-    \node[draw=paccent, line width=0.8pt, fill=paccent!5, rounded corners=3pt,
-          inner sep=7pt, text width=0.9\linewidth] {#1};
+    \node[draw=paccent, line width=0.9pt, fill=paccent!6, rounded corners=4pt,
+          inner sep=8pt, text width=0.92\linewidth] {#1};
   \end{tikzpicture}
-  \end{center}
-}
+  \end{center}}
 
-\title{\textbf{Prompt Verbosity as a Spectral Stabiliser}}
-\subtitle{A Frequency-Filter Account of Vision--Language Model Robustness}
-\author{Anonymous Submission}
-\institute{Vision--Language Robustness}
-\date{}
+\newcommand{\up}{\textcolor{paccent}{$\uparrow$}}
+\newcommand{\down}{\textcolor{pgreen}{$\downarrow$}}
+\newcommand{\cmark}{\textcolor{pgreen}{\ding{51}}}
+
+% -------------------- Title --------------------
+\title{\textbf{Cross-Modal Attention Acts as a Frequency Filter}}
+\subtitle{Why Verbose Prompts Improve Robustness in Vision--Language Models}
+\author{Anonymous ARR Submission}
+\institute{}
+\date{\small\textcolor{pgray}{Qwen3-VL \{2B, 8B\} \,\&\, LLaVA-OneVision \,$\cdot$\, GQA \& CLEVR \,$\cdot$\, 312k measurements/run}}
 
 \begin{document}
 
-% -------------------- TITLE --------------------
+%==============================================================================
 \begin{frame}[plain]
-\begin{tikzpicture}[remember picture, overlay]
-  % background band
-  \fill[pnavy] (current page.north west) rectangle ([yshift=-3.6cm]current page.north east);
-  % accent strip
-  \fill[paccent] ([yshift=-3.6cm]current page.north west) rectangle ([yshift=-3.75cm]current page.north east);
-  \node[anchor=north west, text=white, font=\Huge\bfseries] at ([xshift=0.8cm, yshift=-1.1cm]current page.north west) {Prompt Verbosity as a Spectral Stabiliser};
-  \node[anchor=north west, text=white, font=\large] at ([xshift=0.8cm, yshift=-2.4cm]current page.north west) {A Frequency-Filter Account of Vision--Language Model Robustness};
-  % small spectrum icon
-  \begin{scope}[xshift=11.8cm, yshift=-1.9cm]
-    \foreach \i/\h in {0/0.3,1/0.55,2/0.9,3/1.1,4/0.75,5/0.4,6/0.25}{
-      \fill[white!80, opacity=0.9] (\i*0.22, 0) rectangle (\i*0.22+0.17, \h);
-    }
-  \end{scope}
-
-  \node[anchor=north west, font=\normalsize, text=pnavy] at ([xshift=0.8cm, yshift=-4.6cm]current page.north west) {\textbf{Anonymous Submission}};
-  \node[anchor=north west, font=\small, text=pgray] at ([xshift=0.8cm, yshift=-5.1cm]current page.north west) {Verbose prompts make VLMs more robust --- and we explain why.};
-
-  % key formula card
-  \node[draw=paccent, fill=paccent!5, line width=0.8pt, rounded corners=3pt, inner sep=10pt, text=pnavy, font=\Large] at ([xshift=0cm, yshift=-6.8cm]current page.north) {$\;\Spred(t,p) \;=\; \textstyle\sum_\omega |\Wt|^2\, |\DF|^2 \;$};
-
-\end{tikzpicture}
+  \titlepage
 \end{frame}
 
-% -------------------- SECTION: MOTIVATION --------------------
+%==============================================================================
+\begin{frame}{One-sentence summary}
+  \vfill
+  \keybox{\large
+    Cross-modal attention in a VLM forms a \textbf{task-conditioned frequency filter};
+    its overlap with a corruption's spectrum \textbf{predicts drift}, and
+    \textcolor{pgreen}{\textbf{verbose prompts broaden the filter to improve robustness}}.}
+  \vfill
+  \begin{center}
+    \large\textcolor{paccent}{\textbf{Practical recipe: pad the prompt.}}
+  \end{center}
+  \vfill
+\end{frame}
+
+%==============================================================================
 \section{Motivation}
 
-\begin{frame}{Why VLM Robustness Matters \emph{Now}}
-\begin{columns}[T,onlytextwidth]
-\column{0.48\linewidth}
-\textbf{Where VLMs are already deployed:}
-\begin{itemize}
-  \item \textcolor{pnavy}{Clinical triage} \& radiology pre-screening
-  \item \textcolor{pnavy}{Assistive scene description} for blind users
-  \item Invoice / driver-licence / document OCR
-  \item \textcolor{pnavy}{Autonomous perception} and embodied agents
-\end{itemize}
-\vspace{0.3em}
-\textbf{What the input actually looks like:}
-\begin{itemize}
-  \item Phone snapshot, wrong angle
-  \item JPEG / motion blur / low light
-  \item Sticker, shadow, partial occlusion
-\end{itemize}
-\column{0.48\linewidth}
-\begin{tikzpicture}[scale=0.9]
-  % Clean image → prediction
-  \node[draw=pnavy, line width=0.6pt, fill=white, rounded corners=2pt, minimum width=2.4cm, minimum height=1.3cm] (clean) at (0,1.2) {\small Pristine image};
-  \node[draw=pgreen, line width=0.8pt, fill=pgreen!10, rounded corners=2pt, minimum width=2.4cm, minimum height=0.7cm] (out1) at (3.8,1.2) {\small \textcolor{pgreen}{\textbf{\checkmark\ correct}}};
-  \draw[-{Latex[length=2mm]}, pnavy] (clean) -- (out1);
-  % Perturbed image → wrong
-  \node[draw=pnavy, line width=0.6pt, fill=white, rounded corners=2pt, minimum width=2.4cm, minimum height=1.3cm] (pert) at (0,-0.9) {\small JPEG + blur};
-  \node[draw=paccent, line width=0.8pt, fill=paccent!10, rounded corners=2pt, minimum width=2.4cm, minimum height=0.7cm] (out2) at (3.8,-0.9) {\small \textcolor{paccent}{\textbf{\texttimes\ wrong}}};
-  \draw[-{Latex[length=2mm]}, pnavy] (pert) -- (out2);
-  \node[anchor=north, font=\scriptsize, text=pgray] at (1.9,-1.8) {same image, same model};
-\end{tikzpicture}
-\end{columns}
-\vspace{0.8em}
-\keybox{\textbf{A deployment team has no principled way to ask:}\\``Will this model be safe on \emph{this task} under \emph{this corruption profile}?''}
+\begin{frame}{Vision--language models are fragile under image corruption}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      A small image perturbation --- blur, JPEG, a few-pixel shift ---
+      can flip a VLM's answer, even when a human sees no difference.
+
+      \medskip
+      \textbf{The puzzle:} the \emph{same image} and a \emph{semantically identical}
+      question can be more or less robust depending only on \alert{how the
+      question is worded}.
+
+      \medskip
+      We ask: \emph{what property of the prompt controls robustness,
+      and why?}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{example_gqa_pert.png}\\
+      \scriptsize\textcolor{pgray}{A GQA image under \texttt{Translation(+4)} --- our smallest geometric perturbation.}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{The Gap in the Literature}
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-  node distance=0.6cm,
-  every node/.style={font=\small},
-  camp/.style={draw=pnavy, fill=psoft, rounded corners=2pt, minimum width=3.6cm, minimum height=1.4cm, align=center, text=pnavy},
-  gap/.style={draw=paccent, fill=paccent!8, rounded corners=2pt, minimum width=3.6cm, minimum height=0.7cm, align=center, text=paccent}
-]
-  \node[camp] (A) at (0,2) {\textbf{Benchmarks}\\ \footnotesize VQA-CP, Winoground, ARO, CREPE};
-  \node[camp] (B) at (5.5,2) {\textbf{Fourier vision}\\ \footnotesize Yin, Wang, Tsuzuku};
-  \node[camp] (C) at (11,2) {\textbf{Probing}\\ \footnotesize cross-modal attention};
+\begin{frame}{Two opposite effects of question wording}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{block}{\textcolor{pgreen}{Verbosity $\Rightarrow$ more robust}}
+        \emph{``Is there a cat?''}\\
+        $\rightarrow$ \emph{``Please look carefully and answer: is there a cat?''}
+        \medskip
 
-  \node[gap] (GA) at (0,0.2) {black-box, no prediction};
-  \node[gap] (GB) at (5.5,0.2) {task-free, ignores text};
-  \node[gap] (GC) at (11,0.2) {describes, not predicts};
+        Same answer, \textbf{much smaller drift}.
+      \end{block}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{block}{\textcolor{paccent}{Complexity $\Rightarrow$ more fragile}}
+        \emph{``Is there a cup?''}\\
+        $\rightarrow$ \emph{``What colour is the cup left of the chair?''}
+        \medskip
 
-  \draw[-{Latex[length=2mm]}, pgray] (A) -- (GA);
-  \draw[-{Latex[length=2mm]}, pgray] (B) -- (GB);
-  \draw[-{Latex[length=2mm]}, pgray] (C) -- (GC);
-
-  \node[draw=paccent, line width=0.9pt, fill=paccent!10, rounded corners=3pt, minimum width=11.3cm, minimum height=1.2cm, align=center, text=paccent] at (5.5,-1.8) {\textbf{No framework predicts \emph{how much} a VLM will break \emph{before} the perturbation is applied.}};
-\end{tikzpicture}%
-}
+        Finer-grained reasoning, \textbf{larger drift}.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vfill
+  \keybox{Both effects come from \textbf{one mechanism} --- a frequency filter induced by the prompt.}
 \end{frame}
 
-% -------------------- SECTION: CORE IDEA --------------------
-\section{The Core Idea}
+%==============================================================================
+\section{The core idea}
 
-\begin{frame}{Our Thesis in One Picture}
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-  font=\small,
-  box/.style={draw=pnavy, fill=white, rounded corners=2pt, minimum width=2.2cm, minimum height=1.0cm, align=center, text=pnavy, line width=0.6pt},
-  opbox/.style={draw=paccent, fill=paccent!10, rounded corners=2pt, minimum width=1.5cm, minimum height=0.7cm, align=center, text=paccent, line width=0.6pt},
-  lab/.style={font=\scriptsize, text=pgray}
-]
-  % top: image -> VLM -> Wt
-  \node[box] (img) at (0, 2.2) {Image $I$};
-  \node[opbox] (attn) at (2.6, 2.2) {cross-attn};
-  \node[opbox] (fft) at (5.0, 2.2) {2D FFT};
-  \node[box, fill=pnavy!8] (Wt) at (8.0, 2.2) {$\Wt$ \\ \scriptsize task filter};
-  \node[lab, below=0.1cm of img] (lbl1) {+ task text $t$};
-  \draw[-{Latex[length=2mm]}, pnavy] (img) -- (attn);
-  \draw[-{Latex[length=2mm]}, pnavy] (attn) -- (fft);
-  \draw[-{Latex[length=2mm]}, pnavy] (fft) -- (Wt);
+\begin{frame}{Cross-modal attention as a frequency filter}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      The question's attention over image patches, projected into the 2D Fourier
+      domain and radially binned, is a \textbf{distribution over spatial
+      frequencies} --- the filter $\Wt$.
 
-  % bottom: perturbation
-  \node[box] (imgp) at (0, 0.2) {Image $I_p$};
-  \node[opbox] (fftp) at (3.8, 0.2) {FFT diff};
-  \node[box, fill=pnavy!8] (dF) at (8.0, 0.2) {$\DF$ \\ \scriptsize pert.\ signature};
-  \node[lab, below=0.1cm of imgp] {+ perturbation $p$};
-  \draw[-{Latex[length=2mm]}, pnavy] (imgp) -- (fftp);
-  \draw[-{Latex[length=2mm]}, pnavy] (fftp) -- (dF);
+      \medskip
+      \begin{itemize}
+        \item Low bands $=$ coarse layout / shape
+        \item High bands $=$ fine detail / texture
+        \item \textcolor{pgreen}{Verbose prompts \textbf{widen}} $\Wt$
+        \item \textcolor{paccent}{Fine reasoning \textbf{narrows}} $\Wt$
+      \end{itemize}
 
-  % merge
-  \node[draw=paccent, fill=paccent!10, rounded corners=3pt, line width=0.9pt, minimum width=3.9cm, minimum height=1.0cm, align=center, text=paccent] (sp) at (12.4, 1.2) {$\Spred = \sum_\omega |\Wt|^2|\DF|^2$};
-  \draw[-{Latex[length=2mm]}, pnavy] (Wt) -- (sp);
-  \draw[-{Latex[length=2mm]}, pnavy] (dF) -- (sp);
-
-  % damage
-  \node[lab, right=0.15cm of sp, text=paccent] {$\propto$ damage};
-\end{tikzpicture}%
-}
-\vspace{0.6em}
-\keybox{\textbf{Text is a physical operator on the image's Fourier spectrum.}\\ Damage follows the \emph{overlap} $\Spred$, not the raw magnitude $\|\DF\|$.}
-\end{frame}
-%
-\begin{frame}{Can we control the damage? }
-\begin{columns}[T,onlytextwidth]
-\column{0.50\linewidth}
-\textbf{Semantic program complexity} $\Csem$\\
-\textit{reasoning logic} --- entities, attributes, relations, operators, depth, grounding ambiguity.
-
-\vspace{0.6em}
-\textbf{Prompt load} $\Cprompt$\\
-\textit{lexical surface} --- content-token count after stopword removal.
-
-\vspace{0.8em}
-Natural questions confound them.\\
-Raw ``complexity'' slopes in prior work mix two effects whose signs \emph{oppose each other}.
-\column{0.50\linewidth}
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[font=\small]
-  % The Wt filter being pulled two ways
-  \node[draw=pnavy, fill=pnavy!8, rounded corners=2pt, line width=0.7pt, minimum width=3.5cm, minimum height=1.1cm, align=center] (W) at (0,0) {\large $\Wt$};
-
-  \node[raw=pgreen, fill=pgreen!10, rounded corners=2pt, line width=0.7pt, text=pgreen] (cs) at (-3.3, 0) {$\Cprompt\;(+)$};
-  \node[draw=paccent, fill=paccent!10, rounded corners=2pt, line width=0.7pt, text=paccent] (cp) at (3.3, 0) {$\Csem\;(-)$};
-
-  \draw[{Latex[length=3mm]}-, line width=1.4pt, pgreen]  (cs.east) -- (W.west) ;
-  \draw[-{Latex[length=3mm]}, line width=1.4pt, paccent] (W.east) -- (cp.west);
-
-  \node[below=0.1cm of cs, font=\scriptsize, text=pgreen] {stabilizes};
-  \node[below=0.1cm of cp, font=\scriptsize, text=paccent] {destabilizes};
-
-  % outcome axis
-  \draw[-{Latex[length=2mm]}, pgray] (-4,-1.6) -- (4,-1.6) node[right, font=\scriptsize] {damage};
-  \node[font=\scriptsize, text=pgray] at (0,-1.95) {behavioural output};
-\end{tikzpicture}%
-}
-\end{columns}
-\vspace{0.6em}
-\keybox{\textbf{The mirror 8-level design separates the two at the item level.}}
+      \medskip
+      The answer \alert{drifts most} when the filter $\Wt$ and the corruption's
+      spectrum $\DF$ sit on the \textbf{same frequencies}.
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{teaser_fig1_v2.pdf}\\
+      \scriptsize\textcolor{pgray}{Verbose paraphrases cut drift variance across corruptions.}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Contributions at a Glance}
-\begin{columns}[T,onlytextwidth]
-\column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{Headline}}
-\small
-\textbf{1.} \textbf{Verbose prompts stabilise VLMs.} $65$--$86\%$ drift-variance reduction across mirror pairs (mean ratio $0.247$); mean volatility drops $68$--$90\%$ on 8B, strongest at L4. Not previously reported.\\[0.3em]
-\textbf{2.} Spectral--behavioural law $\Spred = \langle \Wt^{(\texttt{last\_2})}, \DF\rangle$ \emph{explains} the stabilisation. \textbf{Item-level} (image + perturbation + severity held fixed, only task varies across L1--L8): within-cell median Pearson $\mathbf{r = 0.543}$ (2D, question-only $\Wt$, $n = 7{,}800$ cells). Population-level: $r = 0.337$ grouped, $r = 0.315$ per-sample. Zero target-side fitting.\\[0.3em]
-\textbf{3.} Four-stage layer trajectory: layer-0 length prior $\to$ erasure $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap. A $4\times4$ $\Delta F \times W_t$ signature matrix confirms the law's geometry: broadband $\Wt$ minimises volatility in every $\Delta F$ row.
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{Method \& Evidence}}
-\small
-\textbf{4.} Mirror 8-level GQA design (L1--L8) isolates $\Csem$ from $\Cprompt$ at the item level. Within-image FE recovers the tug-of-war: $\beta_{\Cprompt} < 0$, $\beta_{\Cres} > 0$.\\[0.3em]
-\textbf{5.} Program-aware complexity metric grounded in GQA/CLEVR, NMN, referring expressions, psychometrics.\\[0.3em]
-\textbf{6.} Reproducible, deployable pipeline --- released as a modular repository. Prompt padding is the cheapest training-free defence.
-\end{block}
-\end{columns}
+\begin{frame}{The mechanism in one picture}
+  \keybox{\centering
+    \textbf{prompt} $\;\longrightarrow\;$ \textcolor{pnavy}{cross-modal attention}
+    $\;\longrightarrow\;$ \textcolor{pnavy}{filter $\Wt$ over visual frequencies}\\[4pt]
+    \textbf{corruption} $\;\longrightarrow\;$ \textcolor{pnavy}{spectral signature $\DF$}\\[6pt]
+    \large\textbf{drift} $\;\propto\; \langle \Wt,\ \DF\rangle$ \quad
+    \textcolor{pgray}{(spectral overlap)}}
+  \vfill
+  \begin{itemize}
+    \item $\Wt$ is read from attention --- \emph{no behavioural fitting}.
+    \item $\DF$ is a model-free radial power spectrum of the pixel difference.
+    \item The overlap is a \textbf{parameter-free} predictor of robustness.
+  \end{itemize}
 \end{frame}
 
-% -------------------- SECTION: THEORY --------------------
-\section{Theoretical Framework}
+%==============================================================================
+\section{Design}
 
-\begin{frame}{The Task-Specific Filter $\Wt$}
-\begin{columns}[T,onlytextwidth]
-\column{0.52\linewidth}
-\small
-\begin{enumerate}
-  \item Vision tokens $\{v_{ij}\}$ on an $H\times W$ grid.
-  \item Cross-modal attention at layer group $\ell$ gives spatial map $a_t^{(\ell)}$.
-  \item 2D FFT, square, radially bin into $B$ linear bands.
-  \item Average over images; L1-normalise:
-\end{enumerate}
-\[
-\Wt^{(\ell)} = \frac{\mathbb{E}_I[\,|\mathcal{F}_2\, a_t^{(\ell)}(I)|^2(\omega)\,]}{\sum_{\omega'}\mathbb{E}_I[\ldots]}
-\]
-
-\vspace{0.3em}
-\textbf{Effective bandwidth via IPR} (L1-normalised probability):
-\[
-\Gt = \left(\sum_\omega \Wt^2\right)^{-1},\quad 1\le\Gt\le B
-\]
-\column{0.44\linewidth}
-\begin{tikzpicture}[scale=0.9]
-  \begin{axis}[
-    width=5.6cm, height=4.2cm,
-    xlabel={\footnotesize radial freq.\ $\omega$},
-    ylabel={\footnotesize $\Wt$},
-    xtick=\empty, ytick=\empty,
-    axis line style={pgray},
-    tick style={pgray},
-    label style={text=pgray, font=\footnotesize},
-    xmin=0, xmax=10, ymin=0, ymax=1.1,
-    clip=false
-  ]
-    % simple illustrative filter shape
-    \addplot[line width=1.2pt, pnavy, fill=pnavy!15, fill opacity=0.6] coordinates {
-      (0,0.05) (1,0.35) (2,0.70) (3,0.95) (4,0.85) (5,0.55) (6,0.30) (7,0.15) (8,0.08) (9,0.04) (10,0.02)
-    } \closedcycle;
-    \node[text=pnavy, font=\small] at (axis cs:4.5,0.98) {$\Wt$};
-  \end{axis}
-\end{tikzpicture}
-\vspace{-0.3em}
-\begin{center}
-\scriptsize \textcolor{pgray}{Illustrative task-conditioned radial filter.}
-\end{center}
-\end{columns}
+\begin{frame}{The mirror 8-level design}
+  Eight questions per image, separating \textbf{semantic complexity} ($\Csem$)
+  from \textbf{prompt length} ($\Cprompt$) on orthogonal axes.
+  \medskip
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{L1--L4: terse, increasing granularity}
+      \begin{itemize}\small
+        \item L1: object presence (Y/N)
+        \item L2: attribute query (MCQ)
+        \item L3: spatial relation (Y/N)
+        \item L4: compositional (MCQ)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{L5--L8: verbose mirrors}
+      \begin{itemize}\small
+        \item Same semantic atoms, byte-for-byte
+        \item Inflate $\Cprompt$ \emph{alone}
+        \item Polite framing wrapper
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \vfill
+  \footnotesize\textcolor{pgray}{Grid: \{Qwen3-VL-2B, Qwen3-VL-8B\} $\times$ \{GQA, CLEVR\},
+  $n=500$/cell, severity \{1,2,3\}, 78 perturbation slices/image $=$ 312k scoring rows/run.}
 \end{frame}
 
-\begin{frame}{The Overlap Law}
-\vspace{0.3em}
-\begin{columns}[T,onlytextwidth]
-\column{0.50\linewidth}
-\textbf{Perturbation spectral signature:}
-\[
-\DF_p(\omega) = \mathbb{E}_I\!\left[\,\bigl|\,|\mathcal{F}_2 I_p|^2 - |\mathcal{F}_2 I|^2\,\bigr|\,\right]_\omega
-\]
-Model-independent; purely a property of $p$.
+%==============================================================================
+\section{Four predictions}
 
-\vspace{0.8em}
-\textbf{Two forms, both parameter-free:}
-\begin{align*}
-\Spred^{\mathrm{quad}} &= \textstyle\sum_\omega |\Wt|^2|\DF|^2 \\
-\Spred^{\mathrm{lin}}  &= \langle \Wt, \DF\rangle = \textstyle\sum_\omega \Wt \cdot \DF
-\end{align*}
-
-\vspace{0.4em}
-\textbf{Central claim:}
-\[
-\mathbb{E}[\,\Delta\mathrm{acc}(t,p)\,] \;\propto\; \Spred(t,p)
-\]
-
-\keybox{\textbf{Damage follows the \emph{overlap}, not raw energy.}\\Linear form reproduces the $\beta_{\Cprompt}<0$ sign via \emph{mass relocation}.}
-\column{0.46\linewidth}
-\begin{tikzpicture}[scale=0.9]
-  \begin{axis}[
-    width=5.8cm, height=4.7cm,
-    xlabel={\footnotesize $\omega$},
-    xtick=\empty, ytick=\empty,
-    axis line style={pgray},
-    label style={text=pgray, font=\footnotesize},
-    legend style={font=\scriptsize, draw=none, fill=none, at={(0.97,0.97)}, anchor=north east},
-    xmin=0, xmax=10, ymin=0, ymax=1.2,
-  ]
-    \addplot[line width=1.0pt, pnavy, fill=pnavy!20, fill opacity=0.55] coordinates {
-      (0,0.05) (1,0.35) (2,0.70) (3,0.95) (4,0.85) (5,0.55) (6,0.30) (7,0.15) (8,0.08) (9,0.04) (10,0.02)
-    } \closedcycle;
-    \addlegendentry{$|\Wt|^2$}
-    \addplot[line width=1.0pt, paccent, fill=paccent!25, fill opacity=0.55] coordinates {
-      (0,0.02) (1,0.08) (2,0.20) (3,0.45) (4,0.80) (5,0.95) (6,0.70) (7,0.40) (8,0.18) (9,0.07) (10,0.02)
-    } \closedcycle;
-    \addlegendentry{$|\DF|^2$}
-    \addplot[line width=1.4pt, dashed, pgold] coordinates {
-      (0,0.001) (1,0.028) (2,0.14) (3,0.43) (4,0.68) (5,0.52) (6,0.21) (7,0.06) (8,0.014) (9,0.003) (10,0.0004)
-    };
-    \addlegendentry{$|\Wt|^2|\DF|^2$}
-  \end{axis}
-\end{tikzpicture}
-\vspace{-0.3em}
-\begin{center}
-\scriptsize \textcolor{pgray}{$\Spred$ is the area under the gold curve.}
-\end{center}
-\end{columns}
+\begin{frame}{Four separable predictions --- all confirmed}
+  \begin{enumerate}
+    \item[\textbf{P1}] \textbf{Tug-of-war:} complexity \up\ destabilises,
+          verbosity \down\ stabilises --- opposite signs at the item level.
+    \item[\textbf{P2}] \textbf{Bandwidth trajectory:} $\Wt$ narrows then broadens
+          across decoder layers; verbose mirrors end up broader.
+    \item[\textbf{P3}] \textbf{Overlap law:} $\langle\Wt,\DF\rangle$ predicts drift,
+          positive in \textbf{12/12} cells.
+    \item[\textbf{P4}] \textbf{Cutoff reframed:} most corruptions are low-frequency;
+          $\Wt$ puts only 3--5\% mass on the top band.
+  \end{enumerate}
+  \vfill
+  \keybox{\centering Tested on different observables $\Rightarrow$ they don't share noise.
+  The central claim survives setting any one aside.}
 \end{frame}
 
-\begin{frame}{Semantic Program Complexity $\Csem$}
-\begin{center}
-\begin{tikzpicture}
-  \node[draw=pnavy, fill=pnavy!6, rounded corners=3pt, line width=0.8pt, inner sep=9pt] (box) {
-    \large $\Csem \;=\; E \,+\, A \,+\, R \,+\, O \,+\, D \,+\, \ln(1 + G_{\mathrm{amb}})$
-  };
-\end{tikzpicture}
-\end{center}
+% ---- P1 ----
+\begin{frame}{P1 --- The tug-of-war on volatility}
+  Within-image fixed-effects regression (Frisch--Waugh--Lovell), $z$-scored:
+  \[
+    V_{i,t} = \beta_{\Cres}\,\Cres(t) + \beta_{\Cprompt}\,\Cprompt(t)
+              + \beta_{H}\,\Hopt(t) + \alpha_i + \varepsilon_{i,t}
+  \]
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      \centering
+      \small
+      \begin{tabular}{llcc}
+        \toprule
+        Model & Bench & $\tilde\beta_{\Cres}$ & $\tilde\beta_{\Cprompt}$ \\
+        \midrule
+        Qwen-2B & CLEVR & \textcolor{paccent}{$+0.447$} & \textcolor{pgreen}{$-0.330$} \\
+        Qwen-8B & CLEVR & \textcolor{paccent}{$+0.257$} & \textcolor{pgreen}{$-0.749$} \\
+        Qwen-2B & GQA   & \textcolor{paccent}{$+0.290$} & \textcolor{pgreen}{$-0.289$} \\
+        Qwen-8B & GQA   & \textcolor{paccent}{$+0.075$} & \textcolor{pgreen}{$-0.623$} \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \cmark\ $\tilde\beta_{\Cres} > 0$ in 4/4
+      \quad(complexity destabilises)
 
-\vspace{0.6em}
-\begin{columns}[T,onlytextwidth]
-\column{0.48\linewidth}
-\small
-\begin{itemize}
-  \item $E$ --- entity refs (GQA \texttt{select}/\texttt{query})
-  \item $A$ --- attribute refs (GQA \texttt{query\_attr})
-  \item $R$ --- relation refs (GQA / CLEVR \texttt{relate})
-\end{itemize}
-\column{0.48\linewidth}
-\small
-\begin{itemize}
-  \item $O$ --- reasoning ops (NMN primitives)
-  \item $D$ --- program depth (CLEVR)
-  \item $G_{\mathrm{amb}}$ --- grounding ambiguity (ReferIt)
-\end{itemize}
-\end{columns}
+      \medskip
+      \cmark\ $\tilde\beta_{\Cprompt} < 0$ in 4/4
+      \quad(verbosity stabilises)
 
-\vspace{0.5em}
-\keybox{Equal weighting preserves L1 $<$ L2 $\lesssim$ L3 $<$ L4 under \emph{any} positive linear combination $\Rightarrow$ the sign of every effect is invariant to the weight scheme.}
+      \medskip
+      \footnotesize CR1 on 312k rows: $\beta_{\Csem}>0$ at $p\le10^{-6}$,
+      $\beta_{\Cprompt}<0$ at $p\le10^{-64}$.
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Regression Specification}
-\textbf{Residualise, then horse-race (primary target: loglik volatility)}
-\begin{align*}
-\Cres &= \Csem - \hat\Csem(\Cprompt) \\[0.2em]
-y_{i,t} &= \alpha_i + \beta_{\Csem}\Csem(t) + \beta_{\Cprompt}\Cprompt(t) + \beta_H H_{\mathrm{opt}}(t) + \varepsilon_{i,t}
-\end{align*}
-
-\vspace{0.5em}
-\begin{columns}[T,onlytextwidth]
-\column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{Primary}}
-\small
-Log-likelihood volatility\\
-$\mathbb{E}_p\!\bigl[\,|\log p_\theta(a^\star\mid I_p,t) - \log p_\theta(a^\star\mid I,t)|\,\bigr]$\\
-\scriptsize mean absolute drift (L1)
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{Secondary}}
-\small
-Gated accuracy drop\\
-clean-correct $\to$ perturbed-wrong\\
-thresholded, binary, confirmatory
-\end{block}
-\end{columns}
-
-\vspace{0.4em}
-\textbf{Paired mirror t-tests} (L1$\leftrightarrow$L5, L2$\leftrightarrow$L6, L3$\leftrightarrow$L7, L4$\leftrightarrow$L8) identify the $\Cprompt$ effect without regression assumptions.
+% ---- P2 ----
+\begin{frame}{P2 --- Bandwidth narrows then broadens across depth}
+  \begin{columns}[T]
+    \begin{column}{0.58\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{n1_trajectory_grid.pdf}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \small
+      Four-stage trajectory in all runs:
+      \begin{enumerate}\small
+        \item \textbf{Layer 0:} length prior (verbose $<$ terse)
+        \item \textbf{Early:} prior erasure
+        \item \textbf{Mid:} $\Csem$-driven narrowing
+        \item \textbf{Late:} verbosity \textbf{widening}
+      \end{enumerate}
+      \medskip
+      \centering\scriptsize
+      \begin{tabular}{lcc}
+        \toprule
+        & \multicolumn{2}{c}{$\Gt$ at last\_2}\\
+        Run & terse & verbose \\
+        \midrule
+        CLEVR-2B & 5.90 & \textbf{7.47} \\
+        GQA-8B   & 5.82 & \textbf{5.97} \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% -------------------- SECTION: METHODS --------------------
-\section{The Mirror 8-Level Design}
+% ---- P2 mechanism ----
+\begin{frame}{P2 --- Narrow vs.\ broadband filters drift differently}
+  \begin{columns}[T]
+    \begin{column}{0.62\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{n2_signature_matrices_grid.pdf}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \small
+      Narrow-$\Wt$ tasks lose more on a band-matched perturbation than
+      broadband-$\Wt$ tasks.
 
-\begin{frame}{The Mirror 8-Level GQA Design}
-\begin{center}
-\begin{tikzpicture}[font=\small,
-  lvl/.style={draw=pnavy, fill=pnavy!8, rounded corners=2pt, minimum width=3.1cm, minimum height=0.9cm, align=center, text=pnavy, line width=0.5pt},
-  wlvl/.style={draw=pgreen, fill=pgreen!10, rounded corners=2pt, minimum width=3.1cm, minimum height=0.9cm, align=center, text=pgreen, line width=0.5pt},
-  hdr/.style={font=\bfseries\small, text=pnavy}
-]
-  % headers
-  \node[hdr] at (-4,3.2) {Primary (L1--L4)};
-  \node[hdr] at (3.8,3.2) {Wordy mirrors (L5--L8)};
+      \medskip
+      \cmark\ Narrow $>$ broadband in \textbf{4/4} rows on CLEVR-2B and GQA-8B.
 
-  % primary stack
-  \node[lvl] (L1) at (-4, 2.1) {\textbf{L1} Presence};
-  \node[lvl] (L2) at (-4, 1.1) {\textbf{L2} Attribute};
-  \node[lvl] (L3) at (-4, 0.1) {\textbf{L3} Relation};
-  \node[lvl] (L4) at (-4,-0.9) {\textbf{L4} Compositional};
-
-  % mirror stack
-  \node[wlvl] (L5) at (3.8, 2.1) {\textbf{L5} wordy L1};
-  \node[wlvl] (L6) at (3.8, 1.1) {\textbf{L6} wordy L2};
-  \node[wlvl] (L7) at (3.8, 0.1) {\textbf{L7} wordy L3};
-  \node[wlvl] (L8) at (3.8,-0.9) {\textbf{L8} wordy L4};
-
-  \foreach \a/\b in {L1/L5, L2/L6, L3/L7, L4/L8}{
-    \draw[{Latex[length=2mm]}-{Latex[length=2mm]}, pgray, dashed] (\a.east) -- (\b.west);
-  }
-
-  \node[rotate=0, text=pgray, font=\scriptsize] at (-0.1, 2.5) {same $\Csem$};
-  \node[rotate=0, text=pgray, font=\scriptsize] at (-0.1, -0.5) {only $\Cprompt$ changes};
-
-  % axis labels
-  \node[text=pgray, font=\scriptsize] at (-4,-1.7) {$\Csem$ increases $\downarrow$};
-
-\end{tikzpicture}
-\end{center}
-\vspace{0.3em}
-\keybox{\textbf{L5--L8 preserve the semantic atoms byte-for-byte of their L1--L4 counterparts.}\\ Only prompt load $\Cprompt$ changes. Yes/no levels balanced 50/50 by complementary pattern pairing.}
+      \medskip
+      \footnotesize\textcolor{pgray}{CLEVR-8B reverses --- the recovery-dominance
+      regime where verbose mirrors sit at the log-prob ceiling.}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Perturbation Bank and Scale}
-\begin{columns}[T,onlytextwidth]
-\column{0.52\linewidth}
-\textbf{14-class perturbation bank:}
-\vspace{0.2em}
-\begin{itemize}\setlength\itemsep{0.25em}
-  \item \textcolor{pnavy}{\textbf{Geometric}} --- translation, pad-crop, scale, scale-and-pad $\times$2, rotation \hfill(6)
-  \item \textcolor{pnavy}{\textbf{Occlusion}} --- text overlay, box overlay, random-text \hfill(3)
-  \item \textcolor{pnavy}{\textbf{Spectral}} --- lowpass, highpass, low-/high-/all-band noise \hfill(5)
-\end{itemize}
-Severities $\{1,2,3\}$.
+% ---- P3 ----
+\begin{frame}{P3 --- The overlap law predicts drift}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \centering
+      \includegraphics[width=0.96\linewidth]{n3_overlap_law_bars.pdf}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering\small
+      \begin{tabular}{llccc}
+        \toprule
+        Model & Bench & grp & FE & cell \\
+        \midrule
+        Qwen-2B & CLEVR & $.39$ & $.28$ & $.31$ \\
+        Qwen-8B & CLEVR & $.42$ & $.38$ & $.46$ \\
+        Qwen-2B & GQA   & $.26$ & $.15$ & $.16$ \\
+        Qwen-8B & GQA   & $.33$ & $.28$ & $.33$ \\
+        \bottomrule
+      \end{tabular}
+      \medskip
 
-\column{0.44\linewidth}
-\begin{block}{\textcolor{pnavy}{Model \& evaluation scale}}
-\small
-\textbf{Qwen3-VL-2B-Instruct}\\
-Attention extracted at \emph{all} decoder layers\\
-Partitioned into early / mid / late thirds\\[0.3em]
-\textbf{1000} GQA images\\
-\textbf{8000} (image, level) points\\
-Full 8-level mirror grid\\[0.3em]
-$B = 20$ radial bands (auto-selected)\\
-No Hann taper, no DC suppression
-\end{block}
-\end{columns}
+      \cmark\ \textbf{Positive in 12/12} (run $\times$ aggregation) cells,
+      $p\approx0$ everywhere.
+
+      \medskip
+      \footnotesize Parameter-free: no behavioural calibration.
+      Grouped $r$ ranges $0.26$--$0.42$.
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% -------------------- SECTION: RESULTS --------------------
-\section{Results}
+% ---- P4 ----
+\begin{frame}{P4 --- High-frequency noise is \emph{not} the hard case}
+  \begin{columns}[T]
+    \begin{column}{0.58\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{n4_band_mass.pdf}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \small
+      Common assumption: VLMs are most vulnerable to high-frequency noise.
 
-\begin{frame}{Notation: What $\tilde\beta$ means, and what ``stabilises'' means}
-\small
-\textbf{$\tilde\beta(X)$ = standardised partial OLS regression coefficient.}\\
-The slope when both the outcome and every predictor are $z$-scored. \textbf{Not} the Pearson correlation $r(X,y)$: by Frisch--Waugh--Lovell, $\tilde\beta(X)$ is the slope on the part of $X$ orthogonal to the other regressors, while $r$ ignores them.
-
-\vspace{0.4em}
-\[
-\tilde\beta(X) = \mathrm{argmin}_{b} \mathrm{Var}\bigl[\,\mathrm{stdise}(y) \;-\; b\cdot\mathrm{stdise}(X) - b'\cdot\mathrm{stdise}(\mathrm{others})\,\bigr]
-\]
-
-\vspace{0.4em}
-\textbf{Stabilises $\Leftrightarrow \tilde\beta(X) < 0$ on volatility.}\\
-A 1-SD increase in $X$ is associated with a $|\tilde\beta(X)|$-SD \emph{decrease} in perturbation-induced drift, with all other regressors held fixed.
-
-\textbf{Destabilises $\Leftrightarrow \tilde\beta(X) > 0$.} 1-SD up $\Rightarrow$ drift up.
-
-\vspace{0.3em}
-\keybox{\small Throughout this paper $r$ = marginal Pearson correlation; $\tilde\beta$ = standardised conditional partial slope. The tug-of-war is a signed statement about partial slopes, not zero-order correlations.}
+      \medskip
+      \textbf{We find the opposite:}
+      \begin{itemize}\small
+        \item Most real perturbations are \textbf{low-frequency}.
+        \item $\Wt$ puts only \textbf{3--5\%} mass on the top band.
+        \item $\Rightarrow$ high-freq corruptions cause the \textbf{smallest}
+              drift in 3/4 runs.
+      \end{itemize}
+      \medskip
+      \footnotesize\textcolor{pgray}{What older work calls ``high'' is our mid-band.}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Result 1a: The Tug-of-War on Volatility}
-\textbf{Log-likelihood volatility} $\mathbb{E}_p\!\bigl[\,|\log p_\theta(a^\star\mid I_p,t) - \log p_\theta(a^\star\mid I,t)|\,\bigr]$, $n = 8000$:
-\vspace{0.4em}
-\begin{center}
-\small
-\begin{tabular}{lcc}
-\toprule
-\textbf{Predictor} & \textbf{Pooled OLS} $\tilde\beta$ & \textbf{Within-image FE} $\tilde\beta$ \\
-\midrule
-\cellcolor{paccent!8}$\Cres$ (residualised $\Csem$) & \cellcolor{paccent!8}$+0.266\;\;(p{<}10^{-107})$ & \cellcolor{paccent!8}$\mathbf{+0.291\;\;(p{<}10^{-130})}$ \\
-\cellcolor{pgreen!8}$\Cprompt$                      & \cellcolor{pgreen!8}$-0.296\;\;(p{<}10^{-177})$ & \cellcolor{pgreen!8}$\mathbf{-0.317\;\;(p{<}10^{-209})}$ \\
-$H_{\mathrm{opt}}$ (control)                          & $+0.090\;\;(p{<}10^{-13})$              & $+0.092\;\;(p{<}10^{-14})$ \\
-\midrule
-$n$ / $R^2$ & $8000$ / $0.187$ & $8000$ / $\mathbf{0.217}$ \\
-\bottomrule
-\end{tabular}
-\end{center}
+%==============================================================================
+\section{Cross-architecture}
 
-\vspace{0.8em}
-\begin{tikzpicture}[font=\small]
-  \draw[-{Latex[length=2mm]}, pgray] (0,0) -- (11.5,0);
-  \foreach \x in {-0.4,-0.2,0,0.2,0.4}
-    \draw[pgray, line width=0.3pt] (\x*10 + 5.75, 0.08) -- (\x*10 + 5.75, -0.08) node[below, font=\scriptsize, text=pgray] {$\pgfmathprintnumber{\x}$};
-  % Cres point (positive)
-  \fill[paccent] (0.291*10 + 5.75, 0.5) circle (3pt);
-  \draw[paccent, line width=1pt] (0.231*10 + 5.75, 0.5) -- (0.351*10 + 5.75, 0.5);
-  \node[text=paccent, font=\small\bfseries, right=0.2cm] at (0.351*10 + 5.75, 0.5) {$\Cres$};
-  % Cprompt point (negative)
-  \fill[pgreen] (-0.317*10 + 5.75, 0.5) circle (3pt);
-  \draw[pgreen, line width=1pt] (-0.377*10 + 5.75, 0.5) -- (-0.257*10 + 5.75, 0.5);
-  \node[text=pgreen, font=\small\bfseries, left=0.2cm] at (-0.377*10 + 5.75, 0.5) {$\Cprompt$};
-  \draw[pgray, line width=0.4pt, dashed] (5.75,-0.2) -- (5.75, 0.9);
-  \node[text=pgray, font=\scriptsize] at (5.75,-0.45) {$\tilde\beta = 0$};
-\end{tikzpicture}
-
-\vspace{0.2em}
-\alert{Opposite signs, jointly significant at $p$ in the $10^{-100}$s.}
+\begin{frame}{The framework is architectural, not Qwen-specific}
+  Same pipeline on \textbf{LLaVA-OneVision-0.5B} (SigLIP + Qwen2, no CLS, $B=20$),
+  GQA, 500 images.
+  \vfill
+  \centering\small
+  \begin{tabular}{lccc}
+    \toprule
+    & Qwen-2B & Qwen-8B & LLaVA-OV-0.5B \\
+    & (GQA) & (GQA) & (GQA) \\
+    \midrule
+    Overlap $r$ (last\_2)          & $+0.255$ & $+0.327$ & \textbf{$+0.343$} \\
+    last\_2 $\Gt$ terse/verbose    & 5.75/5.92 & 5.82/5.97 & 15.72/\textbf{16.28} \\
+    $\tilde\beta_{\Cprompt}$       & $-0.289$ & $-0.623$ & $-0.140$ \\
+    Top-band mass                  & 3--5\% & 3--5\% & $<1\%$ \\
+    \bottomrule
+  \end{tabular}
+  \vfill
+  \keybox{\centering All four predictions replicate on a different VLM family ---
+  the trajectory, overlap law, cutoff, and the verbose/complexity signs.}
 \end{frame}
 
-\begin{frame}{Result 1a: Forest Plot of the Tug-of-War}
-\begin{center}
-\includegraphics[width=0.78\linewidth]{figures/forest_tug_of_war.png}
-\end{center}
-\vspace{-0.3em}
-\keybox{\small Standardised regression on the primary target (loglik volatility): $\Cres$ destabilises ($+$, top), $\Cprompt$ stabilises ($-$, middle); pooled OLS and within-image FE agree. 100-sample 8B replication.}
+%==============================================================================
+\section{Takeaways}
+
+\begin{frame}{What this buys you}
+  \begin{itemize}
+    \item \textbf{A mechanism, not just a benchmark:} robustness is governed by
+          spectral alignment between a prompt-induced filter and the corruption.
+    \item \textbf{A parameter-free predictor:} $\langle\Wt,\DF\rangle$ forecasts
+          drift from model internals --- no held-out calibration.
+    \item \textbf{A reframed cutoff law:} low-frequency, not high-frequency,
+          corruptions dominate VLM fragility.
+    \item \textbf{A free robustness lever:} verbose paraphrasing reduces drift
+          variance by \textbf{70--81\%} on the 8B model.
+  \end{itemize}
+  \vfill
+  \keybox{\centering\large \textcolor{paccent}{\textbf{Pad the prompt.}}}
 \end{frame}
 
-\begin{frame}{Result 1b: Strict Monotonicity in Volatility}
-\begin{columns}[T,onlytextwidth]
-\column{0.54\linewidth}
-\begin{tikzpicture}
-  \begin{axis}[
-    width=6.8cm, height=5.0cm,
-    xlabel={\footnotesize task level},
-    ylabel={\footnotesize loglik volatility},
-    label style={text=pgray, font=\footnotesize},
-    xtick={1,2,3,4}, xticklabels={L1,L2,L3,L4},
-    tick label style={text=pgray, font=\footnotesize},
-    axis line style={pgray},
-    ymin=0, ymax=2.2,
-    grid=major, grid style={pgray!20, line width=0.3pt}
-  ]
-    \addplot[line width=1.4pt, pnavy, mark=*, mark size=2.4pt, mark options={fill=pnavy}] coordinates {
-      (1, 0.640) (2, 0.783) (3, 0.836) (4, 1.882)
-    };
-    \node[text=paccent, font=\footnotesize\bfseries] at (axis cs:4,2.05) {$\times 2.94$};
-  \end{axis}
-\end{tikzpicture}
-
-\column{0.44\linewidth}
-\small
-\textbf{Strictly monotone} L1 $\to$ L4:
-\begin{itemize}
-  \item L1 $=$ 0.640
-  \item L2 $=$ 0.783
-  \item L3 $=$ 0.836
-  \item L4 $=$ \textbf{1.882}
-\end{itemize}
-\vspace{0.3em}
-Kendall $\tau = 1.0$\\
-Cohen's $d_{\text{L4 vs L1}} = 1.43$\\
-ANOVA $F = 255$, $p < 10^{-139}$
-
-\vspace{0.4em}
-\keybox{\small The spectral cost of reasoning --- in one curve.}
-\end{columns}
+\begin{frame}{Limitations \& honesty}
+  \begin{itemize}
+    \item Results on Qwen3-VL-\{2B, 8B\}; LLaVA-OneVision is a
+          \textbf{single-condition} cross-architecture check (0.5B, GQA only).
+    \item Some gates hold cleanly only on 8B (signed-drift reverses on CLEVR-8B
+          under recovery dominance).
+    \item Overlap law stronger on CLEVR; cutoff law cleaner on GQA.
+    \item $\Wt$ is read from attention scores --- a \textbf{correlational}
+          lower bound on the causal filter.
+    \item Verbose mirrors are programmatic; human paraphrases are future work.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Result 1c: The Mirror Contrast}
-\begin{columns}[T,onlytextwidth]
-\column{0.52\linewidth}
-\begin{tikzpicture}
-  \begin{axis}[
-    width=6.5cm, height=5.0cm,
-    ybar, bar width=9pt,
-    xlabel={\footnotesize mirror pair},
-    ylabel={\footnotesize loglik volatility},
-    label style={text=pgray, font=\footnotesize},
-    axis line style={pgray},
-    tick label style={text=pgray, font=\scriptsize},
-    symbolic x coords={L1/L5, L2/L6, L3/L7, L4/L8},
-    xtick=data,
-    ymin=0, ymax=2.2,
-    legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
-    enlarge x limits=0.15
-  ]
-    \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {
-      (L1/L5, 2.073) (L2/L6, 3.460) (L3/L7, 2.171) (L4/L8, 3.374)
-    };
-    \addlegendentry{primary (std drift)}
-    \addplot[fill=pgreen!70, draw=pgreen!80!black] coordinates {
-      (L1/L5, 0.787) (L2/L6, 2.061) (L3/L7, 0.937) (L4/L8, 1.852)
-    };
-    \addlegendentry{wordy (std drift)}
-  \end{axis}
-\end{tikzpicture}
-\column{0.44\linewidth}
-\small
-Same semantic program; only $\Cprompt$ changes. Bars: drift std deviation; ladder: drift-variance reduction.
-\vspace{0.4em}
-\begin{tabular}{@{}lr@{}}
-L1$\leftrightarrow$L5 & $\mathbf{-86\%}$ \\
-L2$\leftrightarrow$L6 & $-64\%$ \\
-L3$\leftrightarrow$L7 & $-81\%$ \\
-L4$\leftrightarrow$L8 & $-70\%$ \\
-\end{tabular}
-
-\vspace{0.5em}
-\keybox{\small \textbf{Every wordy mirror stabilises its primary.}\\ The anchor is largest where reasoning is costliest.}
-\end{columns}
+\begin{frame}[standout]
+  Cross-modal attention is a frequency filter.\\[6pt]
+  Verbose prompts broaden it; fine reasoning narrows it;\\
+  overlap with the corruption controls drift.\\[12pt]
+  \textbf{Pad the prompt.}
 \end{frame}
 
-\begin{frame}{Result 1d: Why Volatility, Not Accuracy}
-\begin{center}
-\small
-\begin{tabular}{lc|c}
-\toprule
-\textbf{Quantity} & \textbf{Primary: volatility} & \textbf{Secondary: accuracy drop} \\
-\midrule
-\cellcolor{pnavy!6}FE $R^2$                      & \cellcolor{pnavy!6}$\mathbf{0.217}$ & $0.020$ \\
-FE $\tilde\beta(\Cres)$                            & $+0.291$                            & $+0.172$ \\
-FE $\tilde\beta(\Cprompt)$                         & $-0.317$                            & $-0.033^{*}$ \\
-\cellcolor{pnavy!6}Monotonicity L1$\to$L4          & \cellcolor{pnavy!6}Kendall $\tau = 1.0$ & Kendall $\tau = 0.67$ (one reversal) \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{0.8em}
-\begin{tikzpicture}[font=\small]
-  % continuous confidence displacement
-  \begin{scope}[xshift=0cm]
-    \node[text=pnavy, font=\footnotesize\bfseries] at (0,2) {Continuous (volatility)};
-    \draw[-{Latex[length=2mm]}, pgray] (-0.3,0) -- (3.5,0);
-    \draw[line width=1.8pt, pnavy] plot [smooth] coordinates {(0,0.2) (0.7,0.5) (1.4,0.9) (2.1,1.3) (2.8,1.5)};
-    \foreach \x/\h in {0/0.2, 0.7/0.5, 1.4/0.9, 2.1/1.3, 2.8/1.5}{
-      \fill[pnavy] (\x,\h) circle (1.5pt);
-    }
-    \node[text=pgray, font=\scriptsize] at (1.6,-0.4) {$\Csem \to$};
-  \end{scope}
-
-  % thresholded
-  \begin{scope}[xshift=6cm]
-    \node[text=paccent, font=\footnotesize\bfseries] at (0,2) {Thresholded (accuracy)};
-    \draw[-{Latex[length=2mm]}, pgray] (-0.3,0) -- (3.5,0);
-    \draw[pgray, dashed, line width=0.4pt] (-0.3,1.0) -- (3.5,1.0) node[right, font=\scriptsize] {threshold};
-    \draw[line width=1.8pt, paccent] plot [smooth] coordinates {(0,0) (0.7,0) (1.4,0) (2.1,1.0) (2.8,1.0)};
-    \foreach \x/\h in {0/0.0, 0.7/0.0, 1.4/0.0, 2.1/1.0, 2.8/1.0}{
-      \fill[paccent] (\x,\h) circle (1.5pt);
-    }
-    \node[text=pgray, font=\scriptsize] at (1.6,-0.4) {$\Csem \to$};
-  \end{scope}
-\end{tikzpicture}
-
-\vspace{0.3em}
-\alert{Accuracy is a lossy $\{0,1\}$ projection. Shifts that don't cross the boundary are invisible.}
-\end{frame}
-
-\begin{frame}{Result 2: Layer-Resolved Bandwidth}
-\textbf{Effective bandwidth $\Gt^{(\ell)}$ across L1--L4:}
-\vspace{0.2em}
-\begin{columns}[T,onlytextwidth]
-\column{0.56\linewidth}
-\begin{tikzpicture}
-  \begin{axis}[
-    width=7.0cm, height=5.1cm,
-    xlabel={\footnotesize task level}, ylabel={\footnotesize $\Gt^{(\ell)}$},
-    label style={text=pgray, font=\footnotesize},
-    xtick={1,2,3,4}, xticklabels={L1,L2,L3,L4},
-    tick label style={text=pgray, font=\footnotesize},
-    axis line style={pgray},
-    ymin=1.2, ymax=4.6,
-    legend style={font=\scriptsize, draw=none, fill=none, at={(0.98,0.98)}, anchor=north east},
-    grid=major, grid style={pgray!20, line width=0.3pt}
-  ]
-    \addplot[line width=1.2pt, pnavy, mark=*, mark size=2pt] coordinates {(1,4.21) (2,3.81) (3,3.88) (4,3.37)};
-    \addlegendentry{early}
-    \addplot[line width=1.2pt, paccent, mark=square*, mark size=2pt] coordinates {(1,1.99) (2,1.93) (3,1.68) (4,1.80)};
-    \addlegendentry{mid}
-    \addplot[line width=1.2pt, pgreen, mark=triangle*, mark size=2pt] coordinates {(1,1.97) (2,2.00) (3,1.78) (4,1.74)};
-    \addlegendentry{late}
-  \end{axis}
-\end{tikzpicture}
-\column{0.42\linewidth}
-\small
-\begin{itemize}
-  \item Spearman $\rho_{\text{overall}} = -1.0$
-  \item Each layer group $\rho = -0.80$
-  \item ANOVA: $F = 255$, $p < 10^{-139}$
-\end{itemize}
-
-\vspace{0.3em}
-\textcolor{pnavy}{\textbf{Early layers:}} wider ($\approx 3.8$), track $\Cprompt$.
-
-\vspace{0.2em}
-\textcolor{pgreen}{\textbf{Late layers:}} concentrated ($\approx 1.9$), track $\Csem$ alone.
-
-\vspace{0.4em}
-\keybox{\small Early $\Cprompt$-anchoring gives way to late $\Csem$-convergence.}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Late-Layer Downward Concentration}
-\begin{columns}[T,onlytextwidth]
-\column{0.46\linewidth}
-\begin{tikzpicture}[scale=0.9]
-  \begin{axis}[
-    width=5.8cm, height=4.8cm,
-    xlabel={\footnotesize $\omega$}, ylabel={\footnotesize $\Wt^{(\text{late})}$},
-    label style={text=pgray, font=\footnotesize},
-    xtick=\empty, ytick=\empty,
-    axis line style={pgray},
-    xmin=0, xmax=10, ymin=0, ymax=1.15,
-    legend style={font=\scriptsize, draw=none, fill=none, at={(0.98,0.98)}, anchor=north east}
-  ]
-    % L1: less concentrated, broader low-freq mass
-    \addplot[line width=1.2pt, pnavy, fill=pnavy!15, fill opacity=0.5] coordinates {
-      (0,0.55) (1,0.78) (2,0.88) (3,0.62) (4,0.35) (5,0.20) (6,0.12) (7,0.07) (8,0.04) (9,0.02) (10,0.01)
-    } \closedcycle;
-    \addlegendentry{L1 (coarse)}
-    % L4: downward concentration onto top-1/top-2 bins, thinner tail
-    \addplot[line width=1.2pt, paccent, fill=paccent!20, fill opacity=0.5] coordinates {
-      (0,0.78) (1,1.05) (2,0.62) (3,0.32) (4,0.18) (5,0.10) (6,0.06) (7,0.03) (8,0.02) (9,0.01) (10,0.005)
-    } \closedcycle;
-    \addlegendentry{L4 (fine)}
-  \end{axis}
-\end{tikzpicture}
-\column{0.50\linewidth}
-\small
-\textbf{Why does $\Gt^{(\text{late})}$ fall with $\Csem$?}
-
-\vspace{0.3em}
-Mass concentrates \emph{downward} onto the lowest one or two bins:
-\begin{itemize}\setlength\itemsep{0.2em}
-  \item top-$2$ mass \textbf{rises} monotonically with $\Csem$.
-  \item high-freq tail mass \textbf{falls} monotonically.
-  \item $\rho(\Gt^{(\text{late})}, \mathrm{rank}) = -1.0$.
-\end{itemize}
-
-\vspace{0.4em}
-\keybox{\small Mass does \textbf{not} climb upward.\\ It piles up onto DC \& DC-adjacent bins --- exactly where natural perturbation $\DF$ also lives.}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Shape Signatures (Late Layer)}
-\small
-Because $\Gt$ conflates spread and location, we report direct shape statistics on the late-layer filter:
-
-\vspace{0.4em}
-\begin{center}
-\begin{tabular}{lcc}
-\toprule
-\textbf{Statistic} & \textbf{L1 (coarse)} & \textbf{L4 (fine)} \\
-\midrule
-top-2 mass (two largest bins)    & lower & \textbf{higher} ($\rho>0$) \\
-high-freq tail mass              & larger & \textbf{thinner} ($\rho<0$) \\
-top-3 mass (three largest bins)  & --- & informational \\
-centroid along $\omega$          & --- & shifts slightly down \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{0.6em}
-\textbf{Downward concentration:} the late-layer filter for finer tasks pools its mass into the lowest one or two bins. The high-frequency tail \emph{thins} rather than fattens. Earlier ``upward migration / tail growth'' framing is retracted on these data.
-
-\vspace{0.5em}
-\keybox{\small Top-$2$ mass and tail mass are the two load-bearing gates; both flip sign vs the earlier prediction. $\Gt$ alone misses the location story.}
-\end{frame}
-
-\begin{frame}{Empirical Four-Stage Trajectory (8B, 100 samples)}
-\begin{center}
-\includegraphics[width=0.92\linewidth]{figures/bandwidth_vs_csem.png}
-\end{center}
-\vspace{-0.2em}
-\keybox{\small Layer 0 length prior ($-0.74$ gap) $\to$ erasure (layers 1--12) $\to$ mid-layer content narrowing $\to$ \texttt{last\_2} verbosity gap ($+0.33$ peak at layer 31).}
-\end{frame}
-
-\begin{frame}{Filter Shape Across the 8 Levels (\texttt{last\_2})}
-\begin{center}
-\includegraphics[width=0.78\linewidth]{figures/band_heatmap_last_2.png}
-\end{center}
-\vspace{-0.2em}
-\keybox{\small Primary L1--L4 (top) concentrate mass downward as $\Csem$ rises; wordy L5--L8 (bottom) keep a broader, more uniform mass distribution at the same depth.}
-\end{frame}
-
-\begin{frame}{Theorem 4 --- Four-Stage Trajectory \& Length Prior}
-\small
-\textbf{Claim.} $\Wt(\ell)$ moves through \emph{four} stages with depth (Qwen3-VL-8B, 36 decoder attention layers):
-\begin{itemize}\setlength\itemsep{0.15em}
-  \item \textbf{Layer 0:} prompt-length prior --- wordy mirrors $-0.74$ narrower than primaries in mean bandwidth (largest single-layer gap anywhere in network).
-  \item \textbf{Layers 1--12:} prior erased --- gap collapses by layer 2; all 8 levels equilibrate near bandwidth $\approx 6.0$, length and content blind.
-  \item \textbf{Layers 13--23 (mid):} $\Csem$-driven narrowing, length-insensitive --- L4 dips to $\Gt = 4.4$ at layer 22; primary $\approx$ wordy throughout.
-  \item \textbf{Layers 24--35 + \texttt{last\_2}:} content narrowing + verbosity gap --- wordy filter \emph{broader} than primary, peaking at $+0.33$ at layer 31.
-\end{itemize}
-
-\vspace{0.3em}
-\textbf{Why $\beta_{\Cprompt}<0$?} The deep-decoder verbosity gap lands the wordy filter on a broader, less DC-exposed shape, lowering $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ linearly. Drift drops mechanically.
-
-\vspace{0.3em}
-\keybox{\small Wordy prompts trigger a sharp layer-0 length prior, get equalised at early layers, undergo content narrowing without surface-form bias at mid, then open a stabilising gap at late and \texttt{last\_2}.}
-\end{frame}
-
-\begin{frame}{Result 3: Overlap Predicts Behavioural Drift, Layer by Layer}
-\textbf{Pixel-space first-order overlap $\langle\Wt^{(\ell)},\DF\rangle$ vs $\mathrm{loglik\_volatility}$ (100-sample 8B run, $B{=}7$):}
-\vspace{0.3em}
-\begin{columns}[T,onlytextwidth]
-\column{0.50\linewidth}
-\begin{tikzpicture}
-  \begin{axis}[
-    width=6.3cm, height=4.8cm,
-    ybar, bar width=12pt,
-    xlabel={\footnotesize layer group}, ylabel={\footnotesize Pearson $r$ (grouped)},
-    label style={text=pgray, font=\footnotesize},
-    symbolic x coords={overall, early, mid, late, last\_2},
-    xtick=data,
-    tick label style={text=pgray, font=\scriptsize},
-    axis line style={pgray},
-    ymin=0, ymax=0.40,
-    nodes near coords, nodes near coords style={text=pnavy, font=\scriptsize},
-    legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
-    enlarge x limits=0.18
-  ]
-    \addplot[fill=pnavy, draw=pnavy!80!black] coordinates {(overall, 0.296) (early, 0.282) (mid, 0.281) (late, 0.306) (last\_2, 0.337)};
-    \addlegendentry{first-order, radial}
-  \end{axis}
-\end{tikzpicture}
-\column{0.46\linewidth}
-\small
-All cells significant ($p \approx 0$, $n = 16{,}800$).
-\vspace{0.2em}
-\begin{itemize}\setlength\itemsep{0.2em}
-  \item \textbf{last\_2} carries the strongest signal: $r = 0.337$ grouped, $r = 0.315$ per-sample.
-  \item Per-level $r \in [0.22, 0.38]$.
-  \item 2D first-order at \texttt{last\_2}: $r = 0.315$ grouped.
-  \item Quadratic variant $r = 0.14$ (legacy); first-order wins by $\approx 2.4\times$.
-\end{itemize}
-
-\vspace{0.4em}
-\keybox{\small $\Wt^{(\texttt{last\_2})}$ carries the strongest spectral coupling to perturbation damage --- the second-from-last attention layer is where the task-conditioned filter is sharpest.}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Overlap Law: Predicted vs Observed vs Residual (8B, \texttt{last\_2})}
-\begin{center}
-\includegraphics[width=\linewidth]{figures/overlap_grid.png}
-\end{center}
-\vspace{-0.4em}
-\keybox{\small Predicted overlap (left) and observed volatility (middle) light up the same (level, perturbation) cells; residual (right) is mostly noise. $r = 0.337$ grouped, $0.315$ per-sample, zero target-side fitting.}
-\end{frame}
-
-\begin{frame}{Matched-FE: Item-Level Law + Vision-Feature Sign Flip}
-\begin{center}
-\includegraphics[width=0.9\linewidth]{figures/matched_fe_question_only.png}
-\end{center}
-\vspace{-0.4em}
-\keybox{\small \textbf{Image-space:} both radial and 2D positive (law works within-cell). \textbf{Feature-space:} radial flips negative; 2D recovers positive --- the apparent ``sign flip'' is a radial-reduction artefact. Within-cell median Pearson at \texttt{last\_2}: $0.350$ radial / $0.457$ 2D / $\mathbf{0.543}$ 2D + question-only.}
-\end{frame}
-
-\begin{frame}{Results 4 \& 5: Cutoff Law and Overlap Validation}
-\begin{columns}[T,onlytextwidth]
-\column{0.50\linewidth}
-\begin{block}{\textcolor{pnavy}{Task 4 --- Frequency cutoff $\omega_c(\Csem)$}}
-\small
-\begin{itemize}
-  \item Largest $\omega_c$ at which gated accuracy drops $< \delta = 0.02$.
-  \item Falls monotonically L1 $\to$ L4.
-  \item Wordy mirrors inherit the cutoff of their primary.
-\end{itemize}
-\vspace{0.2em}
-\textcolor{paccent}{\textbf{Fine reasoning lives in the high-frequency tail.}}
-\end{block}
-\column{0.46\linewidth}
-\begin{block}{\textcolor{pnavy}{Task 5 --- Overlap law $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$}}
-\small
-\begin{itemize}
-  \item Grouped: $r = 0.337$ pooled radial, $r = 0.315$ 2D ($n = 16{,}800$).
-  \item Per-sample: $r = 0.315$ ($n = 62{,}400$).
-  \item Matched-FE within-cell median Pearson:\\ $0.350$ radial, $0.457$ 2D, $\mathbf{0.543}$ 2D + question-only.
-  \item Zero target-side fitting.
-\end{itemize}
-\vspace{0.2em}
-\textcolor{paccent}{\textbf{The law works at both population \emph{and} item level.}}
-\end{block}
-\end{columns}
-
-\vspace{0.5em}
-\keybox{Grouped $r = 0.34$ shows the population law; within-cell $r = 0.54$ shows the item-level signal once orientation is preserved (2D) and answer-format tokens stripped from $\Wt$ (question-only).}
-\end{frame}
-
-\begin{frame}{Result 6: $\Delta F \times W_t$ Signature Matrix --- Volatility}
-\begin{center}
-\includegraphics[width=0.74\linewidth]{figures/signature_volatility_matrix.png}
-\end{center}
-\vspace{-0.2em}
-\keybox{\small In every row, the broadband-$\Wt$ column has the lowest mean volatility. Broadband filters mute drift across \emph{every} perturbation profile --- the verbosity-stabiliser mechanism shown without behaviour as input.}
-\end{frame}
-
-\begin{frame}{Result 6: Within-cell Pearson on the Same Grid --- Matched Filter}
-\begin{center}
-\includegraphics[width=0.74\linewidth]{figures/signature_pearson_matrix.png}
-\end{center}
-\vspace{-0.2em}
-\keybox{\small Within-cell $r$ peaks where filter and perturbation share a band (low$\times$low = $\mathbf{0.44}$), drops as $\Wt$ broadens away from the matched configuration. Matched-filter intuition is empirically satisfied.}
-\end{frame}
-
-\begin{frame}{Result 6: Volatility by Perturbation Signature}
-\begin{center}
-\includegraphics[width=0.62\linewidth]{figures/perturbation_signature_volatility.png}
-\end{center}
-\vspace{-0.2em}
-\keybox{\small Broadband $\Delta F$ damages most (overlaps $\Wt$ \emph{somewhere}); low-freq damages substantially (lands where $\Wt^{(\texttt{last\_2})}$ lives); high-freq barely moves the likelihood ($\Wt$ has thinned there).}
-\end{frame}
-
-% -------------------- SECTION: DISCUSSION --------------------
-\section{Discussion \& Impact}
-
-\begin{frame}{Why Reasoning Is Spectrally Costly}
-\begin{columns}[T,onlytextwidth]
-\column{0.48\linewidth}
-\small
-As $\Csem$ rises (deep-decoder filter):
-\begin{enumerate}\setlength\itemsep{0.3em}
-  \item $\Wt^{(\texttt{last\_2})}$ mass concentrates \textbf{downward} onto the top-$1$/top-$2$ bins (DC \& near-DC).
-  \item High-freq tail \textbf{thins}.
-  \item Natural perturbations $\DF$ also live on DC \& near-DC ($80$--$96\%$ of mass).
-  \item $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ grows $\Rightarrow$ damage follows.
-\end{enumerate}
-
-\vspace{0.6em}
-\keybox{\small Fine reasoning is spectrally costly because the second-from-last-layer filter concentrates onto exactly the bins where natural perturbations also live.}
-\column{0.48\linewidth}
-\begin{tikzpicture}
-  \begin{axis}[
-    width=6.0cm, height=4.8cm,
-    xlabel={\footnotesize $\omega$}, xtick=\empty, ytick=\empty,
-    label style={text=pgray, font=\footnotesize},
-    axis line style={pgray},
-    xmin=0, xmax=10, ymin=0, ymax=1.1
-  ]
-    % perturbation noise in high-freq tail
-    \addplot[line width=1pt, paccent, fill=paccent!20, fill opacity=0.5] coordinates {
-      (0,0.04) (1,0.07) (2,0.10) (3,0.18) (4,0.32) (5,0.60) (6,0.85) (7,0.70) (8,0.40) (9,0.18) (10,0.06)
-    } \closedcycle;
-    \node[paccent, font=\scriptsize] at (axis cs:7,0.95) {$|\DF|^2$};
-    % filter L4 overlapping tail
-    \addplot[line width=1pt, pnavy, fill=pnavy!20, fill opacity=0.5] coordinates {
-      (0,0.35) (1,0.55) (2,0.65) (3,0.50) (4,0.42) (5,0.50) (6,0.48) (7,0.35) (8,0.18) (9,0.08) (10,0.03)
-    } \closedcycle;
-    \node[pnavy, font=\scriptsize] at (axis cs:2.5,0.82) {$\Wt^{\text{L4}}$};
-    % overlap region shaded
-    \addplot[pgold, line width=1.4pt, dashed] coordinates {
-      (0,0.014) (1,0.039) (2,0.065) (3,0.090) (4,0.135) (5,0.300) (6,0.408) (7,0.245) (8,0.072) (9,0.014) (10,0.0018)
-    };
-    \node[pgold, font=\scriptsize] at (axis cs:5.4,0.45) {overlap};
-  \end{axis}
-\end{tikzpicture}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Why Length Anchors: The Four-Stage Trajectory}
-\begin{center}
-\begin{tikzpicture}[font=\footnotesize,
-  box/.style={draw=pnavy, fill=white, rounded corners=2pt, minimum width=2.5cm, minimum height=1.4cm, align=center, text=pnavy, line width=0.6pt}
-]
-  \node[box, fill=pgreen!10, draw=pgreen, text=pgreen] (l0) at (0,0) {\textbf{Layer 0}\\ \scriptsize length prior\\ wordy $-0.74$\\ narrower};
-  \node[box] (erase) at (3.3,0) {\textbf{Layers 1--12}\\ \scriptsize prior erased\\ all levels $\approx 6.0$};
-  \node[box, fill=pnavy!10] (mid) at (6.6,0) {\textbf{Mid (13--23)}\\ \scriptsize $\Csem$-narrowing\\ length-insensitive};
-  \node[box, fill=paccent!10, draw=paccent, text=paccent] (late) at (9.9,0) {\textbf{Late + \texttt{last\_2}}\\ \scriptsize content + verbosity\\ wordy $+0.33$ broader\\ (layer 31 peak)};
-
-  \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (l0) -- (erase);
-  \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (erase) -- (mid);
-  \draw[-{Latex[length=3mm]}, line width=1.2pt, pnavy] (mid) -- (late);
-
-  \node[draw=paccent, fill=paccent!5, line width=0.9pt, rounded corners=3pt, inner sep=7pt, text width=0.9\linewidth, align=center] at (5,-3) {\textbf{Length anchors because the layer-0 length prior + deep-decoder verbosity gap land the wordy filter on a broader, less DC-exposed shape than its primary counterpart---reducing $\langle\Wt^{(\texttt{last\_2})}, \DF\rangle$ and the drift it predicts.}};
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Reconciling Prior Results}
-\begin{center}
-\begin{tikzpicture}[font=\small,
-  camp/.style={draw, rounded corners=2pt, minimum width=5.2cm, minimum height=1.6cm, align=center, line width=0.6pt}
-]
-  \node[camp, draw=paccent, fill=paccent!10, text=paccent] (pos) at (-3.2, 1.2) {\textbf{Positive complexity slope}\\ \footnotesize Winoground, ARO, CREPE};
-  \node[camp, draw=pgreen, fill=pgreen!10, text=pgreen] (neg) at (3.2, 1.2) {\textbf{Negative complexity slope}\\ \footnotesize Sclar, Mizrahi (prompt sensitivity)};
-  \node[draw=pnavy, fill=pnavy!6, rounded corners=3pt, inner sep=8pt, text width=0.84\linewidth, align=center, text=pnavy] at (0,-1.3) {\textbf{Both are right.}\\[0.3em] They measure the \emph{sum} of two opposite-signed forces in corpora with different mixes. Residualising $\Csem$ against $\Cprompt$ separates them cleanly.};
-
-  \draw[-{Latex[length=2mm]}, paccent] (pos) -- ++(0,-0.7);
-  \draw[-{Latex[length=2mm]}, pgreen] (neg) -- ++(0,-0.7);
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Societal Impact: Silent Failure $\to$ Auditable Quantity}
-\begin{columns}[T,onlytextwidth]
-\column{0.31\linewidth}
-\begin{block}{\textcolor{pnavy}{Radiology pre-screen}}
-\small Estimate $\Wt$ on representative scans, intersect with corruption spectra (motion blur, JPEG, anonymisation) --- read off fragility without a full behavioural sweep per model update.
-\end{block}
-\column{0.31\linewidth}
-\begin{block}{\textcolor{pnavy}{Assistive scene desc.}}
-\small Detect in advance that fine attribute queries on low-light photographs are more brittle than coarse presence queries. Adjust prompt or confidence accordingly.
-\end{block}
-\column{0.31\linewidth}
-\begin{block}{\textcolor{pnavy}{Autonomous audits}}
-\small A parameter-free number estimated from the model's own attention --- not a held-out benchmark that may not resemble deployment.
-\end{block}
-\end{columns}
-
-\vspace{0.6em}
-\keybox{\textbf{Fairness dividend.} Users who phrase questions in longer, less direct language (non-native speakers, assistive dictation, clinical / legal domains) sit on the \emph{more robust} side of the tug-of-war. A finding invisible to any single-axis ``prompt complexity'' treatment.}
-\end{frame}
-
-\begin{frame}{Practical, Training-Free Interventions}
-\begin{columns}[T,onlytextwidth]
-\column{0.32\linewidth}
-\begin{block}{\textcolor{pnavy}{1. Prompt padding}}
-\small Deliberately verbose prompts hold early-layer mass in the low-freq floor.\\[0.3em] A cheap, inference-time defence against high-freq corruption. Costs \textbf{zero} at train time.
-\end{block}
-\column{0.32\linewidth}
-\begin{block}{\textcolor{pnavy}{2. Targeted augmentation}}
-\small Augment with perturbations whose $\DF$ \emph{overlaps} the fine-task $\Wt$.\\[0.3em] Not ImageNet-C in bulk --- the specific bands the deployment task reaches into.
-\end{block}
-\column{0.32\linewidth}
-\begin{block}{\textcolor{pnavy}{3. Spectral budget}}
-\small Before deployment, compute $\omega_c(t)$ for the task of interest.\\[0.3em] Sets a principled ceiling on how much low-pass compression pre-processing tolerates.
-\end{block}
-\end{columns}
-\end{frame}
-
-\begin{frame}{A Falsifiable Prediction}
-\begin{center}
-\begin{tikzpicture}[font=\small]
-  \node[draw=paccent, fill=paccent!6, line width=1pt, rounded corners=4pt, inner sep=12pt, text width=0.86\linewidth, align=center, text=pnavy] {
-    If the $\Cprompt$ anchor is genuinely early-layer in origin, then\\[0.5em]
-    \emph{ablating or perturbing early-layer cross-modal attention should preferentially dissolve the $\Cprompt$ effect while leaving the $\Csem$ effect intact.}
-  };
-\end{tikzpicture}
-\end{center}
-
-\vspace{0.8em}
-This is a \textbf{falsifiable mechanistic prediction} that purely behavioural accounts of prompt sensitivity cannot make.
-
-\vspace{0.4em}
-\textbf{Natural follow-up tools:}
-\begin{itemize}
-  \item Activation-patching \citep{meng2022locating}
-  \item Causal mediation analysis
-  \item Cross-model replication (LLaVA-NeXT, InternVL)
-\end{itemize}
-\end{frame}
-
-% -------------------- LIMITATIONS & CONCLUSION --------------------
-\section{Limitations \& Conclusion}
-
-\begin{frame}{Limitations}
-\begin{columns}[T,onlytextwidth]
-\column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{What's not yet validated}}
-\small
-\begin{itemize}
-  \item Two Qwen3-VL scales (2B for 1000-image regression; 8B for 100-sample replication); LLaVA-NeXT / InternVL still ongoing.
-  \item Severity-1 only in the main run.
-  \item Task 4 (cutoff) reported qualitatively.
-\end{itemize}
-\end{block}
-
-\column{0.48\linewidth}
-\begin{block}{\textcolor{pnavy}{What's inherent}}
-\small
-\begin{itemize}
-  \item $\Wt$ from attention $\Rightarrow$ correlational lower bound.
-  \item Pixel-space radial Pearson--Spearman gap: $r = 0.34$ vs $\rho = 0.19$ at \texttt{last\_2}. The 2D form and vision-feature space close this gap.
-  \item Radial wins between-cells ($r = 0.34$); 2D wins within-cells ($r = 0.46$ median). Unified estimator open work.
-  \item $\Csem$ equal-weighted by design; signs invariant under positive reweighting, magnitudes are not.
-  \item Mirror controls are synthetic; human-judged paraphrases are a natural extension.
-\end{itemize}
-\end{block}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Conclusion}
-\keybox{\textbf{Verbose prompts make VLMs measurably more robust to image perturbations} --- and we explain why.}
-\vspace{0.3em}
-
-\textbf{What we found.}
-\begin{itemize}\setlength\itemsep{0.25em}
-  \item \textbf{Headline:} every wordy mirror L5--L8 has $65$--$86\%$ lower drift variance than L1--L4 (mean ratio $0.247$ on 8B, replicating 2B's $0.246$); mean log-likelihood volatility drops $68$--$90\%$ on 8B.
-  \item \textbf{Mechanism:} text is a \textcolor{pnavy}{\textbf{spectral operator}} $\Wt$; verbose prompts \emph{broaden} $\Wt^{(\texttt{last\_2})}$ at the deepest decoder layer, shrinking overlap with natural-perturbation $\DF$.
-  \item \textbf{Predictor (item-level, headline):} hold image + perturbation + severity fixed, vary only the question across L1--L8 inside $7{,}800$ cells: within-cell median Pearson $\mathbf{r = 0.543}$ (2D, question-only $\Wt$). Large-effect coupling under the most aggressive physical control.
-  \item \textbf{Predictor (population):} same $\langle\Wt^{(\texttt{last\_2})},\DF\rangle$ at $r = 0.337$ grouped, $r = 0.315$ per-sample, zero target-side fitting.
-  \item \textbf{Trajectory:} layer-0 length prior $\to$ erasure (1--12) $\to$ mid-layer content narrowing $\to$ late + \texttt{last\_2} verbosity-stabilising gap (peak $+0.33$ at layer 31).
-  \item \textbf{Signature matrix:} broadband $\Wt$ has the lowest mean volatility in every $\Delta F$ row; within-cell $r$ peaks at the matched-band diagonal (low$\times$low $r = 0.44$) and falls as $\Wt$ broadens away.
-  \item \textbf{Tug-of-war:} $\tilde\beta(\Cres) = +0.29$, $\tilde\beta(\Cprompt) = -0.32$, $R^2 = 0.22$ --- logic destabilises, length anchors.
-\end{itemize}
-
-\vspace{0.4em}
-\textcolor{pnavy}{\textbf{Immediate payoff:}} prompt padding is a \emph{cheap, training-free defence} for VLM robustness --- and a deployment audit tool that turns silent failure into an engineerable quantity.
-\end{frame}
-
-\begin{frame}[plain]
-\begin{tikzpicture}[remember picture, overlay]
-  \fill[pnavy] (current page.north west) rectangle (current page.south east);
-  \node[text=white, font=\Huge\bfseries] at ([yshift=0.5cm]current page.center) {Thank You.};
-  \node[text=white!70, font=\Large] at ([yshift=-0.8cm]current page.center) {Questions?};
-  % decorative spectrum strip
-  \begin{scope}[xshift={current page.center}, yshift=-3cm]
-    \foreach \i/\h in {0/0.25,1/0.45,2/0.70,3/0.95,4/1.1,5/0.90,6/0.60,7/0.35,8/0.20}{
-      \fill[paccent!80] ([xshift=\i*0.35cm]current page.center) ++(-1.4cm,-2.8cm) rectangle ++(0.28cm,\h cm);
-    }
-  \end{scope}
-\end{tikzpicture}
-\end{frame}
-
-% -------------------- BACKUP --------------------
+%==============================================================================
 \appendix
 
-\begin{frame}{Backup: $\Csem$ Axes}
-\[
-\Csem = E + A + R + O + D + \ln(1 + G_{\mathrm{amb}})
-\]
-\begin{itemize}
-  \item $E$ --- entity refs (GQA \texttt{select}/\texttt{query})
-  \item $A$ --- attribute refs (GQA \texttt{query\_attr}, CLEVR)
-  \item $R$ --- relation refs (GQA / CLEVR \texttt{relate})
-  \item $O$ --- reasoning ops (NMN primitives)
-  \item $D$ --- program depth (CLEVR's key difficulty axis)
-  \item $G_{\mathrm{amb}}$ --- grounding ambiguity (log form, ReferIt)
-\end{itemize}
+\begin{frame}{Backup --- the pipeline, end to end}
+  \centering
+  \includegraphics[width=0.92\linewidth]{appendix_pipeline.pdf}
 \end{frame}
 
-\begin{frame}{Backup: $\DZ$ --- Mean L2 Drift}
-\[
-\DZ(t,p)^{(\ell)} = \frac{1}{N^{(\ell)}} \sum_{n=1}^{N^{(\ell)}} \bigl\| z_n^{\mathrm{pert},(\ell)} - z_n^{\mathrm{clean},(\ell)} \bigr\|_2 .
-\]
-\begin{itemize}
-  \item Mean $\ell_2$ over full multimodal sequence.
-  \item Language tokens aligned positionally.
-  \item Vision-token spans aligned with patch-grid-aware resampling.
-\end{itemize}
+\begin{frame}{Backup --- designed vs.\ measured spectral signatures}
+  \centering
+  \includegraphics[width=0.74\linewidth]{n5_designed_vs_actual.pdf}\\
+  \scriptsize\textcolor{pgray}{All analyses condition on the \emph{measured} $\DF$,
+  not the operator's nominal name.}
 \end{frame}
 
-\begin{frame}{Backup: All Confidence-Space Targets}
-\footnotesize
-\begin{center}
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Target (within-image FE, $n=8000$)} & $R^2$ & $\tilde\beta(\Cres)$ & $\tilde\beta(\Cprompt)$ & $\tilde\beta(H_{\mathrm{opt}})$ \\
-\midrule
-\rowcolor{pnavy!8}\textbf{Loglik volatility (primary)} & $\mathbf{0.217}$ & $+0.291$ & $-0.317$ & $+0.092$ \\
-Loglik erosion                                          & $0.185$          & $+0.308$ & $-0.284$ & $+0.032$ \\
-Loglik recovery                                         & $0.140$          & $-0.176$ & $+0.281$ & $-0.118$ \\
-Loglik drift                                            & $0.016$          & $+0.126$ & $-0.056$ & $-0.030$ \\
-Accuracy drop (confirmatory)                            & $0.020$          & $+0.172$ & $-0.033$ & $-0.103$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-\vspace{0.4em}
-Volatility wins on $R^2$, on the $\Cprompt$ effect, and on both $p$-values.
+\begin{frame}{Backup --- worked example (one GQA image)}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \centering \footnotesize Clean\\
+      \includegraphics[width=0.82\linewidth]{example_gqa_clean.png}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering \footnotesize \texttt{Translation(+4)}\\
+      \includegraphics[width=0.82\linewidth]{example_gqa_pert.png}
+    \end{column}
+  \end{columns}
+  \scriptsize\textcolor{pgray}{Verbose mirrors arrive near $0$ nat; terse primaries up to $19$ nat lower ---
+  motivating within-cell volatility as the analysis target.}
 \end{frame}
 
 \end{document}
