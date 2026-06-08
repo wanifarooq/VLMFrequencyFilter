@@ -4,3 +4,4 @@
 \beamer@sectionintoc {4}{Four predictions}{11}{0}{4}
 \beamer@sectionintoc {5}{Cross-architecture}{18}{0}{5}
 \beamer@sectionintoc {6}{Takeaways}{20}{0}{6}
+\beamer@sectionintoc {7}{Future directions}{27}{1}{7}

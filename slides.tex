@@ -467,4 +467,105 @@
   motivating within-cell volatility as the analysis target.}
 \end{frame}
 
+%==============================================================================
+\section{Future directions}
+
+% ---- Proposal 1 ----
+\begin{frame}{Direction 1 --- Spectral attention control for global-configuration tasks}
+  \textbf{Two documented clean-image failures of VLMs:}
+  \begin{itemize}\small
+    \item \textbf{Visual path following:} models lose the target path and switch to
+          \emph{locally similar} distractors --- ``local competition'' pulls them off
+          the true continuation \\
+          \textcolor{pgray}{(Hong et al., 2026; arXiv:2605.15672)}.
+    \item \textbf{Analog clock reading:} models confuse hour/minute hands and miss the
+          \emph{global hand configuration} (ClockBench: best model $13.3\%$ vs.\ humans
+          $89.1\%$) \\
+          \textcolor{pgray}{(\emph{It's Time to Get It Right}, arXiv:2603.08011;
+          \emph{Lost in Time}, arXiv:2502.05092)}.
+  \end{itemize}
+  \vfill
+  \keybox{\small \textbf{Hypothesis.} Both failures share a cause:
+  attention \textcolor{paccent}{over-localises} on salient but incomplete local
+  features, losing global relational context. Our work shows
+  \textcolor{paccent}{narrow $\Wt$ $\to$ fragile} and
+  \textcolor{pgreen}{broad $\Wt$ $\to$ robust \& higher clean confidence} ---
+  suggesting a controllable lever.}
+\end{frame}
+
+\begin{frame}{Direction 1 --- Proposed test \& the honest tension}
+  \begin{block}{Proposed intervention}
+    Spectrally \textbf{broaden} the attention filter (shift mass toward low bands $=$
+    global layout) at decode time, and measure tracing / clock-reading accuracy on
+    clean images.
+  \end{block}
+  \medskip
+  \begin{block}{\textcolor{paccent}{The open question (not assumed away)}}
+    In our data, \textbf{fine-grained reasoning narrows} $\Wt$ --- it \emph{needs}
+    local detail. So broadening universally risks hurting local discriminability.
+    \medskip
+
+    The real test: can we add \textbf{global awareness without losing local
+    discriminability}? That trade-off \emph{is} the tug-of-war ($\Csem$ narrows vs.\
+    $\Cprompt$ broadens) measured directly on a task where global structure is the
+    bottleneck.
+  \end{block}
+\end{frame}
+
+% ---- Proposal 2 ----
+\begin{frame}{Direction 2 --- Vision's \emph{depth} advantage vs.\ its token disadvantage}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{Established (width disadvantage):}
+      \begin{itemize}\small
+        \item Vision tokens are low information-density; VLMs need \emph{many} of them.
+        \item Attention to vision tokens \emph{drops} during text generation
+              \textcolor{pgray}{(e.g.\ arXiv:2411.03312)}.
+      \end{itemize}
+      \medskip
+      \textbf{Underexplored (depth):}
+      \begin{itemize}\small
+        \item Visually-grounded predictions \textbf{stabilise by middle layers} ---
+              $\sim$layer 16 (POPE, Y/N), $\sim$20 (GQA) of $\sim$29.
+        \item Visual representations become \emph{interchangeable} across deeper layers
+              once stabilised (logit-lens / early-exit studies).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \keybox{\small \textbf{Reframing hypothesis.}
+      Vision's \textcolor{paccent}{width} disadvantage (more tokens) may be partly
+      offset by a \textcolor{pgreen}{depth} advantage --- fewer \emph{layers} needed
+      for a visually-grounded answer $\Rightarrow$ early-exit compute savings.}
+      \medskip
+
+      \footnotesize\textbf{Link to our P2:} the attention filter $\Wt$
+      \emph{stabilises its shape by mid/late layers} --- visual processing largely
+      completes before the final layers, consistent with early convergence.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Direction 2 --- Proposed measurements}
+  \begin{enumerate}
+    \item \textbf{Per-layer answer stability:} logit-lens the gold answer at every layer;
+          find the depth $\ell^\star$ where the prediction stops changing, separately for
+          \emph{vision-grounded} vs.\ \emph{text-only} items.
+    \item \textbf{Filter convergence depth:} the layer where $\Wt$'s shape (bandwidth
+          $\Gt$, band-mass) stops moving --- does it coincide with $\ell^\star$?
+    \item \textbf{Width--depth trade-off:} under a fixed compute budget, trade vision-token
+          count (width) against layers used (depth); map the Pareto frontier.
+  \end{enumerate}
+  \vfill
+  \keybox{\centering \small If visually-grounded answers converge early, \textbf{early exit
+  on vision-heavy items} recovers compute that the token disadvantage spends ---
+  a depth-side answer to a width-side problem.}
+\end{frame}
+
+\begin{frame}[standout]
+  Two levers from one mechanism:\\[6pt]
+  \textcolor{pgreen}{broaden} the filter for global-configuration tasks,\\
+  \textbf{exit early} where the filter has already converged.\\[10pt]
+  \footnotesize\textcolor{pgray}{Both testable with the tools in this paper.}
+\end{frame}
+
 \end{document}
