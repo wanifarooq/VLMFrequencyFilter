@@ -52,14 +52,23 @@ Why Verbose Prompts Improve Robustness in Vision–Language Models}
 % Take note of query/question and needle/evidence appropriate usage
 
 \begin{abstract}
-
+%
 Vision-language models (VLMs) are fragile under image corruption.
-We find that the question wording affects VLMs in two opposite ways.
+We find that the wording of the question affects VLMs in two opposite ways.
+%
 Verbose questions make VLMs substantially more robust---e.g., rephrasing \emph{``Is there a cat?''} into \emph{``Please look carefully and answer: is there a cat?''}.
+%
 Conversely, VLMs become more fragile under corruption when the question is semantically complex or finer-grained, e.g., \emph{``what colour is the cup left of the chair?''} instead of \emph{``is there a cup?''}.
-Both effects arise from a single mechanism: cross-modal attention from the question to the image patches acts like a frequency filter on the visual signal, widened by verbose questions and narrowed by fine-grained ones. The model's answer drifts most when this filter and the corruption sit on the same spatial frequencies.
+%
+%Both effects arise from a single mechanism: cross-modal attention from the question to the image patches acts like a frequency filter on the visual signal, widened by verbose questions and narrowed by fine-grained ones.
+%
+Both effects stem from question-conditioned cross-modal attention, which induces a spectral filter over image patches: verbose questions broaden its frequency support, while fine-grained questions concentrate it onto fewer visual scales.
+%
+The model's answer drifts most when this filter and the corruption sit on the same spatial frequencies.
+%
 We test the filter view on Qwen3-VL and LLaVA-OneVision across GQA and CLEVR; verbose paraphrasing reduces drift variance by 70--81\% on the 8B models.
-The practical recipe -- \emph{pad the prompt} -- further yields measurable accuracy gains even under image corruption.
+%
+The practical recipe---\emph{pad the prompt}---further yields measurable gains in accuracy, even under image corruption.
 %
 \end{abstract}
 
