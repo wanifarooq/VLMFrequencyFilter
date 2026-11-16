@@ -47,7 +47,7 @@
 
 
 %%%%%%%%% TITLE
-\title{Why Verbose Prompts Can Improve Robustness in Vision–Language Models}
+\title{Verbose Prompts Improve Robustness in Vision–Language Models}
 
 %%%%%%%%% AUTHORS (review mode prints "Anonymous CVPR submission" regardless)
 % ---- REAL AUTHOR BLOCK: restore for camera-ready only ----
@@ -102,13 +102,18 @@ Conversely, VLMs become more fragile under corruption when the question is seman
 %
 %Both effects arise from a single mechanism: cross-modal attention from the question to the image patches acts like a frequency filter on the visual signal, widened by verbose questions and narrowed by fine-grained ones.
 %
-Both effects are consistent with question conditioned cross-modal attention acting as a spectral filter over image patches: verbose questions broaden its frequency support, while fine-grained questions concentrate it onto fewer visual scales.
+\textcolor{red}{Both effects are consistent with question conditioned cross-modal attention acting as a spectral filter over image patches: verbose questions broaden its frequency support, while fine-grained questions concentrate it onto fewer visual scales.
 %
 The model's answer drifts most when this filter and the corruption sit on the same spatial frequencies.
 %
 We test the filter view on Qwen3-VL and LLaVA-OneVision across GQA and CLEVR; verbose paraphrasing reduces drift variance by 70--81\% on the 8B models.
 %
-The practical recipe---\emph{pad the prompt}---further yields measurable gains in accuracy, even under image corruption.
+The practical recipe---\emph{pad the prompt}---further yields measurable gains in accuracy, even under image corruption.}
+
+% \textcolor{teal}{
+% We evaluate these effects using paired questions on GQA and CLEVR, across Qwen3-VL and LLaVA-OneVision models and 78 image perturbations. Verbose prompts improve accuracy on corrupted images in all six model–dataset settings. On the two Qwen3-VL 8B settings, they also reduce the variance of changes in correct-answer log-likelihood by 70–81\%.
+% To investigate why wording matters, we examine how the model's attention to image patches varies across spatial frequencies. Verbose prompts are often associated with broader attention spectra, while more complex questions tend to produce narrower spectra. We also find that overlap between the attention spectrum and the frequencies affected by a corruption is moderately correlated with changes in the model's scores.
+% These findings suggest that question wording influences not only what a VLM is asked to do, but also how sensitively it responds to image corruption. They also identify a simple prompting strategy that can improve robustness without modifying the model.}
 %
 \end{abstract}
 
