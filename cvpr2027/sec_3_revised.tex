@@ -1,0 +1,207 @@
+% =====================================================================
+%  Rewritten §3.1 and §3.5 -- drop-in replacements
+% ---------------------------------------------------------------------
+%  * Macros: plain LaTeX + amsmath. Swap in your own macros (e.g. for
+%    W_t, F_2, last_2) and replace the hard-coded \S / App. numbers with
+%    your \ref labels.
+%  * Lines starting with "% TODO(authors)" mark facts only you can
+%    confirm. Nothing in the text below asserts them.
+%  * Suggested order: move the new "Drift and volatility" subsection to
+%    directly after §3.1, so §3.3 (overlap law) and §3.4 (regression)
+%    can use Vol without forward references. If you do, delete old
+%    Eq. (5) from §3.4 and shorten the "Scoring protocol" paragraph of
+%    §4.2 to a pointer here. Net length is then roughly unchanged.
+% =====================================================================
+
+
+% ---------------------------------------------------------------------
+%  §3.1  (replaces old lines 188--230)
+% ---------------------------------------------------------------------
+\subsection{The task-conditioned filter $W_t(\omega)$}
+\label{sec:filter}
+
+We want a parameter-free summary of how the question shapes the way the
+model reads the image, in a form that can be compared directly with the
+spectrum of a perturbation.
+
+\paragraph{Attention map.}
+Let $I\in\mathbb{R}^{H_I\times W_I\times 3}$ be an RGB image, encoded by
+the vision tower into $N=H\times W$ vision tokens on a patch grid of
+height $H$ and width $W$. At decoder layer $\ell$ we average the
+attention from the question's text tokens to the vision tokens over
+heads and text positions, giving one non-negative map per layer,
+$a^{(\ell)}_t(I)\in\mathbb{R}_{\ge 0}^{H\times W}$.
+% TODO(authors): say exactly which text positions are averaged. If the
+% verbose wrapper's tokens are included, state it and show (appendix)
+% that the verbose broadening survives when averaging over the shared
+% question tokens only. Otherwise a reviewer can attribute the
+% broadening to averaging over more positions.
+
+\paragraph{Why its spectrum.}
+At layer $\ell$ the text stream reads the image through the
+attention-weighted sum of vision-token values,
+$z=\sum_{ij}a_{ij}v_{ij}$. A perturbation $p$ changes the values by
+$\delta v_{ij}$; ignoring the change in the attention map itself,
+$\delta z=\sum_{ij}a_{ij}\,\delta v_{ij}$. Write $A=\mathcal{F}_2 a$ and
+$D=\mathcal{F}_2\,\delta v$ (per channel). By Parseval, and assuming the
+perturbation's Fourier phases are independent across frequencies (up to
+the conjugate symmetry of real signals),
+\begin{equation}
+  \mathbb{E}\,\|\delta z\|^2
+  \;=\; \frac{1}{N^2}\sum_{k}\,|A(k)|^2\;\mathbb{E}\,\|D(k)\|^2 .
+  \label{eq:readout}
+\end{equation}
+The attention map thus acts as a linear filter on the perturbation: its
+power spectrum $|A(k)|^2$ sets how much of the perturbation's energy at
+each spatial frequency of the patch grid reaches the readout. This is
+the sense in which we call $W_t$ a filter. It is \emph{not} a measure of
+which image frequencies the model relies on for its answer: attention
+concentrated on a single patch has a flat spectrum, while uniform
+attention puts all of its energy in the DC term. Eq.~\eqref{eq:readout}
+also fixes two requirements used below: the perturbation spectrum must
+be indexed by the same patch-grid frequencies as $A$ (\S3.2), and the
+exact quantity is two-dimensional, so radial binning assumes both
+spectra are roughly isotropic within a band.
+% TODO(authors): consider moving the full derivation and its three
+% assumptions (fixed attention, independent phases, within-band
+% isotropy) to App. A as a lemma, keeping the equation here.
+
+\paragraph{Radial filter.}
+We bin $|\mathcal{F}_2 a^{(\ell)}_t(I)(u,v)|^2$ into $B$ linearly spaced
+radial bands $\omega_0<\dots<\omega_{B-1}$; band~0 is the DC term and
+band $B-1$ the highest radial frequency on the patch grid. Averaging
+over images and L1-normalising gives
+\begin{equation}
+  W_t(\omega)^{(\ell)} =
+  \frac{\mathbb{E}_I\big[\,|\mathcal{F}_2 a^{(\ell)}_t(I)|^2(\omega)\big]}
+       {\sum_{\omega'}\mathbb{E}_I\big[\,|\mathcal{F}_2 a^{(\ell)}_t(I)|^2(\omega')\big]},
+  \label{eq:wt}
+\end{equation}
+a probability distribution over the $B$ bands. Normalising removes the
+total attention energy, so $W_t$ compares tasks by \emph{where} across
+scales the filter passes perturbation energy, not by how much. We
+auto-resolve $B=\lceil 0.6\sqrt{N}\,\rceil$ subject to a radial-annulus
+cap that drops empty bins; on Qwen3-VL's $12\times16$ GQA patch grid this
+gives $B=7$, on the CLEVR grid $B=9$ (App.~D). Where the layer is
+unambiguous we write $W_t(\omega)$; the overlap predictor uses the
+second-to-last layer (\texttt{last\_2}). Eq.~\eqref{eq:wt} is the
+image-averaged filter used for shape diagnostics; the per-cell overlap
+(\S3.3) uses the same formula without the image average, giving one
+$W_t(\omega)$ per image--query pair.
+
+\paragraph{Effective bandwidth.}
+We summarise the shape of $W_t(\omega)$ by its inverse participation
+ratio,
+\begin{equation}
+  G(t)=\frac{1}{\sum_\omega W_t(\omega)^2}\;\in[1,B].
+  \label{eq:ipr}
+\end{equation}
+$G(t)=1$ when all energy sits in one band and $G(t)=B$ when it is spread
+evenly over all bands; the range follows from Cauchy--Schwarz applied to
+$\sum_\omega W_t(\omega)=1$ (Lemma~1, App.~A). A narrow filter passes
+perturbation energy from a few scales; a broadband filter spreads its
+weight over many, so a perturbation concentrated in a few bands overlaps
+it less (\S3.3).
+% TODO(authors): state here the rule used in §5.2 to label a filter
+% "narrow" vs "broadband" (e.g. per-run median split of G(t)).
+% TODO(authors): check what narrowing looks like in actual attention
+% maps. Because the map is non-negative, its DC coefficient is its
+% largest single Fourier coefficient, so a narrower filter may simply
+% mean a smoother, more spread-out map. If so, "fine-grained questions
+% concentrate the filter onto fewer scales" must not be described as
+% "attending to finer detail" anywhere in the paper.
+
+
+% ---------------------------------------------------------------------
+%  Companion edits elsewhere (one phrase each)
+% ---------------------------------------------------------------------
+% * Contribution 1 (old l. 087-089): replace "giving a prompt-conditioned
+%   view of which image scales the model uses" with
+%   "giving a prompt-conditioned measure of which spatial scales of a
+%   perturbation reach the model's attention readout".
+% * §3.2: say how ΔF is put on the patch-grid frequencies, e.g.
+%   "I_p - I is average-pooled to the H x W patch grid before the DFT".
+%   If ΔF was instead computed at pixel resolution and its full range
+%   split into B bins, band k means a different physical frequency in
+%   ΔF and in W_t; then Eq. (readout) does not apply and S_pred should
+%   be presented as an empirical heuristic.
+% * §3.2 / Tab. 5: Eq. (readout) says the exact perturbation spectrum
+%   is that of the value features, in 2D. Luminance is a proxy. This
+%   may explain why your feature-space *radial* overlap flips sign while
+%   the 2D variant recovers it (isotropy failing). Worth one sentence if
+%   App. K supports it.
+
+
+% ---------------------------------------------------------------------
+%  §3.5  (replaces old lines 321--351; suggested new position: §3.2)
+% ---------------------------------------------------------------------
+\subsection{Drift and volatility}
+\label{sec:drift}
+
+\paragraph{Scoring and drift.}
+For task level $t$ with option values $\{v_\ell\}$, we score each option
+by its token-summed log-probability as a continuation,
+$\log p_\theta(v_\ell\mid I,t)=\sum_k \log p_\theta\big(v_\ell^{(k)}\mid
+I,t,v_\ell^{(1:k-1)}\big)$, with option letters hidden (\S4.2). For
+image $i$ and perturbation $p$, the drift of the gold answer $a^\star$ is
+\begin{equation}
+  \Delta_{i,t,p} = \log p_\theta(a^\star\mid I_i,t)
+                 - \log p_\theta(a^\star\mid I_{i,p},t),
+  \label{eq:drift}
+\end{equation}
+positive when the perturbation lowers the gold answer's
+log-probability. Each query is compared with its own clean score.
+
+\paragraph{Why volatility.}
+Perturbations can move the gold answer down or up. With a strong model
+the second case can dominate: for Qwen3-VL-8B on CLEVR, mean drift on the
+terse levels L1--L4 is negative, i.e.\ perturbations on average
+\emph{raise} the gold log-probability. We call this regime
+\emph{recovery dominance}. There, signed drift averages opposite
+movements together and can rank a sensitive query as stable. Our
+primary outcome is therefore the within-cell volatility
+\begin{equation}
+  \mathrm{Vol}_{i,t} = \mathbb{E}_p\big[\,|\Delta_{i,t,p}|\,\big],
+  \label{eq:vol}
+\end{equation}
+the expected size of the movement regardless of direction, taken over
+the perturbation bank. Signed-drift results are reported alongside
+(\S5.1).
+
+\paragraph{Comparing terse and verbose prompts.}
+A verbose mirror is a different prompt with its own clean score, so
+lower volatility under verbose prompts has two explanations unrelated
+to the filter.
+\emph{(a) The verbose prompt is worse on clean images}, so its smaller
+drift reflects a degraded starting point rather than stability. We do
+not observe this: in the 500-sample 8B GQA run, the verbose mirror has a
+higher clean gold log-probability than its terse counterpart in
+99.25\% of matched cells, and smaller verbose drift together with a
+lower perturbed gold log-probability occurs in only 0.25\%.
+\emph{(b) The verbose prompt sits near the ceiling.} This effect is
+real. On the 8B runs, verbose clean gold log-probabilities lie between
+$-2.86$ and $-0.06$ nats across mirror pairs, while terse prompts
+average $-6.5$ to $-17.2$. Near $\log p=0$ the softmax saturates and the
+same change in logits moves $\log p$ less. This compresses volatility
+just as much as signed drift, so volatility alone cannot distinguish
+\emph{more stable} from \emph{more saturated}.
+% TODO(authors): a reviewer will ask why terse gold log p is -6.5 to
+% -17.2 nats when terse accuracy is 84-95% (Tab. 6, 8B). If a terse
+% prompt does not elicit the bare answer as the next tokens and the
+% wrapper's "answer it directly" does, say so, and cite the
+% neutral-wrapper ablation (App. C) with numbers, here or in §4.1.
+
+We separate the two with three checks that do not depend on the
+log-probability scale (\S5.1, App.~I):
+(i)~on clean images, verbose prompts widen the gold-vs-best-distractor
+margin by $\approx5$ nats in 15/16 cells, whereas a uniform upward
+shift of all option scores would leave it unchanged;
+(ii)~the argmax decision-flip rate under perturbation falls in 12/16
+cells, a mean relative reduction of 24\%; and
+(iii)~accuracy under perturbation rises in the same 12/16 cells, by
+$+1.5$pp on average and up to $+5.8$pp on the compositional L4/L8 pair.
+% TODO(authors): make (iii) consistent with Tab. 6 (which shows +11pp
+% on GQA-2B), or say how the two accuracy measures differ.
+Verbose prompts therefore make \emph{decisions} more stable, not just
+log-probabilities smaller. Whether the filter explains that stability
+is a separate question, tested in \S5.2--5.4.
