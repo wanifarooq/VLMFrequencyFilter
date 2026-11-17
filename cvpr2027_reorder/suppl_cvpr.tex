@@ -763,81 +763,83 @@ Qwen3-VL-8B / GQA   & 83.90 & 79.20 & 82.50 & 83.65 & 66.05 & 62.80 & 55.80 \\
 \label{app:pipeline}
 \cref{fig:spectral-pipeline} summarises the spectral analysis of \S\ref{sec:theory} in the main paper: how the task-conditioned filter $\Wt$ and the perturbation spectral signature $\DF_p$ are computed, where the two meet in the overlap law, and how the overlap is tested against volatility.
 
-\begin{figure*}[t]
-\centering
-\begin{tikzpicture}[
-    font=\footnotesize,
-    >={Latex[length=2mm]},
-    flow/.style={->, thick, draw=black!65},
-    input/.style={draw=black!45, fill=black!4, rounded corners=2pt,
-                  text width=6.0cm, minimum height=0.62cm, align=center},
-    attention/.style={draw=blue!60!black, fill=blue!6, rounded corners=2pt,
-                      text width=6.0cm, minimum height=0.62cm, align=center},
-    corruption/.style={draw=orange!80!black, fill=orange!8, rounded corners=2pt,
-                       text width=6.0cm, minimum height=0.62cm, align=center},
-    spectrumA/.style={draw=blue!60!black, fill=blue!3, rounded corners=2pt,
-                      minimum width=6.2cm, minimum height=1.95cm},
-    spectrumB/.style={draw=orange!80!black, fill=orange!3, rounded corners=2pt,
-                      minimum width=6.2cm, minimum height=1.95cm},
-    combine/.style={draw=black!70, fill=black!5, rounded corners=2pt,
-                    text width=9.4cm, minimum height=0.88cm, align=center},
-]
-% ---- left branch: question-conditioned attention -> W_t
-\node[input] (question) at (-4.1,5.0) {\textbf{Image + question} $t$};
-\node[attention] (attn) at (-4.1,3.85)
-  {Attention from the text tokens to the image patches\\[-1pt]
-   {\scriptsize decoder layer \texttt{last\_2}, mean over heads and text positions}};
-\node[attention] (fftA) at (-4.1,2.55)
-  {2D Fourier power $|\mathcal{F}_2 a|^2$ in $B$ radial bands, L1-normalised};
-% ---- right branch: perturbation only (no model) -> Delta F
-\node[input] (images) at (4.1,5.0) {\textbf{Clean + perturbed image} (greyscale)};
-\node[corruption] (difference) at (4.1,3.85)
-  {Pixel difference $I_p - I$\\[-1pt]{\scriptsize no model, no prompt}};
-\node[corruption] (fftB) at (4.1,2.55)
-  {2D Fourier power in the same $B$ normalised radial bands};
-\draw[flow] (question) -- (attn);
-\draw[flow] (attn) -- (fftA);
-\draw[flow] (images) -- (difference);
-\draw[flow] (difference) -- (fftB);
-% ---- spectra (schematic shapes)
-\node[spectrumA] (specA) at (-4.1,0.34) {};
-\node[spectrumB] (specB) at (4.1,0.34) {};
-\draw[flow] (fftA) -- (specA);
-\draw[flow] (fftB) -- (specB);
-\node at (-4.1,0.99) {\textbf{Task-conditioned filter} $\Wt$ (Eq.~\eqref{eq:wt})};
-\node at (4.1,0.99) {\textbf{Perturbation spectral signature} $\DF_p$ (Eq.~\eqref{eq:DF})};
-% broad filter, small mass in the highest band (cf. App. M)
-\draw[black!65, thin] (-5.87,-0.25) -- (-2.34,-0.25);
-\foreach \k/\h in {0/0.34,1/0.50,2/0.56,3/0.53,4/0.45,5/0.31,6/0.11}{
-  \pgfmathsetmacro{\xx}{-5.77+0.48*\k}
-  \fill[blue!60] (\xx,-0.24) rectangle ++(0.31,\h);
-}
-\node[font=\scriptsize, text=black!70] at (-4.1,-0.47) {low $\longrightarrow$ high frequency};
-% typical (low-frequency) perturbation
-\draw[black!65, thin] (2.33,-0.25) -- (5.86,-0.25);
-\foreach \k/\h in {0/0.55,1/0.62,2/0.37,3/0.17,4/0.08,5/0.05,6/0.04}{
-  \pgfmathsetmacro{\xx}{2.43+0.48*\k}
-  \fill[orange!75] (\xx,-0.24) rectangle ++(0.31,\h);
-}
-\node[font=\scriptsize, text=black!70] at (4.1,-0.47) {low $\longrightarrow$ high frequency};
-% ---- the two branches meet only here
-\node[combine] (overlap) at (0,-1.85)
-  {\textbf{Overlap law} (no parameters fitted to behaviour)\\[-1pt]
-   $\Spred(t,p)=\sum_{\omega} \Wt\,\DF_p$ \quad (Eq.~\eqref{eq:overlap})};
-\draw[flow] (specA.south) -- (specA.south |- overlap.north);
-\draw[flow] (specB.south) -- (specB.south |- overlap.north);
-\node[combine] (evaluation) at (0,-3.2)
-  {\textbf{Test}: correlate $\Spred$ with volatility $\mathrm{Vol}$ (Eq.~\eqref{eq:vol})\\[-1pt]
-   at three aggregation levels (\cref{tab:overlap}, \S\ref{sec:results-overlap})};
-\draw[flow] (overlap) -- (evaluation);
-\end{tikzpicture}
-\caption{\textbf{Overview of the spectral analysis (\S\ref{sec:theory}).}
-Left: the attention from the question to the image patches is turned into the task-conditioned filter $\Wt$, a distribution over radial spatial-frequency bands.
-Right: independently of the model, the pixel difference between the clean and perturbed image gives the perturbation's spectral signature $\DF_p$ in the same normalised bands.
-The two meet only in the overlap $\Spred$, which is then correlated with the observed volatility.
-Bar heights are schematic: a broad filter with little mass in the highest band (3--5\% in our runs, App.~\ref{app:bandmass}) and a low-frequency perturbation, the most common type in our bank.}
-\label{fig:spectral-pipeline}
-\end{figure*}
+% \begin{figure}[t]
+% \centering
+% \begin{tikzpicture}[
+%     font=\footnotesize,
+%     >={Latex[length=2mm]},
+%     flow/.style={->, thick, draw=black!65},
+%     input/.style={draw=black!45, fill=black!4, rounded corners=2pt,
+%                   text width=6.0cm, minimum height=0.62cm, align=center},
+%     attention/.style={draw=blue!60!black, fill=blue!6, rounded corners=2pt,
+%                       text width=6.0cm, minimum height=0.62cm, align=center},
+%     corruption/.style={draw=orange!80!black, fill=orange!8, rounded corners=2pt,
+%                        text width=6.0cm, minimum height=0.62cm, align=center},
+%     spectrumA/.style={draw=blue!60!black, fill=blue!3, rounded corners=2pt,
+%                       minimum width=6.2cm, minimum height=1.95cm},
+%     spectrumB/.style={draw=orange!80!black, fill=orange!3, rounded corners=2pt,
+%                       minimum width=6.2cm, minimum height=1.95cm},
+%     combine/.style={draw=black!70, fill=black!5, rounded corners=2pt,
+%                     text width=9.4cm, minimum height=0.88cm, align=center},
+% ]
+% % ---- left branch: question-conditioned attention -> W_t
+% \node[input] (question) at (-4.1,5.0) {\textbf{Image + question} $t$};
+% \node[attention] (attn) at (-4.1,3.85)
+%   {Attention from the text tokens to the image patches\\[-1pt]
+%    {\scriptsize decoder layer \texttt{last\_2}, mean over heads and text positions}};
+% \node[attention] (fftA) at (-4.1,2.55)
+%   {2D Fourier power $|\mathcal{F}_2 a|^2$ in $B$ radial bands, L1-normalised};
+% % ---- right branch: perturbation only (no model) -> Delta F
+% \node[input] (images) at (4.1,5.0) {\textbf{Clean + perturbed image} (greyscale)};
+% \node[corruption] (difference) at (4.1,3.85)
+%   {Pixel difference $I_p - I$\\[-1pt]{\scriptsize no model, no prompt}};
+% \node[corruption] (fftB) at (4.1,2.55)
+%   {2D Fourier power in the same $B$ normalised radial bands};
+% \draw[flow] (question) -- (attn);
+% \draw[flow] (attn) -- (fftA);
+% \draw[flow] (images) -- (difference);
+% \draw[flow] (difference) -- (fftB);
+% % ---- spectra (schematic shapes)
+% \node[spectrumA] (specA) at (-4.1,0.34) {};
+% \node[spectrumB] (specB) at (4.1,0.34) {};
+% \draw[flow] (fftA) -- (specA);
+% \draw[flow] (fftB) -- (specB);
+% \node at (-4.1,0.99) {\textbf{Task-conditioned filter} $\Wt$ (Eq.~\eqref{eq:wt})};
+% \node at (4.1,0.99) {\textbf{Perturbation spectral signature} $\DF_p$ (Eq.~\eqref{eq:DF})};
+% % broad filter, small mass in the highest band (cf. App. M)
+% \draw[black!65, thin] (-5.87,-0.25) -- (-2.34,-0.25);
+% \foreach \k/\h in {0/0.34,1/0.50,2/0.56,3/0.53,4/0.45,5/0.31,6/0.11}{
+%   \pgfmathsetmacro{\xx}{-5.77+0.48*\k}
+%   \fill[blue!60] (\xx,-0.24) rectangle ++(0.31,\h);
+% }
+% \node[font=\scriptsize, text=black!70] at (-4.1,-0.47) {low $\longrightarrow$ high frequency};
+% % typical (low-frequency) perturbation
+% \draw[black!65, thin] (2.33,-0.25) -- (5.86,-0.25);
+% \foreach \k/\h in {0/0.55,1/0.62,2/0.37,3/0.17,4/0.08,5/0.05,6/0.04}{
+%   \pgfmathsetmacro{\xx}{2.43+0.48*\k}
+%   \fill[orange!75] (\xx,-0.24) rectangle ++(0.31,\h);
+% }
+% \node[font=\scriptsize, text=black!70] at (4.1,-0.47) {low $\longrightarrow$ high frequency};
+% % ---- the two branches meet only here
+% \node[combine] (overlap) at (0,-1.85)
+%   {\textbf{Overlap law} (no parameters fitted to behaviour)\\[-1pt]
+%    $\Spred(t,p)=\sum_{\omega} \Wt\,\DF_p$ \quad (Eq.~\eqref{eq:overlap})};
+% \draw[flow] (specA.south) -- (specA.south |- overlap.north);
+% \draw[flow] (specB.south) -- (specB.south |- overlap.north);
+% \node[combine] (evaluation) at (0,-3.2)
+%   {\textbf{Test}: correlate $\Spred$ with volatility $\mathrm{Vol}$ (Eq.~\eqref{eq:vol})\\[-1pt]
+%    at three aggregation levels (\cref{tab:overlap}, \S\ref{sec:results-overlap})};
+% \draw[flow] (overlap) -- (evaluation);
+% \end{tikzpicture}
+% \caption{\textbf{Overview of the spectral analysis (\S\ref{sec:theory}).}
+% Left: the attention from the question to the image patches is turned into the task-conditioned filter $\Wt$, a distribution over radial spatial-frequency bands.
+% Right: independently of the model, the pixel difference between the clean and perturbed image gives the perturbation's spectral signature $\DF_p$ in the same normalised bands.
+% The two meet only in the overlap $\Spred$, which is then correlated with the observed volatility.
+% Bar heights are schematic: a broad filter with little mass in the highest band (3--5\% in our runs, App.~\ref{app:bandmass}) and a low-frequency perturbation, the most common type in our bank.}
+% \label{fig:spectral-pipeline}
+% \end{figure}
+
+
 \clearpage
 
 
